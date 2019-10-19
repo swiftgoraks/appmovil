@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "251955418644",
+    "firebase_url": "https://icv-project.firebaseio.com",
+    "project_id": "icv-project",
+    "storage_bucket": "icv-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:251955418644:android:95cb1bb2c304cba37c3901",
+        "android_client_info": {
+          "package_name": "com.example.icv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "251955418644-15hj2ncgsf0qqjqdr1ii9eg7otbr7fub.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.icv",
+            "certificate_hash": "d38e259b0f724ca2f19401014c26d640dad020b6"
+          }
+        },
+        {
+          "client_id": "251955418644-kld7090mtiffnkfdaghbggoa10h8q3ir.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBA2-ZdwEGt-TZB3MufOGpT7Vm2xFwAvdo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "251955418644-kld7090mtiffnkfdaghbggoa10h8q3ir.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Login"
+    android:background="@drawable/fondo2"
+    >
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="120dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="15dp"
+        app:srcCompat="@drawable/coche"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Registrarse"
+        android:id="@+id/singin"
+        android:layout_below="@id/imageView"
+        android:textColor="@color/color_blanco"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="10dp"
+        />
+
+    <EditText
+        android:id="@+id/nombre"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/singin"
+        android:layout_marginBottom="15dp"
+        android:background="#11000000"
+        android:textColor="@color/color_blanco"
+        android:drawableLeft="@drawable/ic_action_nombre"
+        android:ems="10"
+        android:hint="Nombre"
+        android:textColorHint="@color/color_blanco"
+        android:inputType="textPersonName"
+        android:textSize="16dp" />
+
+    <EditText
+        android:id="@+id/correo"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/nombre"
+        android:layout_marginBottom="15dp"
+        android:background="#11000000"
+        android:textColor="@color/color_blanco"
+        android:drawableLeft="@drawable/ic_action_email"
+        android:ems="10"
+        android:hint="Correo Electronico"
+        android:textColorHint="@color/color_blanco"
+        android:inputType="textEmailAddress"
+        android:textSize="16dp" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:background="#11000000"
+        android:textColorHint="@color/color_blanco"
+        android:drawableStart="@drawable/ic_action_pass"
+        android:layout_below="@id/correo"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:layout_marginBottom="25dp"
+        android:layout_alignLeft="@+id/correo"
+        android:layout_alignStart="@+id/correo" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        app:cardBackgroundColor="@color/colorAccent"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="10dp"
+        android:onClick="registrarse"
+        tools:ignore="OnClick">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Registrase"
+                android:textColor="#fff"
+                android:textSize="18sp" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+
+
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_blanco"
+        android:layout_below="@id/cardView"
+        android:text="Ya tines una cuenta?"
+        android:layout_centerInParent="true"
+        android:id="@+id/pregunta"
+        android:paddingBottom="10dp"
+        />
+
+    <TextView
+        android:id="@+id/linea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_blanco"
+        android:text="--------------------------"
+        android:layout_below="@id/btnRegistrar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="6dp" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:text="Iniciar Sesion"
+        android:layout_below="@id/pregunta"
+        android:id="@+id/btnRegistrar"
+        android:onClick="goLogin"
+        tools:ignore="OnClick" />
+
+    <LinearLayout
+        android:layout_below="@id/linea"
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignStart="@+id/imageView"
+        android:layout_alignLeft="@+id/imageView"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginBottom="-1dp"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/twitter" />
+
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            app:srcCompat="@drawable/facebook" />
+    </LinearLayout>
+
+
+</RelativeLayout>

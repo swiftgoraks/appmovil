@@ -98,6 +98,5 @@ public class Resgistrarse extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 }

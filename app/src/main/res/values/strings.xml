@@ -2,5 +2,7 @@
     <string name="app_name">ICV</string>
     <string name="facebook_app_id">422889488414816</string>
     <string name="fb_login_protocol_scheme">fb422889488414816</string>
+    <string name="title_activity_mapa">Map</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

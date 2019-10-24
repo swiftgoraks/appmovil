@@ -71,7 +71,7 @@ public class Login extends AppCompatActivity {
                // Log.d(TAG, "facebook:onSuccess:" + loginResult);
 
                 handleFacebookAccessToken(loginResult.getAccessToken());
-                Toast.makeText(Login.this, "Facebokk", Toast.LENGTH_LONG).show();
+                //Toast.makeText(Login.this, "Facebokk", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -164,7 +164,7 @@ public class Login extends AppCompatActivity {
                             //updateUI(user);
 
 
-                            crearUSerDB(task.getResult().getUser().getUid(), task.getResult().getUser().getDisplayName(), task.getResult().getUser().getEmail());
+                            crearUSerDB(task.getResult().getUser().getUid(), task.getResult().getUser().getDisplayName(), task.getResult().getUser().getEmail(), task.getResult().getUser().getPhotoUrl().toString());
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -180,17 +180,29 @@ public class Login extends AppCompatActivity {
                 });
     }
 
-    public void crearUSerDB(String idU, String nombreU, String  emailU){
+    public void crearUSerDB(String idU, String nombreU, String  emailU,String imageUrl){
 
         // Create a new user with a first and last name
+
         Map <String, Object> user = new HashMap <>();
+
         user.put("Nombre", nombreU);
         user.put("Correo", emailU);
+        if (!(imageUrl == null)){
+            user.put("UrlImagen", imageUrl);
+        }
+        else {
+            user.put("UrlImagen", "");
+        }
 
         db.collection("usuarios").document(idU).set(user).addOnSuccessListener(new OnSuccessListener <Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                startActivity(new Intent(Login.this, home.class));
+
+
+                Intent intent  = new Intent(Login.this, home.class);
+                intent.putExtra("idU", mAuth.getCurrentUser().getUid());
+                startActivities(new Intent[]{intent});
                 finish();
             }
         });

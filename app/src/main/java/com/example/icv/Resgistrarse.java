@@ -61,6 +61,10 @@ public class Resgistrarse extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             crearUSerDB(mAuth.getCurrentUser().getUid(),nombre, pass, correo);
+                        }else
+                        {
+                            Toast.makeText(Resgistrarse.this, "Un error", Toast.LENGTH_LONG).show();
+
                         }
                     }
                 });
@@ -83,18 +87,26 @@ public class Resgistrarse extends AppCompatActivity {
         startActivity(new Intent(Resgistrarse.this, Login.class));
     }
 
-    public void crearUSerDB(String idU, String nombreU, String passU, String  emailU){
+    public void crearUSerDB(final String idU, String nombreU, String passU, String  emailU){
 
         // Create a new user with a first and last name
         Map<String, Object> user = new HashMap<>();
         user.put("Nombre", nombreU);
         user.put("Correo", emailU);
         user.put("Contrasena", passU);
+        user.put("UrlImagen", "");
+
 
         db.collection("usuarios").document(idU).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                startActivity(new Intent(Resgistrarse.this, home.class));
+                //startActivity(new Intent(Resgistrarse.this, home.class));
+                //intent.putExtra("idU", idU);
+                //finish();
+
+                Intent intent  = new Intent(Resgistrarse.this, home.class);
+                intent.putExtra("idU", mAuth.getCurrentUser().getUid());
+                startActivities(new Intent[]{intent});
                 finish();
             }
         });

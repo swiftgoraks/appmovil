@@ -18,12 +18,12 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,6 +67,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     // Replace the contents of a view (invoked by the layout manager)
+    //Se envia la informacion que se quiere mostrar a los elementos del layout
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         // - get element from your dataset at this position
@@ -79,11 +80,45 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.txtFecha.setText(anun.getFecha_publicacion());
         holder.txtId_pub.setText(anun.getId_anuncio());
 
+        /// Extrae informacion de favoritos del vendedor.
+        DocumentReference docRef = db.collection("usuarios").document(anun.getId_usuario());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+
+                        holder.txtNombreUserV.setText(document.get("Nombre").toString());
+
+                    if (document.get("UrlImagen").toString().equals("")){
+                        holder.ProfileImage.setVisibility(View.INVISIBLE);
+                        holder.imgDefault.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        holder.ProfileImage.setVisibility(View.VISIBLE);
+                        holder.imgDefault.setVisibility(View.INVISIBLE);
+                        //Glide.with(mCtx).load(document.get("UrlImagen").toString()).into(holder.ProfileImage);
+                        Picasso.get().load(document.get("UrlImagen").toString()).resize(128,128).into(holder.ProfileImage);
+                    }
+                   // Glide.with(mCtx).load(document.get("UrlImagen").toString()).into(holder.ProfileImage);
+
+                       // holder.ProfileImage.setImageResource(Integer.parseInt(document.get("UrlImagen").toString()));
+                        //Toast.makeText(mCtx, document.get("UrlImagen").toString(), Toast.LENGTH_LONG).show();
+                    } else {
+                    }
+                } else {
+                    //Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+
 
 
        // StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("img_publicaciones/cabra.png");
 
-
+/// Extrae informacion de favoritos del usuario logeado.
         db.collection("usuario_fav")
                 .whereEqualTo("id_anuncio", anun.getId_anuncio())
                 .whereEqualTo("id_usuario", usuario_view)
@@ -110,6 +145,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
 
         Glide.with(mCtx).load(anun.getListImg().get(0)).into(holder.imgPortada);
+
 
         holder.setOnClickListeners();
 
@@ -138,13 +174,14 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
 
 
-
+//Se enlanza controladores del layout con los del adapter
      class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-            TextView txtFecha, txtDescripcion, txtId_pub, txt_fav;
-            ImageView imgPortada, imgFav;
+            TextView txtFecha, txtDescripcion, txtId_pub, txt_fav, txtNombreUserV;
+            ImageView imgPortada, imgFav, ProfileImage, imgDefault;
             Button btnMas;
             Context contextoMy;
+
 
 
             public MyViewHolder(View itemView){
@@ -159,6 +196,9 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 imgFav = itemView.findViewById(R.id.imgFav);
                 btnMas = itemView.findViewById(R.id.btnVerMas);
                 txt_fav = itemView.findViewById(R.id.id_fav);
+                txtNombreUserV = itemView.findViewById(R.id.txtNombreUser);
+                ProfileImage = itemView.findViewById(R.id.profile_image);
+                imgDefault = itemView.findViewById(R.id.imgPerfil);
             }
 
             void setOnClickListeners(){
@@ -171,8 +211,10 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
              switch (view.getId()){
 
                  case R.id.btnVerMas:
-                    Intent intent  = new Intent(contextoMy, MainActivity.class);
+                    Intent intent  = new Intent(contextoMy, ver_publicacion.class);
                     intent.putExtra("publicacionCod", txtId_pub.getText());
+                    intent.putExtra("vendedor", txtNombreUserV.getText());
+                    intent.putExtra("CodU", usuario_view);
                     contextoMy.startActivities(new Intent[]{intent});
                      break;
                  case R.id.imgFav:

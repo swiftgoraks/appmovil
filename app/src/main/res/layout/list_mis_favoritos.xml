@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".home"
+    android:paddingLeft="5dp"
+    android:padding="10dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="175dp"
+        android:background="@drawable/marco2"
+        android:id="@+id/LayoutContent"
+        >
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="135dp"
+        android:id="@+id/mycardMF"
+
+
+        >
+
+        <RelativeLayout
+            android:id="@+id/contendorLayout"
+            android:layout_width="match_parent"
+            android:layout_height="150dp">
+
+            <ImageView
+                android:id="@+id/imgPortadaMF"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="1dp" />
+
+            <TextView
+                android:id="@+id/txtTituloMF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/imgPortadaMF"
+                android:text="hola" />
+
+            <TextView
+                android:id="@+id/txtFechaPF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtTituloMF"
+                android:layout_marginStart="11dp"
+                android:layout_marginTop="17dp"
+                android:layout_toEndOf="@+id/imgPortadaMF"
+                android:text="fecha" />
+
+            <TextView
+                android:id="@+id/txtPrecioMF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtFechaPF"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="9dp"
+                android:layout_marginTop="11dp"
+                android:layout_marginEnd="0dp"
+                android:layout_toEndOf="@+id/imgPortadaMF"
+                android:text="500" />
+
+            <TextView
+                android:id="@+id/txtDescripcionMF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtPrecioMF"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="9dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="0dp"
+                android:layout_toEndOf="@+id/imgPortadaMF"
+                android:text="@string/pruea" />
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+    <RelativeLayout
+        android:id="@+id/btonesLayout"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_below="@+id/mycardMF"
+        android:layout_marginTop="0dp"
+        android:background="@color/color_blanco"
+        >
+
+        <Button
+            android:id="@+id/verMF"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="25dp"
+            android:background="@drawable/ic_ojo" />
+
+        <Button
+            android:id="@+id/editarMF"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="72dp"
+            android:layout_toEndOf="@+id/verMF"
+            android:background="@drawable/ic_editar" />
+
+        <Button
+            android:id="@+id/eliminarMF"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="25dp"
+            android:background="@drawable/ic_borrar"
+            />
+    </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/LayoutSeparador"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/LayoutContent"
+        android:layout_marginTop="0dp">
+
+    </RelativeLayout>
+
+</RelativeLayout>

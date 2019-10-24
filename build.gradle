@@ -6,6 +6,7 @@ buildscript {
         jcenter()
         mavenCentral()
 
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.1'
@@ -20,6 +21,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url 'https://jitpack.io' }
         
     }
 }

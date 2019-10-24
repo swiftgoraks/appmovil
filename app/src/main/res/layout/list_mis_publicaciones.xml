@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".home"
+    android:background="@drawable/marco_redondeado"
+    android:paddingLeft="5dp"
+    >
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="135dp"
+        android:id="@+id/mycardMP"
+
+
+        >
+
+        <RelativeLayout
+            android:id="@+id/contendorLayout"
+            android:layout_width="match_parent"
+            android:layout_height="150dp">
+
+            <ImageView
+                android:id="@+id/imgPortadaMP"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="1dp" />
+
+            <TextView
+                android:id="@+id/txtTituloMP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/imgPortadaMP"
+                android:text="hola" />
+
+            <TextView
+                android:id="@+id/txtFechaPM"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtTituloMP"
+                android:layout_marginStart="11dp"
+                android:layout_marginTop="17dp"
+                android:layout_toEndOf="@+id/imgPortadaMP"
+                android:text="fecha" />
+
+            <TextView
+                android:id="@+id/txtPrecioMP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtFechaPM"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="9dp"
+                android:layout_marginTop="11dp"
+                android:layout_marginEnd="0dp"
+                android:layout_toEndOf="@+id/imgPortadaMP"
+                android:text="500" />
+
+            <TextView
+                android:id="@+id/txtDescripcionMP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtPrecioMP"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="9dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="0dp"
+                android:layout_toEndOf="@+id/imgPortadaMP"
+                android:text="@string/pruea" />
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+    <RelativeLayout
+        android:id="@+id/btonesLayout"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_below="@+id/mycardMP"
+        android:layout_marginTop="0dp"
+        android:background="@color/color_blanco"
+        >
+
+        <Button
+            android:id="@+id/verMP"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="25dp"
+            android:background="@drawable/ic_ojo" />
+
+        <Button
+            android:id="@+id/editarMP"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="72dp"
+            android:layout_toEndOf="@+id/verMP"
+            android:background="@drawable/ic_editar" />
+
+        <Button
+            android:id="@+id/eliminarMP"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="25dp"
+            android:background="@drawable/ic_borrar"
+             />
+    </RelativeLayout>
+
+
+</RelativeLayout>

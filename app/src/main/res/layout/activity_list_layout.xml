@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".home"
-    android:background="@drawable/marco_redondeado"
     >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/LayCont"
+        android:background="@drawable/marco_redondeado"
+        >
 <androidx.cardview.widget.CardView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -43,9 +49,31 @@
                 android:layout_height="50dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="22dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginBottom="6dp"
-                android:contentDescription="Imagen" />
+                android:contentDescription="Imagen"
+                android:src="@drawable/usuario"
+                android:visibility="invisible"
+                />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="1dp"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="2dp" />
+
+            <TextView
+                android:id="@+id/txtNombreUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="24dp"
+                android:layout_toEndOf="@+id/imgPerfil"
+                android:text="Nombre " />
 
             <TextView
                 android:id="@+id/txtFecha"
@@ -120,6 +148,16 @@
 
 </androidx.cardview.widget.CardView>
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/lSeparador"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@id/LayCont"
+        >
+
+    </RelativeLayout>
 
 
 </RelativeLayout>

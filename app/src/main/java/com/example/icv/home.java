@@ -67,7 +67,7 @@ public class home extends AppCompatActivity {
 
     public void cargarAnuncios(){
 
-        db.collection("publicacion")
+        db.collection("publicacion").whereLessThan("id_usuario", idU)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -88,46 +88,27 @@ public class home extends AppCompatActivity {
                             int contador = 0;
 
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                id_anuncio[contador] = document.getId();
-                                titulo[contador] = document.get("titulo").toString();
-                                year[contador] =Integer.parseInt(document.get("año").toString());
-                                modelo[contador] = document.get("modelo").toString();
-                                marca[contador] = document.get("marca").toString();
-                                id_usuario[contador] = document.get("id_usuario").toString();
-                                precio[contador] =  Double.parseDouble(document.get("precio").toString());
-                                estado[contador] = document.get("estado").toString();
-                                descripcion[contador] = document.get("descripcion").toString();
-                                imgs[contador] = (ArrayList<String>) document.get("list_img");
-                                fecha[contador] = document.get("fecha_publicacion").toString();
-                                contador = contador + 1;
+
+
+                                    id_anuncio[contador] = document.getId();
+                                    titulo[contador] = document.get("titulo").toString();
+                                    year[contador] =Integer.parseInt(document.get("año").toString());
+                                    modelo[contador] = document.get("modelo").toString();
+                                    marca[contador] = document.get("marca").toString();
+                                    id_usuario[contador] = document.get("id_usuario").toString();
+                                    precio[contador] =  Double.parseDouble(document.get("precio").toString());
+                                    estado[contador] = document.get("estado").toString();
+                                    descripcion[contador] = document.get("descripcion").toString();
+                                    imgs[contador] = (ArrayList<String>) document.get("list_img");
+                                    fecha[contador] = document.get("fecha_publicacion").toString();
+                                    contador = contador + 1;
 
 
 
-                           //id_anuncio =  document.getId();
-                          // titulo = document.get("titulo").toString();
-                           //year = Integer.parseInt(document.get("año").toString());
-                           //modelo =  document.get("modelo").toString();
-                           //marca = document.get("marca").toString();
-                          // id_usuario = document.get("id_usuario").toString();
-                          // precio =  Double.parseDouble(document.get("precio").toString());
-                           //estado = document.get("estado").toString();
-                           //descripcion =   document.get("descripcion").toString();
-                         // imgs = (ArrayList<String>) document.get("list_img");
-                           //fecha = document.get("fecha_publicacion").toString();
 
-                           //llenarArreglo(id_anuncio,titulo,year, modelo, marca, id_usuario, precio, estado, descripcion, imgs, fecha);
-
-                 //
-
-                               // Toast.makeText(home.this, an , Toast.LENGTH_LONG).show();
-                               // Toast.makeText(home.this, mi.size(), Toast.LENGTH_LONG).show();
-                                //Log.d("Mensaje: ", document.getId() + " => " + document.getData());
-
-
-                                //listaAnuncios.add(anuncios);
                             }
 
-                           // Toast.makeText(home.this, titulo[0].toString(), Toast.LENGTH_LONG ).show();
+
 
 
 
@@ -160,19 +141,5 @@ public class home extends AppCompatActivity {
         finish();
     }
 
-    public void llenarArreglo ( String id_anuncio,
-            String titulo,
-            Integer year,
-            String modelo,
-            String marca,
-            String id_usuario,
-            Double precio,
-            String estado,
-            String descripcion,
-            ArrayList<String> imgs,
-            String fecha
-    ){
 
-        //listaAnuncios.add(new Anuncio(id_anuncio,titulo,year, modelo, marca, id_usuario, precio, estado, descripcion, imgs, fecha));
-    }
 }

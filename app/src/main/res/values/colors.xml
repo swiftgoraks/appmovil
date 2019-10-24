@@ -6,4 +6,5 @@
     <color name="color_text_view">#94E4FF</color>
     <color name="color_blanco">#F7F4F4</color>
     <color name="color_barra_inferrior">#363535</color>
+    <color name="color_negro">#000000</color>
 </resources>

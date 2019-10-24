@@ -51,12 +51,13 @@ public class home extends AppCompatActivity {
 
         Bundle extras  = getIntent().getExtras();
 
-        if (extras != null){
-            idU = extras.getString("idU");
-        }
+       // if (extras != null){
+          //  idU = extras.getString("idU");
+        //}
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        idU=mAuth.getCurrentUser().getUid();
 
        // textBienvienido = findViewById(R.id.txtBienvenido);
 
@@ -81,6 +82,7 @@ public class home extends AppCompatActivity {
 
     public void cargarAnuncios(){
 
+        Toast.makeText(home.this,"usuario: "+idU, Toast.LENGTH_SHORT).show();
         db.collection("publicacion").whereLessThan("id_usuario", idU)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -115,15 +117,7 @@ public class home extends AppCompatActivity {
                                     imgs[contador] = (ArrayList<String>) document.get("list_img");
                                     fecha[contador] = document.get("fecha_publicacion").toString();
                                     contador = contador + 1;
-
-
-
-
                             }
-
-
-
-
 
                             Anuncio anunciosLista[] = new Anuncio[titulo.length];
                             for(int i = 0; i <=titulo.length - 1; i++)

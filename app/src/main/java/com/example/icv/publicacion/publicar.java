@@ -59,7 +59,7 @@ public class publicar extends AppCompatActivity {
     public static ArrayList<String> listaimg;
     private static final int fotoenviada=1;
     private ImageButton btImg;
-    public String latitud,longitud,ciudad;
+    public static String latitud,longitud,ciudad;
     public static long idselectMarca,idSelectModel;
 
 

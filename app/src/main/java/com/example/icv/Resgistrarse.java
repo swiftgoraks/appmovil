@@ -6,6 +6,8 @@ import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +19,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -52,22 +55,26 @@ public class Resgistrarse extends AppCompatActivity {
         correo = CorreoEdit.getText().toString();
         pass = PassEdit.getText().toString();
 
-        if (!nombre.isEmpty() && !correo.isEmpty() && !pass.isEmpty()) {
+        if (validarNombre(nombre) && validarEmail(correo) && !pass.isEmpty()) {
 
             if (pass.length() >= 6) {
 
-                mAuth.createUserWithEmailAndPassword(correo, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            crearUSerDB(mAuth.getCurrentUser().getUid(),nombre, pass, correo);
-                        }else
-                        {
-                            Toast.makeText(Resgistrarse.this, "Un error", Toast.LENGTH_LONG).show();
-
-                        }
-                    }
-                });
+                mAuth.createUserWithEmailAndPassword(correo, pass)
+                        .addOnCompleteListener(Resgistrarse.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    FirebaseUser currentUser = mAuth.getCurrentUser();
+                                    crearUSerDB(currentUser.getUid(),nombre,correo);
+                                    finish();
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Toast.makeText(Resgistrarse.this,"Error correo ya utilizado",Toast.LENGTH_SHORT).show();
+                                }
+                                // ...
+                            }
+                        });
             }
             else  {
 
@@ -87,13 +94,12 @@ public class Resgistrarse extends AppCompatActivity {
         startActivity(new Intent(Resgistrarse.this, Login.class));
     }
 
-    public void crearUSerDB(final String idU, String nombreU, String passU, String  emailU){
+    public void crearUSerDB(final String idU, String nombreU, String  emailU){
 
         // Create a new user with a first and last name
         Map<String, Object> user = new HashMap<>();
         user.put("Nombre", nombreU);
         user.put("Correo", emailU);
-        user.put("Contrasena", passU);
         user.put("UrlImagen", "");
 
 
@@ -110,5 +116,15 @@ public class Resgistrarse extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private boolean validarEmail(CharSequence target)
+    {
+        return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches();
+    }
+
+    public boolean validarNombre(String nombre)
+    {
+        return !nombre.isEmpty();
     }
 }

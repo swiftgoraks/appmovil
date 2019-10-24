@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".publicacion.publicar"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/txtt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Titulo del anuncio:"
+                android:padding="10dp"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Marca:"
+                android:padding="10dp"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Modelo:"
+                android:padding="10dp"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Año:"
+                android:padding="10dp"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+            />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Kilometraje:"
+                android:padding="10dp"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Descripcion:"
+                android:padding="10dp"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Precio:"
+                android:padding="10dp"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <EditText
+                android:id="@+id/txtTitulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:hint="Ingrese el titulo"
+                android:maxLength="20"
+                >
+            </EditText>
+
+            <Spinner
+                android:id="@+id/spinMarca"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+
+                />
+
+            <Spinner
+                android:id="@+id/spinModelo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                />
+
+            <EditText
+                android:id="@+id/txtAnio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingrese el año"
+                android:inputType="number"
+                android:textSize="20sp"
+                />
+
+            <EditText
+                android:id="@+id/txtKm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingrese el kilometraje"
+                android:inputType="number"
+                android:textSize="20sp"
+                />
+
+            <EditText
+                android:id="@+id/txtDescripcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingrese la descripcion"
+                android:textSize="20sp"
+                android:lines="2"
+                />
+
+            <EditText
+                android:id="@+id/txtPrecio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingrese el precio"
+                android:inputType="numberDecimal"
+                android:textSize="20sp"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="180dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        >
+       <include
+           layout="@layout/activity_maps"
+           ></include>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        >
+        <Button
+            android:id="@+id/btUbicacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Seleccionar Ubicacion"
+            />
+
+        <ImageButton
+            android:id="@+id/btImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/ic_menu_gallery"
+            android:layout_gravity="center"
+            />
+        <Button
+            android:id="@+id/btPublicarAnuncio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Publicar anuncio"
+            />
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

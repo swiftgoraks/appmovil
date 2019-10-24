@@ -9,11 +9,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.icv.publicacion.MapsActivity;
+import com.example.icv.publicacion.publicar;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.collect.Maps;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,6 +33,7 @@ public class home extends AppCompatActivity {
 
     public FirebaseAuth mAuth;
     public TextView textBienvienido;
+    private Button btPublicar;
 
 
 
@@ -42,7 +47,7 @@ public class home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        btPublicar=findViewById(R.id.btPublicar);
 
         Bundle extras  = getIntent().getExtras();
 
@@ -63,6 +68,15 @@ public class home extends AppCompatActivity {
 
         cargarAnuncios();
 
+        btPublicar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(home.this, publicar.class));
+               // finish();
+
+            }
+        });
+
     }
 
     public void cargarAnuncios(){
@@ -73,7 +87,6 @@ public class home extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-
                             String id_anuncio[] = new String[task.getResult().size()];
                             String titulo[] = new String[task.getResult().size()];
                             Integer year[] = new Integer[task.getResult().size()];

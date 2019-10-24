@@ -81,8 +81,6 @@ public class home extends AppCompatActivity {
     }
 
     public void cargarAnuncios(){
-
-        Toast.makeText(home.this,"usuario: "+idU, Toast.LENGTH_SHORT).show();
         db.collection("publicacion").whereLessThan("id_usuario", idU)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -103,8 +101,6 @@ public class home extends AppCompatActivity {
                             int contador = 0;
 
                             for (QueryDocumentSnapshot document : task.getResult()) {
-
-
                                     id_anuncio[contador] = document.getId();
                                     titulo[contador] = document.get("titulo").toString();
                                     year[contador] =Integer.parseInt(document.get("año").toString());
@@ -122,13 +118,12 @@ public class home extends AppCompatActivity {
                             Anuncio anunciosLista[] = new Anuncio[titulo.length];
                             for(int i = 0; i <=titulo.length - 1; i++)
                             {
-            Anuncio anuncios =  new Anuncio(id_anuncio[i],titulo[i],year[i], modelo[i], marca[i], id_usuario[i], precio[i], estado[i], descripcion[i], imgs[i], fecha[i]);
-
+                                Anuncio anuncios =  new Anuncio(id_anuncio[i],titulo[i],year[i], modelo[i], marca[i], id_usuario[i], precio[i], estado[i], descripcion[i], imgs[i], fecha[i]);
                                 anunciosLista[i] = anuncios;
                             }
 
 
-                           MyAdapter adaptador = new MyAdapter(home.this, anunciosLista, idU);
+                            MyAdapter adaptador = new MyAdapter(home.this, anunciosLista, idU);
                             myRecyclerView.setAdapter(adaptador);
 
                         } else {

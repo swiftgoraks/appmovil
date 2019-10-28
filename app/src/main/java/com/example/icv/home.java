@@ -80,6 +80,12 @@ public class home extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        cargarAnuncios();
+    }
+
     public void cargarAnuncios(){
 
        // Toast.makeText(home.this,"usuario: "+idU, Toast.LENGTH_SHORT).show();
@@ -131,7 +137,7 @@ public class home extends AppCompatActivity {
                             Anuncio anunciosLista[] = new Anuncio[titulo.length - contadorN];
                             for(int i = 0; i <=anunciosLista.length - 1; i++)
                             {
-            Anuncio anuncios =  new Anuncio(id_anuncio[i],titulo[i],year[i], modelo[i], marca[i], id_usuario[i], precio[i], estado[i], descripcion[i], imgs[i], fecha[i]);
+            Anuncio anuncios =  new Anuncio(id_anuncio[i],titulo[i],year[i], modelo[i], marca[i], id_usuario[i], precio[i], estado[i], descripcion[i], imgs[i], fecha[i], null);
 
                                 anunciosLista[i] = anuncios;
                             }

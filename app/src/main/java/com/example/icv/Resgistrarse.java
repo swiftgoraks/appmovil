@@ -31,6 +31,7 @@ public class Resgistrarse extends AppCompatActivity {
     private String nombre, correo, pass;
 
     FirebaseAuth mAuth;
+
     FirebaseFirestore db;
 
     @Override
@@ -39,6 +40,7 @@ public class Resgistrarse extends AppCompatActivity {
         setContentView(R.layout.activity_resgistrarse);
 
         mAuth = FirebaseAuth.getInstance();
+
         db = FirebaseFirestore.getInstance();
 
 
@@ -102,13 +104,9 @@ public class Resgistrarse extends AppCompatActivity {
         user.put("Correo", emailU);
         user.put("UrlImagen", "");
 
-
         db.collection("usuarios").document(idU).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                //startActivity(new Intent(Resgistrarse.this, home.class));
-                //intent.putExtra("idU", idU);
-                //finish();
 
                 Intent intent  = new Intent(Resgistrarse.this, home.class);
                 intent.putExtra("idU", mAuth.getCurrentUser().getUid());

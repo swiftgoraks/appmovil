@@ -16,8 +16,10 @@ public class Anuncio {
    public String descripcion;
    public ArrayList<String> listImg;
    public String fecha_publicacion;
+   public String id_favorito;
 
-   public Anuncio(String id_anuncio, String titulo, int year, String modelo, String marca, String id_usuario, double precio, String estado, String descripcion, ArrayList<String> listImg, String fecha_publicacion) {
+
+   public Anuncio(String id_anuncio, String titulo, int year, String modelo, String marca, String id_usuario, double precio, String estado, String descripcion, ArrayList <String> listImg, String fecha_publicacion, String id_favorito) {
       this.id_anuncio = id_anuncio;
       this.titulo = titulo;
       this.year = year;
@@ -29,8 +31,12 @@ public class Anuncio {
       this.descripcion = descripcion;
       this.listImg = listImg;
       this.fecha_publicacion = fecha_publicacion;
+      this.id_favorito = id_favorito;
    }
 
+   public String getId_favorito() {
+      return id_favorito;
+   }
    public String getId_anuncio() {
       return id_anuncio;
    }

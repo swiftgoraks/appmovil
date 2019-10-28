@@ -67,7 +67,7 @@ public class Resgistrarse extends AppCompatActivity {
                                     // Sign in success, update UI with the signed-in user's information
                                     FirebaseUser currentUser = mAuth.getCurrentUser();
                                     crearUSerDB(currentUser.getUid(),nombre,correo);
-                                    finish();
+                                   // finish();
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Toast.makeText(Resgistrarse.this,"Error correo ya utilizado",Toast.LENGTH_SHORT).show();

@@ -1,37 +1,17 @@
 
-
 package com.example.icv;
 
         import android.content.Context;
         import android.content.Intent;
-        import android.net.Uri;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
         import android.widget.Button;
         import android.widget.ImageView;
         import android.widget.TextView;
-
-        import androidx.annotation.NonNull;
         import androidx.recyclerview.widget.RecyclerView;
-
         import com.bumptech.glide.Glide;
-        import com.google.android.gms.tasks.OnCompleteListener;
-        import com.google.android.gms.tasks.OnFailureListener;
-        import com.google.android.gms.tasks.OnSuccessListener;
-        import com.google.android.gms.tasks.Task;
-        import com.google.firebase.firestore.DocumentReference;
-        import com.google.firebase.firestore.DocumentSnapshot;
         import com.google.firebase.firestore.FirebaseFirestore;
-        import com.google.firebase.firestore.QueryDocumentSnapshot;
-        import com.google.firebase.firestore.QuerySnapshot;
-
-        import org.w3c.dom.Document;
-
-        import java.sql.Timestamp;
-        import java.text.SimpleDateFormat;
-        import java.util.HashMap;
-        import java.util.Map;
 
 class AdaptadorMisPublicaciones extends RecyclerView.Adapter<AdaptadorMisPublicaciones.MyViewHolder> {
     // private String[] mDataset;
@@ -76,42 +56,19 @@ class AdaptadorMisPublicaciones extends RecyclerView.Adapter<AdaptadorMisPublica
             holder.txtFecha.setText(anun.getFecha_publicacion());
             holder.txtPrecio.setText(String.valueOf(anun.getPrecio()));
             holder.txtDescripcion.setText(anun.getDescripcion());
+            holder.txtId_pub.setText(anun.getId_anuncio());
 
         //}
-
-
-
         /// Extrae informacion de favoritos del vendedor.
-
-
-
-
-
         // StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("img_publicaciones/cabra.png");
-
-
-
-
-
         Glide.with(mCtx).load(anun.getListImg().get(0)).into(holder.imgPortada);
-
-
         holder.setOnClickListeners();
 
-
-
 // ImageView in your Activity
-
 
 // Download directly from StorageReference using Glide
 // (See MyAppGlideModule for Loader registration)
         Glide GlideApp = null;
-
-
-
-
-
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -131,6 +88,7 @@ class AdaptadorMisPublicaciones extends RecyclerView.Adapter<AdaptadorMisPublica
         TextView txtTituloMP;
         ImageView imgPortada;
         TextView txtPrecio;
+        Button btEdit;
 
        // ImageView imgPortada, imgFav, ProfileImage, imgDefault;
       //  Button btnMas;
@@ -140,39 +98,30 @@ class AdaptadorMisPublicaciones extends RecyclerView.Adapter<AdaptadorMisPublica
 
         public MyViewHolder(View itemView){
             super(itemView);
-
             contextoMy = itemView.getContext();
-
             imgPortada = itemView.findViewById(R.id.imgPortadaMP);
-          txtFecha = itemView.findViewById(R.id.txtFechaPM);
-           txtDescripcion = itemView.findViewById(R.id.txtDescripcionMP);
-           // imgPortada = itemView.findViewById(R.id.imgPortada);
-           // txtId_pub = itemView.findViewById(R.id.idPublicacion);
-           // imgFav = itemView.findViewById(R.id.imgFav);
-          //  btnMas = itemView.findViewById(R.id.btnVerMas);
-          //  txt_fav = itemView.findViewById(R.id.id_fav);
-          //  txtNombreUserV = itemView.findViewById(R.id.txtNombreUser);
-           // ProfileImage = itemView.findViewById(R.id.profile_image);
-           // imgDefault = itemView.findViewById(R.id.imgPerfil);
-
+            txtFecha = itemView.findViewById(R.id.txtFechaPM);
+            txtDescripcion = itemView.findViewById(R.id.txtDescripcionMP);
             txtTituloMP = itemView.findViewById(R.id.txtTituloMP);
             txtPrecio = itemView.findViewById(R.id.txtPrecioMP);
+            txtId_pub=itemView.findViewById(R.id.idPublicacion);
+            btEdit=itemView.findViewById(R.id.editarMP);
         }
 
         void setOnClickListeners(){
-           // btnMas.setOnClickListener(this);
-            //imgFav.setOnClickListener(this);
+            btEdit.setOnClickListener(this);
+
         }
 
         @Override
         public void onClick(View view) {
             switch (view.getId()){
 
-                case R.id.btnVerMas:
-                   // Intent intent  = new Intent(contextoMy, ver_publicacion.class);
-                    //intent.putExtra("publicacionCod", txtId_pub.getText());
-                   // intent.putExtra("vendedor", txtNombreUserV.getText());
-                    //contextoMy.startActivities(new Intent[]{intent});
+                case R.id.editarMP:
+                    Intent intent  = new Intent(contextoMy, ver_publicacion.class);
+                    intent.putExtra("publicacionCod", txtId_pub.getText());
+                    intent.putExtra("vendedor","");
+                    contextoMy.startActivities(new Intent[]{intent});
                     break;
                 case R.id.imgFav:
 

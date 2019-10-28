@@ -107,8 +107,9 @@ public class ver_publicacion extends AppCompatActivity {
                         sliderItems[i] = (new SliderItem("",imgs.get(i)));
                         }
 
-                       easySlider.setPages(Arrays.asList(sliderItems));
+                        easySlider.setPages(Arrays.asList(sliderItems));
                         easySlider.setTimer(0);
+
 
                        // holder.txtNombreUserV.setText(document.get("Nombre").toString());
                     } else {

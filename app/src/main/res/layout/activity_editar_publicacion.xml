@@ -51,7 +51,7 @@
                 android:padding="10dp"
                 android:textSize="20sp"
                 android:layout_gravity="center"
-            />
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -157,9 +157,9 @@
         android:orientation="horizontal"
         android:layout_gravity="center"
         >
-       <include
-           layout="@layout/activity_maps"
-           ></include>
+        <include
+            layout="@layout/activity_maps"
+            ></include>
     </LinearLayout>
 
     <LinearLayout

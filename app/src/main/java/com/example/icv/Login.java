@@ -140,7 +140,12 @@ public class Login extends AppCompatActivity {
         @Override
         public void onComplete(@NonNull Task<AuthResult> task) {
            if (task.isSuccessful()){
-               startActivity(new Intent(Login.this, home.class));
+              // startActivity(new Intent(Login.this, home.class));
+              // finish();
+
+               Intent intent  = new Intent(Login.this, home.class);
+               intent.putExtra("idU", mAuth.getCurrentUser().getUid());
+               startActivities(new Intent[]{intent});
                finish();
            }else {
                Toast.makeText(Login.this, "No se pudo iniciar sesion", Toast.LENGTH_LONG).show();

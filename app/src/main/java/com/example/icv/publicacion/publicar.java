@@ -346,9 +346,11 @@ public class publicar extends AppCompatActivity {
             else if(data.getData()!=null)
             {
                 listaimg=new ArrayList<String>();
-                Toast.makeText(publicar.this,"Una foto", Toast.LENGTH_LONG).show();
+
                 Uri u=data.getData();
-                guardarImg(u,listaimg);
+                Toast.makeText(publicar.this,"Una foto "+u, Toast.LENGTH_LONG).show();
+                prueba(u);
+                //guardarImg(u,listaimg);
             }
         }else if (requestCode == 1234 && resultCode == RESULT_OK)
         {
@@ -394,5 +396,15 @@ public class publicar extends AppCompatActivity {
         });
     }
 
+    public void prueba(Uri u)
+    {
+        Intent i= new Intent(Intent.ACTION_GET_CONTENT);
+        i.setType("image/jpeg");
+        i.setData(u);
+        i.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
+        i.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+        i.putExtra(Intent.EXTRA_CHOSEN_COMPONENT,u);
+        startActivityForResult(Intent.createChooser(i,"Seleccionar imagen"),fotoenviada);
+    }
 
 }

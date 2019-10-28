@@ -8,19 +8,53 @@
     >
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="260dp"
     android:orientation="vertical"
-    android:gravity="center"
+    android:paddingTop="2dp"
     >
-<de.hdodenhof.circleimageview.CircleImageView
-    android:layout_width="75dp"
-    android:layout_height="75dp"
-    android:src="@drawable/ic_ojo"
-    />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        >
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="125dp"
+            android:layout_height="150dp"
+            android:src="@drawable/usuario"
+            android:id="@+id/PhotoPerfil"
+            />
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Cambiar Foto"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:id="@+id/btnChangeFoto"
+            android:onClick="cambiarFoto"
+            />
+    </LinearLayout>
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    >
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hola hola"
+        android:id="@+id/lblNomUser"
+        android:paddingBottom="5dp"
+
+        />
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hola hola"
+        android:id="@+id/lblEmailUser"
 
         />
 
@@ -30,6 +64,9 @@
         android:layout_marginHorizontal="5dp"
         android:layout_gravity="bottom|end"
         />
+
+</LinearLayout>
+
 </LinearLayout>
 
     <LinearLayout

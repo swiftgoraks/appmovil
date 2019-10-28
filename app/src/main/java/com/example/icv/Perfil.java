@@ -1,23 +1,39 @@
 package com.example.icv;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Perfil extends AppCompatActivity {
 
@@ -40,10 +56,19 @@ public class Perfil extends AppCompatActivity {
     String estadoF[] ;
     String descripcionF[];
     ArrayList<String> imgsF[] ;
-    String fechaF[] ;
+    String fechaF[];
+   // String if_favoritoS[] ;
 
     String idPI = null;
     int contarPF;
+
+    TextView lblNuser , lblCorreoUser;
+
+    CircleImageView imagenPerfil;
+
+    Button btnCambiarImg;
+
+    private StorageReference mStorage;
 
     ///
     @Override
@@ -51,10 +76,15 @@ public class Perfil extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
 
+        mStorage = FirebaseStorage.getInstance().getReference();
+        imagenPerfil = findViewById(R.id.PhotoPerfil);
+        btnCambiarImg = findViewById(R.id.btnChangeFoto);
+
         db = FirebaseFirestore.getInstance();
         myRecyclerViewMP = findViewById(R.id.myRecycleViewViewMP);
 
         myRecyclerViewMP.setHasFixedSize(true);
+
         myRecyclerViewMP.setLayoutManager(new LinearLayoutManager(this));
 
 
@@ -62,10 +92,12 @@ public class Perfil extends AppCompatActivity {
         myRecyclerViewMF = findViewById(R.id.myRecycleViewViewMF);
 
         myRecyclerViewMF.setHasFixedSize(true);
+        myRecyclerViewMF.setItemAnimator(new DefaultItemAnimator());
         myRecyclerViewMF.setLayoutManager(new LinearLayoutManager(this));
         //
 
-
+        lblNuser = findViewById(R.id.lblNomUser);
+        lblCorreoUser = findViewById(R.id.lblEmailUser);
 
         Bundle extras  = getIntent().getExtras();
 
@@ -104,6 +136,7 @@ public class Perfil extends AppCompatActivity {
         });
 
         cargar_MP();
+        cargarUsuario();
     }
 
     public void cargar_MP(){
@@ -154,7 +187,7 @@ public class Perfil extends AppCompatActivity {
                             Anuncio anunciosLista[] = new Anuncio[titulo.length];
                             for(int i = 0; i <=titulo.length - 1; i++)
                             {
-                                Anuncio anuncios =  new Anuncio(id_anuncio[i],titulo[i],year[i], modelo[i], marca[i], id_usuario[i], precio[i], estado[i], descripcion[i], imgs[i], fecha[i]);
+                                Anuncio anuncios =  new Anuncio(id_anuncio[i],titulo[i],year[i], modelo[i], marca[i], id_usuario[i], precio[i], estado[i], descripcion[i], imgs[i], fecha[i], null);
 
                                 anunciosLista[i] = anuncios;
                             }
@@ -186,6 +219,7 @@ public class Perfil extends AppCompatActivity {
                         if (task.isSuccessful()) {
 
                             final String id_anuncioFF[] = new String[task.getResult().size()];
+                            final String id_Favorito[] = new String[task.getResult().size()];
 
                             int contador = 0;
 
@@ -194,7 +228,7 @@ public class Perfil extends AppCompatActivity {
 
 
                                 id_anuncioFF[contador] = document.get("id_anuncio").toString();
-
+                                id_Favorito[contador] = document.getId();
 
                                 contador = contador + 1;
 
@@ -240,6 +274,7 @@ public class Perfil extends AppCompatActivity {
                                                                 descripcionF[contarPF] = document.get("descripcion").toString();
                                                                 imgsF[contarPF] = (ArrayList<String>) document.get("list_img");
                                                                 fechaF[contarPF] = document.get("fecha_publicacion").toString();
+
                                                                 contarPF = contarPF + 1;
                                                             }
                                                         }
@@ -249,7 +284,7 @@ public class Perfil extends AppCompatActivity {
                                                     Anuncio anunciosListaF[] = new Anuncio[tituloF.length];
                                                     for(int i = 0; i <=tituloF.length - 1; i++)
                                                     {
-                                                      Anuncio anunciosF =  new Anuncio(id_anuncioF[i],tituloF[i],yearF[i], modeloF[i], marcaF[i], id_usuarioF[i], precioF[i], estadoF[i], descripcionF[i], imgsF[i], fechaF[i]);
+                                                      Anuncio anunciosF =  new Anuncio(id_anuncioF[i],tituloF[i],yearF[i], modeloF[i], marcaF[i], id_usuarioF[i], precioF[i], estadoF[i], descripcionF[i], imgsF[i], fechaF[i], id_Favorito[i]);
 
                                                       anunciosListaF[i] = anunciosF;
                                                         //Toast.makeText(Perfil.this, tituloF[0] + " " + tituloF[1], Toast.LENGTH_LONG).show();
@@ -286,4 +321,55 @@ public class Perfil extends AppCompatActivity {
 
     }
 
+    public void cargarUsuario(){
+        db.collection("usuarios").document(codViewU).get()
+                .addOnCompleteListener(new OnCompleteListener <DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task <DocumentSnapshot> task) {
+                        lblNuser.setText(String.valueOf(task.getResult().get("Nombre")));
+                        lblCorreoUser.setText(String.valueOf(task.getResult().get("Correo")));
+
+                        if(!String.valueOf(task.getResult().get("UrlImagen")).isEmpty()){
+                            Glide.with(Perfil.this)
+                                    .load(String.valueOf(task.getResult().get("UrlImagen")))
+                                    .into(imagenPerfil);
+                            imagenPerfil.setTag(String.valueOf(task.getResult().get("UrlImagen")));
+                        }
+                    }
+                });
+
+
+    }
+
+    public void cambiarFoto(View view) {
+
+        cargarImagen();
+    }
+
+    public void cargarImagen(){
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/");
+        startActivityForResult(intent.createChooser(intent, "Seleccionar la aplicacion"), 10);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            Uri patch = data.getData();
+            StorageReference filepath = mStorage.child("img_publicacion/").child(patch.getLastPathSegment());
+            filepath.putFile(patch).addOnSuccessListener(new OnSuccessListener <UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                Task <Uri> rlImage = taskSnapshot.getStorage().getDownloadUrl();
+
+                Toast.makeText(Perfil.this, String.valueOf(rlImage), Toast.LENGTH_LONG).show();
+
+                }
+            });
+
+        }
+    }
 }

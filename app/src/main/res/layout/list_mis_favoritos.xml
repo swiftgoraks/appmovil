@@ -11,13 +11,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="175dp"
+        android:layout_height="200dp"
         android:background="@drawable/marco2"
         android:id="@+id/LayoutContent"
         >
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="135dp"
+        android:layout_height="157dp"
         android:id="@+id/mycardMF"
 
 
@@ -26,20 +26,52 @@
         <RelativeLayout
             android:id="@+id/contendorLayout"
             android:layout_width="match_parent"
-            android:layout_height="150dp">
+            android:layout_height="200dp">
 
             <ImageView
                 android:id="@+id/imgPortadaMF"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
+                android:layout_width="140dp"
+                android:layout_height="150dp"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="1dp" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgIdFotoMF"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/imgPortadaMF"
+                android:src="@drawable/usuario" />
+
+            <TextView
+                android:id="@+id/txtNomVendedor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="2dp"
+                android:layout_toEndOf="@+id/imgIdFotoMF"
+                android:text="@string/pruea" />
+
+            <TextView
+                android:id="@+id/txtIdPMF"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/txtId_favorito"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/txtTituloMF"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/txtNomVendedor"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="6dp"
                 android:layout_toEndOf="@+id/imgPortadaMF"
                 android:text="hola" />
 
@@ -48,8 +80,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtTituloMF"
-                android:layout_marginStart="11dp"
-                android:layout_marginTop="17dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="4dp"
                 android:layout_toEndOf="@+id/imgPortadaMF"
                 android:text="fecha" />
 
@@ -58,10 +90,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtFechaPF"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="9dp"
-                android:layout_marginTop="11dp"
-                android:layout_marginEnd="0dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/imgPortadaMF"
                 android:text="500" />
 
@@ -70,10 +100,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtPrecioMF"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="9dp"
-                android:layout_marginTop="17dp"
-                android:layout_marginEnd="0dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="11dp"
                 android:layout_toEndOf="@+id/imgPortadaMF"
                 android:text="@string/pruea" />
 
@@ -97,25 +125,18 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="58dp"
             android:background="@drawable/ic_ojo" />
 
-        <Button
-            android:id="@+id/editarMF"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="72dp"
-            android:layout_toEndOf="@+id/verMF"
-            android:background="@drawable/ic_editar" />
+
 
         <Button
             android:id="@+id/eliminarMF"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="25dp"
-            android:background="@drawable/ic_borrar"
-            />
+            android:layout_marginEnd="70dp"
+            android:background="@drawable/ic_borrar" />
     </RelativeLayout>
 
     </RelativeLayout>

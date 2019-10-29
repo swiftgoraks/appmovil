@@ -41,7 +41,7 @@ public class home extends AppCompatActivity {
 
     FirebaseFirestore db;
 
-    String idU;
+    static String idU;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

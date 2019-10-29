@@ -50,7 +50,7 @@ public class ver_publicacion extends AppCompatActivity {
 
         btnVer_info = findViewById(R.id.btnInformacion);
 
-       easySlider = findViewById(R.id.slider);
+        easySlider = findViewById(R.id.slider);
         db = FirebaseFirestore.getInstance();
 
 
@@ -80,7 +80,7 @@ public class ver_publicacion extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        ArrayList <String> imgs = new ArrayList <>();
+                        ArrayList <String> imgs = new ArrayList <String>();
                         imgs = (ArrayList<String>) document.get("list_img");
 
                         txtDescripcion.setText(document.get("descripcion").toString());
@@ -91,13 +91,6 @@ public class ver_publicacion extends AppCompatActivity {
                         txtMarca.setText(document.get("marca").toString());
                         txtModelo.setText(document.get("modelo").toString());
                         txtYear.setText(document.get("año").toString());
-                       //Toast.makeText(ver_publicacion.this, document.get("titulo").toString(), Toast.LENGTH_LONG).show();
-
-
-
-
-
-
 
 
                         SliderItem sliderItems[] = new SliderItem[imgs.size()];
@@ -107,8 +100,9 @@ public class ver_publicacion extends AppCompatActivity {
                         sliderItems[i] = (new SliderItem("",imgs.get(i)));
                         }
 
-                       easySlider.setPages(Arrays.asList(sliderItems));
+                        easySlider.setPages(Arrays.asList(sliderItems));
                         easySlider.setTimer(0);
+
 
                        // holder.txtNombreUserV.setText(document.get("Nombre").toString());
                     } else {

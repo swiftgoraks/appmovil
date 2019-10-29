@@ -2,6 +2,7 @@ package com.example.icv;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -14,12 +15,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        txtId = findViewById(R.id.idP);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
 
-        Bundle extras  = getIntent().getExtras();
-
-        if (extras != null){
-            txtId.setText(extras.getString("publicacionCod"));
-        }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }

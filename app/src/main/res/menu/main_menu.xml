@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item android:title="Explorar"
+        android:icon="@drawable/ic_periodico"
+        android:id="@+id/menu_explorar"
+        app:showAsAction="withText|always"
+        android:showAsAction="always|withText"
+        tools:ignore="AppCompatResource" />
+    <item android:title="Catalogo"
+        android:icon="@drawable/ic_orientar"
+        android:id="@+id/menu_catalogo"
+        app:showAsAction="always|withText"
+        />
+    <item android:title="Publicar"
+        android:icon="@drawable/ic_archivo"
+        android:id="@+id/menu_publicar"
+        app:showAsAction="always"
+        />
+    <item android:title="Menu"
+        android:icon="@drawable/ic_menu"
+        android:id="@+id/menu_menu"
+        app:showAsAction="withText|always">
+        <menu>
+            <item android:title="Perfil"
+                android:id="@+id/menu_perfil"
+                android:icon="@drawable/ic_usuario"
+                />
+            <item android:title="Mensajes"
+                android:id="@+id/menu_mensajes"
+                android:icon="@drawable/ic_correo"
+                />
+            <item android:title="Salir"
+                android:id="@+id/menu_salir"
+                android:icon="@drawable/ic_logout"
+                />
+        </menu>
+    </item>
+
+</menu>

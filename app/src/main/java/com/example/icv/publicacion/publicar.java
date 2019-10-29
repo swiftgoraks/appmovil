@@ -348,13 +348,13 @@ public class publicar extends AppCompatActivity {
                 listaimg=new ArrayList<String>();
 
                 Uri u=data.getData();
-                Toast.makeText(publicar.this,"Una foto "+u, Toast.LENGTH_LONG).show();
-                prueba(u);
-                //guardarImg(u,listaimg);
+                Toast.makeText(publicar.this,"Una foto ", Toast.LENGTH_LONG).show();
+                //prueba(u);
+                guardarImg(u,listaimg);
             }
         }else if (requestCode == 1234 && resultCode == RESULT_OK)
         {
-            if(data.getExtras().getString("longitud")!=null)
+            if(data.getExtras().getString("longitud")!=null )
             {
                 Toast.makeText(publicar.this,data.getExtras().getString("latitud")+data.getExtras().getString("longitud")+data.getExtras().getString("ciudad"),Toast.LENGTH_SHORT).show();
                 latitud=data.getExtras().getString("latitud");
@@ -398,13 +398,14 @@ public class publicar extends AppCompatActivity {
 
     public void prueba(Uri u)
     {
-        Intent i= new Intent(Intent.ACTION_GET_CONTENT);
+        Intent i= new Intent(Intent.ACTION_OPEN_DOCUMENT);
         i.setType("image/jpeg");
-        i.setData(u);
+        i.setData(Uri.parse(u.toString()));
         i.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
         i.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
         i.putExtra(Intent.EXTRA_CHOSEN_COMPONENT,u);
         startActivityForResult(Intent.createChooser(i,"Seleccionar imagen"),fotoenviada);
     }
+
 
 }

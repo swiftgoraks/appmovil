@@ -11,6 +11,7 @@ package com.example.icv;
         import android.widget.TextView;
         import androidx.recyclerview.widget.RecyclerView;
         import com.bumptech.glide.Glide;
+        import com.example.icv.publicacion.EditarPublicacion;
         import com.google.firebase.firestore.FirebaseFirestore;
 
 class AdaptadorMisPublicaciones extends RecyclerView.Adapter<AdaptadorMisPublicaciones.MyViewHolder> {
@@ -118,9 +119,9 @@ class AdaptadorMisPublicaciones extends RecyclerView.Adapter<AdaptadorMisPublica
             switch (view.getId()){
 
                 case R.id.editarMP:
-                    Intent intent  = new Intent(contextoMy, ver_publicacion.class);
+
+                    Intent intent  = new Intent(contextoMy, EditarPublicacion.class);
                     intent.putExtra("publicacionCod", txtId_pub.getText());
-                    intent.putExtra("vendedor","");
                     contextoMy.startActivities(new Intent[]{intent});
                     break;
                 case R.id.imgFav:

@@ -158,8 +158,8 @@ public class home extends AppCompatActivity {
 
     public void cerrarSesion(View view){
 
-        mAuth.signOut();
-        startActivity(new Intent(home.this, Login.class));
+        //mAuth.signOut();
+        startActivity(new Intent(home.this, MainActivity.class));
         finish();
     }
 

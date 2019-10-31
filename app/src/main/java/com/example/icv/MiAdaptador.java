@@ -24,7 +24,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
@@ -79,6 +81,12 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.txtDescripcion.setText(anun.getTitulo());
         holder.txtFecha.setText(anun.getFecha_publicacion());
         holder.txtId_pub.setText(anun.getId_anuncio());
+
+        NumberFormat nf = NumberFormat.getInstance();
+        nf = NumberFormat.getInstance(Locale.ENGLISH);
+
+        holder.btnPrecio.setText("$ " + nf.format(anun.getPrecio()));
+         holder.btnPrecio.setTextSize(16);
 
         /// Extrae informacion de favoritos del vendedor.
         DocumentReference docRef = db.collection("usuarios").document(anun.getId_usuario());
@@ -181,7 +189,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             ImageView imgPortada, imgFav, ProfileImage, imgDefault;
             Button btnMas;
             Context contextoMy;
-
+            Button btnPrecio;
 
 
             public MyViewHolder(View itemView){
@@ -199,6 +207,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 txtNombreUserV = itemView.findViewById(R.id.txtNombreUser);
                 ProfileImage = itemView.findViewById(R.id.profile_image);
                 imgDefault = itemView.findViewById(R.id.imgPerfil);
+                btnPrecio = itemView.findViewById(R.id.btnPrecioP);
             }
 
             void setOnClickListeners(){

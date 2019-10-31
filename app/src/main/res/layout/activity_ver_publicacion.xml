@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ver_publicacion"
+    android:orientation="vertical"
     android:padding="1dp"
-    android:scrollbars="vertical"
-    >
+    android:scrollbars="vertical">
 
-    <ahmed.easyslider.EasySlider
+        <ahmed.easyslider.EasySlider
         android:id="@+id/slider"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="200dp"
+        />
 
 
+<Button
+    android:layout_width="match_parent"
+    android:layout_height="40sp"
+    android:text="Expandir Imagenes"
+    android:onClick="verImagnes"
+    />
     <LinearLayout
         android:id="@+id/LayoutTitulo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/slider"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
         android:paddingLeft="10dp"
         >
@@ -219,7 +227,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="153dp"
         android:orientation="horizontal"
         android:id="@+id/mensajes"
         >
@@ -243,4 +250,4 @@
     </LinearLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

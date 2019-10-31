@@ -62,6 +62,8 @@ dependencies {
     //Libreria para el slide de imagenes
     implementation 'com.github.ahmedshaban1:EasySlider:1.0.0'
 
+    implementation 'com.github.GoodieBag:CarouselPicker:v1.1'
+
 
     //CirecleImageView
     implementation 'de.hdodenhof:circleimageview:3.0.1'

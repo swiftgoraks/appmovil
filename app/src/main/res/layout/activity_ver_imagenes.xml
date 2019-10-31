@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ver_imagenes"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@color/color_negro"
+    >
+
+  <!--  <ahmed.easyslider.EasySlider
+        android:id="@+id/sliderImagenes"
+        android:layout_width="wrap_content"
+        android:layout_height="400dp"
+        />  -->
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="500dp"
+    android:id="@+id/imageViewView"
+    />
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="90dp"
+      android:orientation="horizontal"
+      >
+    <LinearLayout
+        android:layout_width="190dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        >
+
+      <ImageButton
+          android:layout_width="85dp"
+          android:layout_height="85dp"
+          android:id="@+id/btnAtras"
+          android:background="@drawable/atras"
+          />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="190dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        >
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:gravity="center"
+          >
+      <ImageButton
+          android:layout_width="85dp"
+          android:layout_height="85dp"
+          android:id="@+id/btnAdelante"
+          android:background="@drawable/siguiente"
+          />
+      <ImageButton
+          android:layout_width="85dp"
+          android:layout_height="85dp"
+          android:id="@+id/btnRestart"
+          android:background="@drawable/restart"
+          android:visibility="invisible"
+          />
+      </RelativeLayout>
+    </LinearLayout>
+  </LinearLayout>
+</LinearLayout>

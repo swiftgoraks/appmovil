@@ -101,7 +101,7 @@ public class ver_publicacion extends AppCompatActivity {
                         }
 
                         easySlider.setPages(Arrays.asList(sliderItems));
-                        easySlider.setTimer(0);
+                       easySlider.setTimer(0);
 
 
                        // holder.txtNombreUserV.setText(document.get("Nombre").toString());
@@ -123,5 +123,12 @@ public class ver_publicacion extends AppCompatActivity {
         Intent intent = new Intent(ver_publicacion.this, Perfil.class);
         intent.putExtra("idU", codView);
         startActivity(intent);
+    }
+
+    public void verImagnes(View view) {
+
+        Intent intent  = new Intent(ver_publicacion.this, ver_imagenes.class);
+        intent.putExtra("id_p", cod);
+        startActivities(new Intent[]{intent});
     }
 }

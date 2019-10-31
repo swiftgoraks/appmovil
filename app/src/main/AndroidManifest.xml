@@ -20,7 +20,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".publicacion.EditarPublicacion"></activity>
+        <activity android:name=".ver_imagenes">
+        </activity>
+        <activity android:name=".publicacion.EditarPublicacion" />
         <!--
             The API key for Google Maps-based APIs is defined as a string resource.
             (See the file "res/values/google_maps_api.xml").
@@ -33,7 +35,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".Perfil"></activity>
+        <activity android:name=".Perfil" />
         <activity android:name=".catalogo_detalle" />
         <activity android:name=".Catalogo" />
         <activity android:name=".ver_publicacion" />
@@ -46,9 +48,6 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-        <meta-data
-            android:name="com.facebook.sdk.AutoLogAppEventsEnabled"
-            android:value="false" />
 
         <activity
             android:name="com.facebook.FacebookActivity"

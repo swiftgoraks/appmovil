@@ -23,7 +23,7 @@
     <item android:title="Menu"
         android:icon="@drawable/ic_menu"
         android:id="@+id/menu_menu"
-        app:showAsAction="withText|always">
+        app:showAsAction="always">
         <menu>
             <item android:title="Perfil"
                 android:id="@+id/menu_perfil"

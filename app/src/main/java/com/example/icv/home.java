@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -28,6 +30,9 @@ import com.squareup.okhttp.internal.DiskLruCache;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.icv.R.drawable.ic_periodico;
+import static com.example.icv.R.mipmap.ic_launcher;
+
 public class home extends AppCompatActivity {
 
 
@@ -47,17 +52,17 @@ public class home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        btPublicar=findViewById(R.id.btPublicar);
+      //  btPublicar=findViewById(R.id.btPublicar);
 
         Bundle extras  = getIntent().getExtras();
 
-       if (extras != null){
-           idU = extras.getString("idU");
-       }
+       //if (extras != null){
+           //idU = extras.getString("idU");
+       //}
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        //idU= mAuth.getCurrentUser().getUid();
+        idU= mAuth.getCurrentUser().getUid();
 
        // textBienvienido = findViewById(R.id.txtBienvenido);
 
@@ -69,14 +74,59 @@ public class home extends AppCompatActivity {
 
         cargarAnuncios();
 
-        btPublicar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(home.this, publicar.class));
-               // finish();
+       // btPublicar.setOnClickListener(new View.OnClickListener() {
+         //   @Override
+           // public void onClick(View view) {
+            //    startActivity(new Intent(home.this, publicar.class));
+          //  }
+        //});
 
-            }
-        });
+        getSupportActionBar().setIcon(ic_launcher);
+        //getSupportActionBar().ico
+       // getActionBar().setIcon(R.mipmap.ic_launcher_round);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId())
+        {
+            case R.id.menu_catalogo:
+                // Toast.makeText(MainActivity.this, "catalogo", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(home.this, Catalogo.class));
+                // finish();
+                return true;
+            case R.id.menu_explorar:
+                startActivity(new Intent(home.this, home.class));
+               // Toast.makeText(home.this, "Explorar", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.menu_publicar:
+                startActivity(new Intent(home.this, publicar.class));
+                //Toast.makeText(home.this, "publicar", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.menu_perfil:
+                startActivity(new Intent(home.this, Perfil.class));
+                //Toast.makeText(home.this, "perfil", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.menu_mensajes:
+                //startActivity(new Intent(home.this, Chat.class));
+                Toast.makeText(home.this, "mensajes", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.menu_salir:
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(home.this, Login.class));
+                //Toast.makeText(home.this, "Salir", Toast.LENGTH_LONG).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
 
     }
 

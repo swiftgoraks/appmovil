@@ -20,7 +20,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="280dp"
         android:orientation="vertical"
         android:padding="2dp"
         >
@@ -90,7 +90,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="140dp">
+            android:layout_height="170dp">
 
             <TextView
                 android:id="@+id/txtTitulo"
@@ -107,29 +107,30 @@
             <ImageView
                 android:id="@+id/imgPortada"
                 android:layout_width="match_parent"
-                android:layout_height="115dp"
+                android:layout_height="170dp"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="2dp" />
         </RelativeLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@color/color_barra_inferrior"
+            android:background="@drawable/marco3"
+            android:orientation="horizontal"
+            android:gravity="center"
             >
+            <Button
+                android:id="@+id/btnPrecioP"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pruea" />
+
 
             <ImageView
                 android:id="@+id/imgFav"
-                android:layout_width="116dp"
-                android:layout_height="45dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="61dp"
-                android:layout_marginTop="-2dp"
-                android:layout_marginEnd="99dp"
-                android:layout_marginBottom="1dp"
-                android:layout_toStartOf="@+id/btnVerMas"
+                android:layout_width="75dp"
+                android:layout_height="35dp"
                 android:src="@drawable/corazon1"
                 android:tag="sinFav"
                 />
@@ -139,10 +140,8 @@
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="58dp"
                 android:text="Ver Mas" />
-        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

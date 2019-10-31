@@ -78,7 +78,7 @@ public class EditarPublicacion extends AppCompatActivity {
         txtPrecio = findViewById(R.id.txtPrecio);
         txtTelefono = findViewById(R.id.txtKm);
         easySlider = findViewById(R.id.slider);
-        btGuardar = findViewById(R.id.btPublicar);
+       // btGuardar = findViewById(R.id.btPublicar);
         btImg = findViewById(R.id.btImg);
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();

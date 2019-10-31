@@ -3,17 +3,24 @@ package com.example.icv.publicacion;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,15 +33,21 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -42,29 +55,33 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import ahmed.easyslider.EasySlider;
-import ahmed.easyslider.SliderItem;
 
-public class EditarPublicacion extends AppCompatActivity {
+public class EditarPublicacion extends AppCompatActivity implements imgAdapter.OnClick{
     public ArrayList<marca> marcalista;
     public ArrayList<modelo> modelolista;
     public ArrayList<String> listamarca;
     public ArrayList<String> listamodelo;
     public String marcabase, modelobase;
+    public static Uri u;
     public static long idselectMarca, idSelectModel;
-    private Button btGuardar;
     private ImageButton btImg;
     TextView txtTitulo, txtDescripcion, txtPrecio, txtTelefono, txtYear;
     Spinner spinMarca, spinModelo;
-    EasySlider easySlider;
     FirebaseFirestore db;
     String cod;
     private static final int fotoenviada = 1;
     private FirebaseStorage storage;
     public static ArrayList<String> listaimg = new ArrayList<String>();
+    private Uri imgUri;
+    private ProgressBar pgBar;
+    private StorageTask task;
+    private RecyclerView mRecyclerView;
+    private imgAdapter mAdapter;
+    private List<imgUpload> mUploads;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,25 +94,21 @@ public class EditarPublicacion extends AppCompatActivity {
         txtDescripcion = findViewById(R.id.txtDescripcion);
         txtPrecio = findViewById(R.id.txtPrecio);
         txtTelefono = findViewById(R.id.txtKm);
-        easySlider = findViewById(R.id.slider);
-        btGuardar = findViewById(R.id.btPublicar);
         btImg = findViewById(R.id.btImg);
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
+        pgBar=findViewById(R.id.progress_bar);
+        mRecyclerView=findViewById(R.id.recycler_imgpublic);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(EditarPublicacion.this));
+
 
         Bundle extras = getIntent().getExtras();
 
-        if (extras != null) {
+        if (extras != null ) {
             cod = extras.getString("publicacionCod");
             datos_publicacion();
         }
-
-        easySlider.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
 
         spinMarca.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -161,13 +174,20 @@ public class EditarPublicacion extends AppCompatActivity {
                         marcabase = document.get("marca").toString();
                         modelobase = document.get("marca").toString();
 
-                        SliderItem sliderItems[] = new SliderItem[listaimg.size()];
-                        for (int i = 0; i <= listaimg.size() - 1; i++) {
-                            sliderItems[i] = (new SliderItem("", listaimg.get(i)));
-                        }
-
-                        easySlider.setPages(Arrays.asList(sliderItems));
-                        easySlider.setTimer(0);
+                      //  SliderItem sliderItems[] = new SliderItem[listaimg.size()];
+                       // imgUpload anunciosLista[] = new imgUpload[listaimg.size()];
+                       // for (int i = 0; i <= anunciosLista.length - 1; i++) {
+                          //  sliderItems[i] = (new SliderItem("", listaimg.get(i)));
+                          //  imgUpload imgs=new imgUpload(listaimg.get(i));
+                          //  anunciosLista[i]=imgs;
+                          //  Toast.makeText(EditarPublicacion.this,listaimg.size()+" : "+listaimg.get(i),Toast.LENGTH_LONG).show();
+                           // mUploads.add(upload);
+                      //  }
+                        mostrarImg(listaimg);
+                       // mAdapter=new imgAdapter(EditarPublicacion.this, anunciosLista);
+                       // mRecyclerView.setAdapter(mAdapter);
+                        //easySlider.setPages(Arrays.asList(sliderItems));
+                       // easySlider.setTimer(0);
                         obtenermarca();
                     } else {
                     }
@@ -176,6 +196,7 @@ public class EditarPublicacion extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     public void obtenermarca() {
@@ -310,52 +331,58 @@ public class EditarPublicacion extends AppCompatActivity {
     }
 
     public void Guardar(View view) {
+       // if(task!=null &&task.isInProgress())
+       // {
+       //     Toast.makeText(EditarPublicacion.this,"Porfavor espere que las img se suban.",Toast.LENGTH_SHORT).show();
+       // }
+       // else
+       // {
+            String titulo = txtTitulo.getText().toString();
+            String marca = spinMarca.getSelectedItem().toString();
+            String modelo = spinModelo.getSelectedItem().toString();
+            int anio = Integer.parseInt(txtYear.getText().toString());
+            double precio = Double.parseDouble(txtPrecio.getText().toString());
+            String descrip = txtDescripcion.getText().toString();
+            String telefono = txtTelefono.getText().toString();
 
-        String titulo = txtTitulo.getText().toString();
-        String marca = spinMarca.getSelectedItem().toString();
-        String modelo = spinModelo.getSelectedItem().toString();
-        int anio = Integer.parseInt(txtYear.getText().toString());
-        double precio = Double.parseDouble(txtPrecio.getText().toString());
-        String descrip = txtDescripcion.getText().toString();
-        String telefono = txtTelefono.getText().toString();
-
-        // DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        // String date = df.format(Calendar.getInstance().getTime());
-
-
-        Map<String, Object> editarPublicacion = new HashMap<>();
-        editarPublicacion.put("titulo", titulo);
-        editarPublicacion.put("marca", marca);
-        editarPublicacion.put("modelo", modelo);
-        editarPublicacion.put("año", anio);
-        //  user.put("kilometraje", passU);
-        editarPublicacion.put("precio", precio);
-        editarPublicacion.put("descripcion", descrip);
-        editarPublicacion.put("Telefono", telefono);
-        editarPublicacion.put("estado", "activo");
-        //editarPublicacion.put("fecha_publicacion", date);
-        // editarPublicacion.put("id_usuario",  mAuth.getCurrentUser().getUid());
-        editarPublicacion.put("list_img", listaimg);
-        // editarPublicacion.put("latitud",latitud);
-        // editarPublicacion.put("longitud",longitud);
-        // editarPublicacion.put("ciudad",ciudad);
+            // DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            // String date = df.format(Calendar.getInstance().getTime());
 
 
-        db.collection("publicacion").document(cod)
-                .update(editarPublicacion)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        //startActivity(new Intent(EditarPublicacion.this, Perfil.class));
-                        finish();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+            Map<String, Object> editarPublicacion = new HashMap<>();
+            editarPublicacion.put("titulo", titulo);
+            editarPublicacion.put("marca", marca);
+            editarPublicacion.put("modelo", modelo);
+            editarPublicacion.put("año", anio);
+            //  user.put("kilometraje", passU);
+            editarPublicacion.put("precio", precio);
+            editarPublicacion.put("descripcion", descrip);
+            editarPublicacion.put("Telefono", telefono);
+            editarPublicacion.put("estado", "activo");
+            //editarPublicacion.put("fecha_publicacion", date);
+            // editarPublicacion.put("id_usuario",  mAuth.getCurrentUser().getUid());
+            editarPublicacion.put("list_img", listaimg);
+            // editarPublicacion.put("latitud",latitud);
+            // editarPublicacion.put("longitud",longitud);
+            // editarPublicacion.put("ciudad",ciudad);
 
-                    }
-                });
+
+            db.collection("publicacion").document(cod)
+                    .update(editarPublicacion)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            //startActivity(new Intent(EditarPublicacion.this, Perfil.class));
+                            finish();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+       // }
     }
 
     @Override
@@ -366,23 +393,23 @@ public class EditarPublicacion extends AppCompatActivity {
                 int cantidadselect = data.getClipData().getItemCount();
                 //listaimg = new ArrayList<String>();
                 for (int i = 0; i < cantidadselect; i++) {
-                    Uri u = data.getClipData().getItemAt(i).getUri();
-                    guardarImg(u, listaimg);
-                }
+                     u = data.getClipData().getItemAt(i).getUri();
+                   // guardarImg(u);
 
+                }
             } else if (data.getData() != null) {
                // listaimg = new ArrayList<String>();
-                Uri u = data.getData();
-                guardarImg(u, listaimg);
+                 u = data.getData();
+                guardarImg(u);
             }
         }
     }
 
-    public void guardarImg(Uri u, final ArrayList<String> listaimgs) {
+    public void guardarImg(Uri u) {
         StorageReference storageRef = storage.getReference();
         final StorageReference fotoReferencia = storageRef.child("img_publicacion/" + u.getLastPathSegment());
 
-        fotoReferencia.putFile(u).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+          fotoReferencia.putFile(u).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                 if (!task.isSuccessful()) {
@@ -397,17 +424,46 @@ public class EditarPublicacion extends AppCompatActivity {
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
                     Uri downloadUrl = task.getResult();
-                    listaimgs.add(downloadUrl.toString());
-Toast.makeText(EditarPublicacion.this,"ac  "+listaimgs.size(),Toast.LENGTH_SHORT).show();
-                    SliderItem sliderItems[] = new SliderItem[listaimgs.size()];
-                    for (int i = 0; i <= listaimgs.size() - 1; i++) {
-                        sliderItems[i] = (new SliderItem("", listaimgs.get(i)));
-                    }
+                    listaimg.add(downloadUrl.toString());
+                    Toast.makeText(EditarPublicacion.this,"Se han subido: "+listaimg.size()+" img.",Toast.LENGTH_LONG).show();
+                  //  SliderItem sliderItems[] = new SliderItem[listaimg.size()];
+                   // for (int i = 0; i <= listaimg.size() - 1; i++) {
+                   //     sliderItems[i] = (new SliderItem("", listaimg.get(i)));
+                  //  }
 
-                    easySlider.setPages(Arrays.asList(sliderItems));
-                    easySlider.setTimer(0);
+                  //  easySlider.setPages(Arrays.asList(sliderItems));
+                  //  easySlider.setTimer(0);
+                    mostrarImg(listaimg);
                 }
             }
         });
+    }
+
+    public void mostrarImg(ArrayList<String> arrayImg )
+    {
+        imgUpload Listaimg[] = new imgUpload[arrayImg.size()];
+        for (int i = 0; i <= Listaimg.length - 1; i++) {
+            imgUpload imgs=new imgUpload(arrayImg.get(i));
+            Listaimg[i]=imgs;
+        }
+        mAdapter=new imgAdapter(EditarPublicacion.this, Listaimg);
+
+        mAdapter.setOnClickListener(EditarPublicacion.this);
+        mRecyclerView.setAdapter(mAdapter);
+        pgBar.setVisibility(mRecyclerView.INVISIBLE);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Toast.makeText(EditarPublicacion.this,"Mantenga presionado si desea eliminar esta imagen.",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDeleteClick(int position) {
+        listaimg.remove(position);
+        mostrarImg(listaimg);
+       // StorageReference storageRef = storage.getReference();
+       // final StorageReference fotoReferencia = storageRef.child("img_publicacion/" + u.getLastPathSegment());
+
     }
 }

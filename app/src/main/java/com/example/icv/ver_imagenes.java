@@ -31,11 +31,8 @@ public class ver_imagenes extends AppCompatActivity {
 
     String cod;
 
-    EasySlider easySlider;
     FirebaseFirestore db;
-    ImageSwitcher imageSwitcher;
-
-    ImageButton btnAtras, btnDeltante, btnRestart;
+;
 
     ImageView imageView;
 
@@ -51,178 +48,17 @@ public class ver_imagenes extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
        // easySlider = findViewById(R.id.sliderImagenes);
 
-        btnAtras = findViewById(R.id.btnAtras);
-        btnDeltante = findViewById(R.id.btnAdelante);
-        btnRestart = findViewById(R.id.btnRestart);
-
         imageView = findViewById(R.id.imageViewView);
 
 
         Bundle extras  = getIntent().getExtras();
 
         if (extras != null){
-            cod = extras.getString("id_p");
+            cod = extras.getString("imgUrl");
 
-            datos_publicacion();
+            Glide.with(getApplicationContext()).load(cod).into(imageView);
         }
 
-        if(i==0){btnAtras.setVisibility(View.INVISIBLE);}
-
-        btnAtras.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                DocumentReference docRef = db.collection("publicacion").document(cod);
-
-                docRef.get().addOnCompleteListener(new OnCompleteListener <DocumentSnapshot>() {
-
-                    @Override
-                    public void onComplete(@NonNull Task <DocumentSnapshot> task) {
-
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                ArrayList <String> imgs = new ArrayList <String>();
-                                imgs = (ArrayList<String>) document.get("list_img");
-
-                                assert imgs != null;
-                                // Toast.makeText(getApplicationContext(), imgs.get(0).toString(), Toast.LENGTH_LONG).show();
-
-                                if(i > 0){
-
-                                    i--;
-                                    if(i == 0){btnAtras.setVisibility(View.INVISIBLE);}
-                                    else {btnDeltante.setVisibility(View.VISIBLE);
-                                    btnRestart.setVisibility(View.GONE);
-                                    }
-                                    Glide.with(ver_imagenes.this)
-                                            .load(imgs.get(i))
-                                            .into(imageView);
-                                }
-
-                            } else {
-                            }
-                        } else {
-                            //Log.d(TAG, "get failed with ", task.getException());
-                        }
-                    }
-                });
-
-            }
-        });
-
-        btnDeltante.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DocumentReference docRef = db.collection("publicacion").document(cod);
-
-                docRef.get().addOnCompleteListener(new OnCompleteListener <DocumentSnapshot>() {
-
-                    @Override
-                    public void onComplete(@NonNull Task <DocumentSnapshot> task) {
-
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                ArrayList <String> imgs = new ArrayList <String>();
-                                imgs = (ArrayList<String>) document.get("list_img");
-
-                                assert imgs != null;
-                                // Toast.makeText(getApplicationContext(), imgs.get(0).toString(), Toast.LENGTH_LONG).show();
-
-                                if(i < imgs.size() - 1){
-
-                                    i++;
-                                    if(i == imgs.size() - 1 ){btnDeltante.setVisibility(View.GONE); btnRestart.setVisibility(View.VISIBLE);}
-                                    else {
-                                        btnAtras.setVisibility(View.VISIBLE);
-                                }
-                                    Glide.with(ver_imagenes.this)
-                                            .load(imgs.get(i))
-                                            .into(imageView);
-                                }
-
-                            } else {
-                            }
-                        } else {
-                            //Log.d(TAG, "get failed with ", task.getException());
-                        }
-
-
-                    }
-                });
-            }
-        });
-
-        btnRestart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DocumentReference docRef = db.collection("publicacion").document(cod);
-
-                docRef.get().addOnCompleteListener(new OnCompleteListener <DocumentSnapshot>() {
-
-                    @Override
-                    public void onComplete(@NonNull Task <DocumentSnapshot> task) {
-
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                ArrayList <String> imgs = new ArrayList <String>();
-                                imgs = (ArrayList<String>) document.get("list_img");
-
-                                assert imgs != null;
-                                // Toast.makeText(getApplicationContext(), imgs.get(0).toString(), Toast.LENGTH_LONG).show();
-
-                                        Glide.with(ver_imagenes.this)
-                                                .load(imgs.get(0))
-                                                .into(imageView);
-                                        btnAtras.setVisibility(View.INVISIBLE);
-                                        btnDeltante.setVisibility(View.VISIBLE);
-                                        btnRestart.setVisibility(View.GONE);
-                                        i=0;
-
-
-                            } else {
-                            }
-                        } else {
-                            //Log.d(TAG, "get failed with ", task.getException());
-                        }
-
-
-                    }
-                });
-            }
-        });
     }
-
-    public void datos_publicacion(){
-
-        DocumentReference docRef = db.collection("publicacion").document(cod);
-
-        docRef.get().addOnCompleteListener(new OnCompleteListener <DocumentSnapshot>() {
-
-            @Override
-            public void onComplete(@NonNull Task <DocumentSnapshot> task) {
-
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        ArrayList <String> imgs = new ArrayList <String>();
-                        imgs = (ArrayList<String>) document.get("list_img");
-
-                        assert imgs != null;
-                        Toast.makeText(getApplicationContext(), imgs.get(0).toString(), Toast.LENGTH_LONG).show();
-                        Glide.with(ver_imagenes.this)
-                                .load(imgs.get(0))
-                                .into(imageView);
-                    } else {
-                    }
-                } else {
-                    //Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
-    }
-
 
 }

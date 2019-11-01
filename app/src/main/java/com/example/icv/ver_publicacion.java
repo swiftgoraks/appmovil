@@ -2,6 +2,8 @@ package com.example.icv;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,6 +35,8 @@ public class ver_publicacion extends AppCompatActivity {
     TextView txtTitulo, txtDescripcion, txtVendedor, txtPrecio, txtTelefono, txtYear, txtMarca, txtModelo;
 
     Button btnVer_info;
+
+    RecyclerView myRecyclerViewSlider;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,8 +54,16 @@ public class ver_publicacion extends AppCompatActivity {
 
         btnVer_info = findViewById(R.id.btnInformacion);
 
-        easySlider = findViewById(R.id.slider);
+       // easySlider = findViewById(R.id.slider);
         db = FirebaseFirestore.getInstance();
+
+        myRecyclerViewSlider = findViewById(R.id.myRecycleSlider);
+
+        myRecyclerViewSlider.setHasFixedSize(true);
+        LinearLayoutManager horizontalLayoutManager
+                = new LinearLayoutManager(ver_publicacion.this, LinearLayoutManager.HORIZONTAL, false);
+        myRecyclerViewSlider.setLayoutManager(horizontalLayoutManager);
+
 
 
         Bundle extras  = getIntent().getExtras();
@@ -93,15 +105,20 @@ public class ver_publicacion extends AppCompatActivity {
                         txtYear.setText(document.get("año").toString());
 
 
-                        SliderItem sliderItems[] = new SliderItem[imgs.size()];
+                        String sliderItems[] = new String[imgs.size()];
                         for(int i = 0; i <=imgs.size() -1; i++)
                         {
-                           // Toast.makeText(ver_publicacion.this, imgs.get(i), Toast.LENGTH_LONG).show();
-                        sliderItems[i] = (new SliderItem("",imgs.get(i)));
+                        // Toast.makeText(ver_publicacion.this, imgs.get(i), Toast.LENGTH_LONG).show();
+                            sliderItems[i] = imgs.get(i);
                         }
 
-                        easySlider.setPages(Arrays.asList(sliderItems));
-                       easySlider.setTimer(0);
+                        adapter_slider adaptador = new adapter_slider(ver_publicacion.this, sliderItems);
+                        myRecyclerViewSlider.setAdapter(adaptador);
+
+
+
+                        //easySlider.setPages(Arrays.asList(sliderItems));
+                       //easySlider.setTimer(0);
 
 
                        // holder.txtNombreUserV.setText(document.get("Nombre").toString());

@@ -3,6 +3,8 @@ package com.example.icv.publicacion;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -50,7 +52,7 @@ import java.util.Map;
 import java.util.Objects;
 
 
-public class publicar extends AppCompatActivity {
+public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
 
     private Spinner spinMarcar,spinModelo;
     public FirebaseAuth mAuth;
@@ -67,6 +69,8 @@ public class publicar extends AppCompatActivity {
     private ImageButton btImg;
     public static String latitud,longitud,ciudad;
     public static long idselectMarca,idSelectModel;
+    private RecyclerView mRecyclerView;
+    private imgAdapter mAdapter;
 
 
     @Override
@@ -87,6 +91,13 @@ public class publicar extends AppCompatActivity {
         storage=FirebaseStorage.getInstance();
         btImg=findViewById(R.id.btImg);
         btUbicacion=findViewById(R.id.btUbicacion);
+        mRecyclerView=findViewById(R.id.recycler_imgpublic);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(publicar.this));
+        LinearLayoutManager horizontalLayoutManager
+                = new LinearLayoutManager(publicar.this, LinearLayoutManager.HORIZONTAL, false);
+        mRecyclerView.setLayoutManager(horizontalLayoutManager);
+        imgDefecto();
         obtenermarca();
 
         btPublicar.setOnClickListener(new View.OnClickListener() {
@@ -443,21 +454,66 @@ public class publicar extends AppCompatActivity {
                 if (task.isSuccessful()){
                     Uri downloadUrl = task.getResult();
                     listaimgs.add(downloadUrl.toString());
+                    mostrarImg(listaimgs);
                 }
             }
         });
     }
 
-    public void prueba(Uri u)
+    public void mostrarImg(ArrayList<String> arrayImg )
     {
-        Intent i= new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        imgUpload Listaimg[] = new imgUpload[arrayImg.size()];
+        for (int i = 0; i <= Listaimg.length - 1; i++) {
+            imgUpload imgs=new imgUpload(arrayImg.get(i));
+            Listaimg[i]=imgs;
+        }
+        mAdapter=new imgAdapter(publicar.this, Listaimg);
+
+        mAdapter.setOnClickListener(publicar.this);
+        mRecyclerView.setAdapter(mAdapter);
+        //  pgBar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Toast.makeText(publicar.this,"Mantenga presionado para activar las opciones.",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDeleteClick(int position) {
+        if(listaimg!=null)
+        {
+            if(listaimg.size()>0)
+            {
+                listaimg.remove(position);
+                mostrarImg(listaimg);
+            }else
+            {
+                imgDefecto();
+            }
+
+            Toast.makeText(publicar.this,"."+listaimg.size(),Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onAgregarClick(int position) {
+        Intent i= new Intent(Intent.ACTION_GET_CONTENT);
         i.setType("image/jpeg");
-        i.setData(Uri.parse(u.toString()));
         i.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
         i.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
-        i.putExtra(Intent.EXTRA_CHOSEN_COMPONENT,u);
         startActivityForResult(Intent.createChooser(i,"Seleccionar imagen"),fotoenviada);
     }
 
+    public void imgDefecto()
+    {
+        imgUpload Listaimgs[] = new imgUpload[1];
+        String img="https://firebasestorage.googleapis.com/v0/b/icv-project.appspot.com/o/ingresar.png?alt=media&token=9847b2ed-ec9a-4d63-8c75-8fa406a2042f";
+        imgUpload imgs=new imgUpload(img);
+        Listaimgs[0]=imgs;
+        mAdapter=new imgAdapter(publicar.this,Listaimgs);
 
+        mAdapter.setOnClickListener(publicar.this);
+        mRecyclerView.setAdapter(mAdapter);
+    }
 }

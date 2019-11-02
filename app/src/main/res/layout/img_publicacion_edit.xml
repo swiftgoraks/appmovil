@@ -4,22 +4,25 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     >
-    <TextView
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/txt"
-        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
+        android:gravity="center"
         >
-        <ImageView
-            android:layout_gravity="center"
-            android:id="@+id/img_upload"
-            android:layout_width="350dp"
-            android:layout_height="200dp"
-            />
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+            <ImageView
+                android:layout_gravity="center"
+                android:id="@+id/img_upload"
+                android:layout_width="350dp"
+                android:layout_height="210dp"
 
+                />
+        </LinearLayout>
+    </LinearLayout>
 </androidx.cardview.widget.CardView>

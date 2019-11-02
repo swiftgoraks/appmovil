@@ -9,9 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-import androidx.core.view.PointerIconCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 import com.example.icv.R;
@@ -20,11 +18,10 @@ import com.squareup.picasso.Picasso;
 public class imgAdapter extends RecyclerView.Adapter<imgAdapter.imgHolder>{
 
     private Context mContext;
-   // private List<imgUpload> mUpload;
     imgUpload Lista[];
     private OnClick mListener;
 
-    public imgAdapter(Context context,  imgUpload ListaImg[]){
+    public imgAdapter(Context context, imgUpload ListaImg[]){
         mContext=context;
         Lista =  ListaImg;
     }
@@ -34,8 +31,6 @@ public class imgAdapter extends RecyclerView.Adapter<imgAdapter.imgHolder>{
     public imgHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.img_publicacion_edit,parent,false);
         return new imgHolder(v);
-
-
     }
 
     @Override
@@ -46,7 +41,7 @@ public class imgAdapter extends RecyclerView.Adapter<imgAdapter.imgHolder>{
 
     @Override
     public int getItemCount() {
-        return Lista.length;
+            return Lista.length;
     }
 
     public class imgHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
@@ -56,9 +51,6 @@ public class imgAdapter extends RecyclerView.Adapter<imgAdapter.imgHolder>{
         public imgHolder(@NonNull View itemView) {
             super(itemView);
             imgview=itemView.findViewById(R.id.img_upload);
-            txt=itemView.findViewById(R.id.txt);
-            txt.setText("Imagenes de mi anuncio");
-
             itemView.setOnClickListener(this);
             itemView.setOnCreateContextMenuListener(this);
         }
@@ -78,8 +70,10 @@ public class imgAdapter extends RecyclerView.Adapter<imgAdapter.imgHolder>{
         @Override
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
             contextMenu.setHeaderTitle("Seleccione una opcion");
-            MenuItem delete=contextMenu.add(Menu.NONE,1,1,"Eliminar");
+            MenuItem delete=contextMenu.add(Menu.NONE,1,2,"Eliminar");
+            MenuItem agregar=contextMenu.add(Menu.NONE,2,1,"Agregar imagenes");
             delete.setOnMenuItemClickListener(this);
+            agregar.setOnMenuItemClickListener(this);
         }
 
         @Override
@@ -94,6 +88,9 @@ public class imgAdapter extends RecyclerView.Adapter<imgAdapter.imgHolder>{
                        case 1:
                            mListener.onDeleteClick(position);
                            return true;
+                       case 2:
+                           mListener.onAgregarClick(position);
+                           return true;
                    }
                 }
             }
@@ -105,6 +102,7 @@ public class imgAdapter extends RecyclerView.Adapter<imgAdapter.imgHolder>{
     {
         void onItemClick(int position);
         void onDeleteClick(int position);
+        void onAgregarClick(int position);
     }
 
     public void setOnClickListener(OnClick listener)

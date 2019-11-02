@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +29,13 @@ import android.widget.Toast;
 import com.example.icv.Perfil;
 import com.example.icv.R;
 import com.example.icv.home;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -60,12 +68,14 @@ import java.util.Map;
 import java.util.Objects;
 
 
-public class EditarPublicacion extends AppCompatActivity implements imgAdapter.OnClick{
+public class EditarPublicacion extends AppCompatActivity implements imgAdapter.OnClick, OnMapReadyCallback {
     public ArrayList<marca> marcalista;
     public ArrayList<modelo> modelolista;
     public ArrayList<String> listamarca;
     public ArrayList<String> listamodelo;
     public String marcabase, modelobase;
+    public static double longitude,latitude;
+    public static String ciudad;
     public static Uri u;
     public static long idselectMarca, idSelectModel;
     private ImageButton btImg;
@@ -77,11 +87,13 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
     private FirebaseStorage storage;
     public static ArrayList<String> listaimg = new ArrayList<String>();
     private Uri imgUri;
-    private ProgressBar pgBar;
     private StorageTask task;
     private RecyclerView mRecyclerView;
     private imgAdapter mAdapter;
     private List<imgUpload> mUploads;
+    Location nueva;
+    private GoogleMap mMap;
+    private MapView mMapView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,8 +109,9 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
         btImg = findViewById(R.id.btImg);
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
-        pgBar=findViewById(R.id.progress_bar);
         mRecyclerView=findViewById(R.id.recycler_imgpublic);
+        mMapView = findViewById(R.id.mapa);
+
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(EditarPublicacion.this));
         LinearLayoutManager horizontalLayoutManager
@@ -152,6 +165,8 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
                 startActivityForResult(Intent.createChooser(i, "Seleccionar imagenes"), fotoenviada);
             }
         });
+
+        initGoogleMap(savedInstanceState);
     }
 
     public void datos_publicacion() {
@@ -171,6 +186,12 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
                         {
                             listaimg = (ArrayList<String>) document.get("list_img");
                         }
+                        Toast.makeText(EditarPublicacion.this,""+longitude,Toast.LENGTH_SHORT).show();
+                        if(longitude==0)
+                        {
+                            longitude=Double.parseDouble(document.get("longitud").toString());
+                            latitude=Double.parseDouble(document.get("latitud").toString());
+                        }
 
 
                         txtDescripcion.setText(document.get("descripcion").toString());
@@ -180,6 +201,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
                         txtYear.setText(document.get("año").toString());
                         marcabase = document.get("marca").toString();
                         modelobase = document.get("marca").toString();
+
 
                         //  SliderItem sliderItems[] = new SliderItem[listaimg.size()];
                         // imgUpload anunciosLista[] = new imgUpload[listaimg.size()];
@@ -411,6 +433,21 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
                 guardarImg(u);
             }
         }
+        else if (requestCode == 1234 && resultCode == RESULT_OK)
+        {
+            if(data.getExtras().getString("longitud")!=null )
+            {
+                Toast.makeText(EditarPublicacion.this,data.getExtras().getString("latitud")+data.getExtras().getString("longitud")+data.getExtras().getString("ciudad"),Toast.LENGTH_SHORT).show();
+                latitude=Double.parseDouble(data.getExtras().getString("latitud"));
+                longitude=Double.parseDouble(data.getExtras().getString("longitud"));
+                ciudad=data.getExtras().getString("ciudad");
+            }
+            else
+            {
+                Toast.makeText(EditarPublicacion.this,"Debe ingresar una ubicación",Toast.LENGTH_SHORT).show();
+            }
+
+        }
     }
 
     public void guardarImg(Uri u) {
@@ -479,5 +516,36 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
     public void onAgregarClick(int position) {
 
     }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        nueva=new Location("nueva");
+        nueva.setLatitude(latitude);
+        nueva.setLongitude(longitude);
+        LatLng sydney = new LatLng(nueva.getLatitude(), nueva.getLongitude());
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Mi publicacion"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,5));
+       // mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        googleMap.setMyLocationEnabled(true);
+    }
+
+    private void initGoogleMap(Bundle savedInstanceState){
+        // *** IMPORTANT ***
+        // MapView requires that the Bundle you pass contain _ONLY_ MapView SDK
+        // objects or sub-Bundles.
+        Bundle mapViewBundle = null;
+        if (savedInstanceState != null) {
+            mapViewBundle = savedInstanceState.getBundle("mapViewBundleKey");
+        }
+        mMapView.onCreate(mapViewBundle);
+        mMapView.getMapAsync(this);
+    }
+
+    public void NuevaUbicacion(View view) {
+        Intent ventana= new Intent(EditarPublicacion.this, MapsActivity.class);
+        startActivityForResult(ventana,1234);
+    }
+
 
 }

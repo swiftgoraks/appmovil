@@ -66,9 +66,8 @@ public class MapsActivity extends FragmentActivity implements  GoogleMap.OnMapLo
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng sydney = new LatLng(19.9616494 ,-89.569917);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
+        LatLng sydney = new LatLng(13.74816141572074 ,-88.9487836137414);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,8));
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setOnMyLocationButtonClickListener(MapsActivity.this);

@@ -499,16 +499,19 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
     @Override
     public void onAgregarClick(int position) {
         Intent i= new Intent(Intent.ACTION_GET_CONTENT);
+        //String[] mimeTypes = {"image/jpeg", "image/png"};
         i.setType("image/jpeg");
         i.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
         i.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+        //i.putExtra(Intent.EXTRA_MIME_TYPES,mimeTypes);
         startActivityForResult(Intent.createChooser(i,"Seleccionar imagen"),fotoenviada);
     }
+
 
     public void imgDefecto()
     {
         imgUpload Listaimgs[] = new imgUpload[1];
-        String img="https://firebasestorage.googleapis.com/v0/b/icv-project.appspot.com/o/ingresar.png?alt=media&token=9847b2ed-ec9a-4d63-8c75-8fa406a2042f";
+        String img=getString(R.string.imgDefectoUpload);
         imgUpload imgs=new imgUpload(img);
         Listaimgs[0]=imgs;
         mAdapter=new imgAdapter(publicar.this,Listaimgs);

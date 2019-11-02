@@ -8,5 +8,6 @@
     <string name="title_notifications">Notifications</string>
     <string name="pruea">pruea</string>
     <string name="title_activity_maps">Map</string>
+    <string name="imgDefectoUpload"><![CDATA[https://firebasestorage.googleapis.com/v0/b/icv-project.appspot.com/o/ingresar.png?alt=media&token=9847b2ed-ec9a-4d63-8c75-8fa406a2042f]]></string>
 
 </resources>

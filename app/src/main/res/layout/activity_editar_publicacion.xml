@@ -6,12 +6,6 @@
     tools:context=".publicacion.EditarPublicacion"
     android:orientation="vertical">
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_imgpublic"
             android:layout_width="match_parent"
@@ -174,14 +168,17 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="350dp"
-        android:layout_height="180dp"
+        android:layout_width="260dp"
+        android:layout_height="300dp"
         android:orientation="horizontal"
         android:layout_gravity="center"
         >
-        <include
-            layout="@layout/activity_maps"
-            ></include>
+        <com.google.android.gms.maps.MapView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/mapa"
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -191,10 +188,10 @@
         android:layout_gravity="center"
         >
         <Button
-            android:id="@+id/btUbicacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Seleccionar Ubicacion"
+            android:onClick="NuevaUbicacion"
             />
 
         <ImageButton

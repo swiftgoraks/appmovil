@@ -97,6 +97,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Deja esteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee xD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_publicacion);
         txtTitulo = findViewById(R.id.txtTitulo);

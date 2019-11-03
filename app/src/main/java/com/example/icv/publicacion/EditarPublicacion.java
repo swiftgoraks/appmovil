@@ -346,6 +346,9 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
                     pos = i;
                 }
             }
+           // if (!modelobase.equals(modelolista.get(pos).modelo)) {
+               // pos=0;
+            //}
             ArrayAdapter<String> miAdaptador = new ArrayAdapter<>(EditarPublicacion.this, android.R.layout.simple_spinner_item, listamodelo);
             spinModelo.setAdapter(miAdaptador);
             spinModelo.setSelection(pos + 1);

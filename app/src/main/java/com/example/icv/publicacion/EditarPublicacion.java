@@ -347,8 +347,8 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
                     pos = i;
                 }
             }
-           // if (!modelobase.equals(modelolista.get(pos).modelo)) {
-               // pos=0;
+            // if (!modelobase.equals(modelolista.get(pos).modelo)) {
+            // pos=0;
             //}
             ArrayAdapter<String> miAdaptador = new ArrayAdapter<>(EditarPublicacion.this, android.R.layout.simple_spinner_item, listamodelo);
             spinModelo.setAdapter(miAdaptador);
@@ -499,7 +499,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
 
         mAdapter.setOnClickListener(EditarPublicacion.this);
         mRecyclerView.setAdapter(mAdapter);
-      //  pgBar.setVisibility(View.INVISIBLE);
+        //  pgBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -530,7 +530,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
         LatLng sydney = new LatLng(nueva.getLatitude(), nueva.getLongitude());
         mMap.addMarker(new MarkerOptions().position(sydney).title("Mi publicacion"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,5));
-       // mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        // mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         googleMap.setMyLocationEnabled(true);
     }
 

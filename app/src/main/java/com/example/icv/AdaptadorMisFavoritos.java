@@ -25,6 +25,7 @@ package com.example.icv;
         import com.google.firebase.firestore.FirebaseFirestore;
         import com.google.firebase.firestore.QueryDocumentSnapshot;
         import com.google.firebase.firestore.QuerySnapshot;
+        import com.mikhaellopez.circularimageview.CircularImageView;
         import com.squareup.picasso.Picasso;
 
         import java.util.HashMap;
@@ -99,7 +100,17 @@ class AdaptadorMisFavoritos extends RecyclerView.Adapter<AdaptadorMisFavoritos.M
                     if (document.exists()) {
 
                         holder.txtNombreUserV.setText(document.get("Nombre").toString());
+                        if (document.get("UrlImagen").toString().equals("")){
+                            holder.ProfileImage.setImageResource(R.drawable.usuario);
+                        }
+                        else {
 
+                            //Glide.with(mCtx).load(document.get("UrlImagen").toString()).into(holder.ProfileImage);
+                            //Picasso.get().load(document.get("UrlImagen").toString()).resize(128,128).into(holder.ProfileImage);
+                            Glide.with(mCtx)
+                                    .load(String.valueOf(document.get("UrlImagen")))
+                                    .into(holder.ProfileImage);
+                        }
 
                     } else {
 
@@ -140,10 +151,12 @@ class AdaptadorMisFavoritos extends RecyclerView.Adapter<AdaptadorMisFavoritos.M
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView txtFecha, txtDescripcion, txtTitulo, txtId_pub, txt_fav, txtNombreUserV, txt_id_favorito;
-        ImageView imgPortada, imgFav, ProfileImage, imgDefault;
+        ImageView imgPortada, imgFav,  imgDefault;
         Button btnverMF, btnEliminarMF;
         Context contextoMy;
         TextView txtPrecio;
+
+        CircularImageView ProfileImage;
 
 
 
@@ -168,6 +181,8 @@ class AdaptadorMisFavoritos extends RecyclerView.Adapter<AdaptadorMisFavoritos.M
             txtId_pub = itemView.findViewById(R.id.txtIdPMF);
 
             txtNombreUserV = itemView.findViewById(R.id.txtNomVendedor);
+
+            ProfileImage = itemView.findViewById(R.id.PerfilMF);
 
             //Prueba click
 

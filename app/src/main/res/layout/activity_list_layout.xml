@@ -27,7 +27,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="40dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -47,22 +47,30 @@
                 android:id="@+id/imgPerfil"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="0dp"
-                android:layout_marginBottom="20dp"
                 android:contentDescription="Imagen"
                 android:src="@drawable/usuario"
                 android:visibility="invisible" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
+         <!--   <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_image"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="1dp"
                 app:civ_border_color="#FF000000"
-                app:civ_border_width="2dp" />
+                app:civ_border_width="2dp" /> -->
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/usuario"
+                app:civ_border_color="@color/color_negro"
+                app:civ_border_width="2dp"
+                app:civ_shadow="false"
+                app:civ_shadow_radius="5"
+                app:civ_shadow_color="@color/colorPrimary"
+                android:id="@+id/profile_image"
+                />
 
             <TextView
                 android:id="@+id/txtNombreUser"
@@ -70,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="16dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="14dp"
                 android:layout_toEndOf="@+id/imgPerfil"
                 android:text="Nombre " />
 
@@ -81,9 +89,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginTop="17dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="19dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="14dp"
+                android:layout_marginBottom="14dp"
                 android:text="10/04/1999" />
 
         </RelativeLayout>
@@ -97,17 +105,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_above="@+id/imgPortada"
-
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="1dp"
-                android:layout_marginBottom="1dp"
                 android:textStyle="bold"
+                android:text="@string/pruea"
                 />
 
             <ImageView
                 android:id="@+id/imgPortada"
                 android:layout_width="match_parent"
-                android:layout_height="170dp"
+                android:layout_height="150dp"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="2dp" />
         </RelativeLayout>

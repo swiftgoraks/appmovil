@@ -7,19 +7,22 @@
     tools:context=".ver_imagenes"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@color/color_negro"
     >
+  <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
 
-  <!--  <ahmed.easyslider.EasySlider
-        android:id="@+id/sliderImagenes"
-        android:layout_width="wrap_content"
-        android:layout_height="400dp"
-        />  -->
-<ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/imageViewView"
-    />
+      >
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="370dp"
+        android:layout_height="match_parent"
+        android:id="@+id/myRecycleSliderFull"
+        android:layout_gravity="center"
+        >
+
+    </androidx.recyclerview.widget.RecyclerView>
+  </LinearLayout>
+
 
 
 </LinearLayout>

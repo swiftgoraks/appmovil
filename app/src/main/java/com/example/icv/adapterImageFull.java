@@ -5,75 +5,65 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.squareup.picasso.Picasso;
 
-public class adapter_slider extends RecyclerView.Adapter<adapter_slider.MyViewHolder> {
+public class adapterImageFull extends RecyclerView.Adapter<adapterImageFull.MyViewHolder> {
     // private String[] mDataset;
     String listImgs[];
     private Context mCtx;
-    FirebaseFirestore db;
-    String id_publicacion;
+    //FirebaseFirestore db;
+    //String id_publicacion;
 
     //Prueba click
 
-    private adapter_slider.OnItemClickListener mListener;
+    private adapterImageFull.OnItemClickListener mListener;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
 
-    public void setOnItemClickListener(adapter_slider.OnItemClickListener listener){
+    public void setOnItemClickListener(adapterImageFull.OnItemClickListener listener){
         mListener = listener;
     }
     // AdaptadorMisFavoritos
 
-    public adapter_slider(Context myCtx,String ImagenesLista[], String id_publicacion1) {
+    public adapterImageFull(Context myCtx,String ImagenesLista[]) {
         listImgs = ImagenesLista;
         mCtx = myCtx;
-        db = FirebaseFirestore.getInstance();
-        id_publicacion = id_publicacion1;
+        //db = FirebaseFirestore.getInstance();
+       // id_publicacion = id_publicacion1;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public adapter_slider.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public adapterImageFull.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view\\
 
         LayoutInflater hola;
         hola =  LayoutInflater.from(mCtx);
-        View view  = hola.inflate(R.layout.slider_imagenes, null);
+        View view  = hola.inflate(R.layout.ver_imagen_full, null);
         //MyViewHolder vh = new MyViewHolder(v);
 
 
-        return new adapter_slider.MyViewHolder(view);
+        return new adapterImageFull.MyViewHolder(view);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     //Se envia la informacion que se quiere mostrar a los elementos del layout
     @Override
-    public void onBindViewHolder(final adapter_slider.MyViewHolder holder, int position) {
+    public void onBindViewHolder(final adapterImageFull.MyViewHolder holder, int position) {
 
         String imgUrl = listImgs[position];
 
-       Glide.with(mCtx).load(imgUrl).into(holder.imgSlider);
+        Glide.with(mCtx).load(imgUrl).into(holder.imgSlider);
         holder.imgSlider.setTag(imgUrl);
-        holder.id_pub.setText(id_publicacion);
-      // Toast.makeText(mCtx, imgUrl, Toast.LENGTH_LONG).show();
+        // Toast.makeText(mCtx, imgUrl, Toast.LENGTH_LONG).show();
 
         //Picasso.get().load(imgUrl).resizeDimen(400, 200).into(holder.imgSlider);
 
@@ -95,7 +85,6 @@ public class adapter_slider extends RecyclerView.Adapter<adapter_slider.MyViewHo
 
         ImageView imgSlider;
         Context contextoMy;
-        TextView id_pub;
 
 
 
@@ -107,15 +96,14 @@ public class adapter_slider extends RecyclerView.Adapter<adapter_slider.MyViewHo
 
             contextoMy = itemView.getContext();
 
-            id_pub = itemView.findViewById(R.id.idPubSlider);
 
-            imgSlider = itemView.findViewById(R.id.imageSlider);
+            imgSlider = itemView.findViewById(R.id.imageSliderFull);
 
 
         }
 
         void setOnClickListeners(){
-            imgSlider.setOnClickListener(this);
+            //imgSlider.setOnClickListener(this);
         }
 
 
@@ -125,10 +113,7 @@ public class adapter_slider extends RecyclerView.Adapter<adapter_slider.MyViewHo
             switch (view.getId()){
 
                 case R.id.imageSlider:
-                    Intent intent  = new Intent(contextoMy, ver_imagenes.class);
- //                   intent.putExtra("imgUrl", imgSlider.getTag().toString());
-                   intent.putExtra("idP",id_pub.getText());
-                   contextoMy.startActivities(new Intent[]{intent});
+
                     break;
 
             }

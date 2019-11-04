@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Login"
-    android:background="@drawable/fondo2"
+    android:background="@drawable/fondo5"
     >
 
 
@@ -15,7 +15,7 @@
         android:layout_width="120dp"
         android:layout_height="150dp"
         android:layout_marginTop="15dp"
-        app:srcCompat="@drawable/coche"
+        app:srcCompat="@mipmap/ic_launcher_round"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -69,6 +69,7 @@
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:background="#11000000"
+        android:textColor="@color/color_blanco"
         android:textColorHint="@color/color_blanco"
         android:drawableStart="@drawable/ic_action_pass"
         android:layout_below="@id/correo"
@@ -130,45 +131,64 @@
         android:layout_below="@id/btnRegistrar"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="6dp" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="15dp"
-        android:text="Iniciar Sesion"
-        android:layout_below="@id/pregunta"
+
+    <androidx.cardview.widget.CardView
         android:id="@+id/btnRegistrar"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/pregunta"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="31dp"
+        app:cardBackgroundColor="@color/color_blanco"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="10dp"
+        tools:ignore="OnClick"
         android:onClick="goLogin"
-        tools:ignore="OnClick" />
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="29dp"
+                android:layout_marginBottom="-3dp"
+                android:text="Iniciar Sesion"
+                android:textColor="#000"
+                android:textSize="18sp" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 
     <LinearLayout
         android:layout_below="@id/linea"
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_alignStart="@+id/imageView"
-        android:layout_alignLeft="@+id/imageView"
+        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="25dp"
         android:layout_marginLeft="25dp"
         android:layout_marginBottom="-1dp"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp">
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
 
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="30dp"
+        >
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/twitter" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            />
 
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            app:srcCompat="@drawable/facebook" />
     </LinearLayout>
-
 
 </RelativeLayout>

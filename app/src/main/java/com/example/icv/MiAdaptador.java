@@ -22,6 +22,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
@@ -107,7 +108,10 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                         holder.ProfileImage.setVisibility(View.VISIBLE);
                         holder.imgDefault.setVisibility(View.INVISIBLE);
                         //Glide.with(mCtx).load(document.get("UrlImagen").toString()).into(holder.ProfileImage);
-                        Picasso.get().load(document.get("UrlImagen").toString()).resize(128,128).into(holder.ProfileImage);
+                        //Picasso.get().load(document.get("UrlImagen").toString()).resize(128,128).into(holder.ProfileImage);
+                        Glide.with(mCtx)
+                                .load(String.valueOf(document.get("UrlImagen")))
+                                .into(holder.ProfileImage);
                     }
                    // Glide.with(mCtx).load(document.get("UrlImagen").toString()).into(holder.ProfileImage);
 
@@ -186,10 +190,12 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
      class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
             TextView txtFecha, txtDescripcion, txtId_pub, txt_fav, txtNombreUserV;
-            ImageView imgPortada, imgFav, ProfileImage, imgDefault;
+            ImageView imgPortada, imgFav,  imgDefault;
             Button btnMas;
             Context contextoMy;
             Button btnPrecio;
+
+    CircularImageView ProfileImage;
 
 
             public MyViewHolder(View itemView){

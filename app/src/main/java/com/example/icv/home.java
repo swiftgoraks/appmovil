@@ -121,7 +121,10 @@ public class home extends AppCompatActivity {
                 return true;
             case R.id.menu_salir:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(home.this, Login.class));
+
+                startActivity(new Intent(getBaseContext(), Login.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK));
+                finish();
                 //Toast.makeText(home.this, "Salir", Toast.LENGTH_LONG).show();
                 return true;
             default:

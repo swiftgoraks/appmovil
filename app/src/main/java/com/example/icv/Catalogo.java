@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.icv.publicacion.publicar;
@@ -29,6 +30,8 @@ public class Catalogo extends AppCompatActivity {
     GridView myGridView;
     FirebaseFirestore db;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +44,8 @@ public class Catalogo extends AppCompatActivity {
         catalogo_data();
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+
 
     }
     @Override
@@ -78,7 +83,9 @@ public class Catalogo extends AppCompatActivity {
                 return true;
             case R.id.menu_salir:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(myContext, Login.class));
+                startActivity(new Intent(getBaseContext(), Login.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK));
+                finish();
                 //Toast.makeText(home.this, "Salir", Toast.LENGTH_LONG).show();
                 return true;
             default:
@@ -99,18 +106,19 @@ public class Catalogo extends AppCompatActivity {
 
                             String nom_marca[] = new String[task.getResult().size()];
                             String url_img[] = new String[task.getResult().size()];
+                            String id_marca[] = new String[task.getResult().size()];
                             int contador = 0;
 
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
                                 nom_marca[contador] = document.get("marca").toString();
                                 url_img[contador] = document.get("img_url").toString();
-
+                                id_marca[contador] = document.getId();
                                 contador = contador + 1;
 
                             }
 
-            final GridAdapter gridAdapter = new GridAdapter(Catalogo.this, nom_marca, url_img);
+            final GridAdapter gridAdapter = new GridAdapter(Catalogo.this, nom_marca, url_img,id_marca );
                             myGridView.setAdapter(gridAdapter);
 
                             myGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -136,4 +144,5 @@ public class Catalogo extends AppCompatActivity {
                 });
         ////
     }
+
 }

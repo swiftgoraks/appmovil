@@ -14,23 +14,25 @@ public class GridAdapter extends BaseAdapter {
     Context mContext;
     private final String[] nom_imgs;
     private final String[] img_url;
+    private final String[] id_marca;
     View view;
     LayoutInflater layoutInflater;
 
-    public GridAdapter(Context mContext, String[] nom_imgs, String[] img_url) {
+    public GridAdapter(Context mContext, String[] nom_imgs, String[] img_url, String[] id_marca) {
         this.mContext = mContext;
         this.nom_imgs = nom_imgs;
         this.img_url = img_url;
+        this.id_marca = id_marca;
     }
 
     @Override
     public int getCount() {
-        return nom_imgs.length;
+        return id_marca.length;
     }
 
     @Override
     public Object getItem(int i) {
-        return nom_imgs[i];
+        return id_marca[i];
     }
 
     @Override
@@ -55,6 +57,8 @@ public class GridAdapter extends BaseAdapter {
 
             Glide.with(mContext).load(img_url[i]).into(imageCatalogo);
             txtCatName.setText(nom_imgs[i]);
+
+
 
 
         }

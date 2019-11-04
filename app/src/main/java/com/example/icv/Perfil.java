@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,10 +26,13 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.icv.publicacion.publicar;
 import com.google.android.gms.auth.api.signin.internal.Storage;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -35,8 +40,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -69,11 +77,15 @@ public class Perfil extends AppCompatActivity {
 
     TextView lblNuser , lblCorreoUser;
 
-    CircleImageView imagenPerfil;
+    ImageView imagenPerfil;
 
     Button btnCambiarImg;
 
     private StorageReference mStorage;
+
+    private FirebaseStorage storage;
+
+    CircularImageView circularImageView;
 
     ///
     @Override
@@ -81,8 +93,12 @@ public class Perfil extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
 
+        circularImageView = findViewById(R.id.imagenCircular);
+
+        storage=FirebaseStorage.getInstance();
+
         mStorage = FirebaseStorage.getInstance().getReference();
-        imagenPerfil = findViewById(R.id.PhotoPerfil);
+        //imagenPerfil = findViewById(R.id.PhotoPerfil);
         btnCambiarImg = findViewById(R.id.btnChangeFoto);
 
         db = FirebaseFirestore.getInstance();
@@ -181,7 +197,12 @@ public class Perfil extends AppCompatActivity {
                 return true;
             case R.id.menu_salir:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(myContext, Login.class));
+               // startActivity(new Intent(myContext, Login.class));
+               // finish();
+
+                startActivity(new Intent(getBaseContext(), Login.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK));
+                finish();
                 //Toast.makeText(home.this, "Salir", Toast.LENGTH_LONG).show();
                 return true;
             default:
@@ -381,11 +402,21 @@ public class Perfil extends AppCompatActivity {
                         lblCorreoUser.setText(String.valueOf(task.getResult().get("Correo")));
 
                         if(!String.valueOf(task.getResult().get("UrlImagen")).isEmpty()){
-                            Glide.with(Perfil.this)
+                            //Glide.with(Perfil.this)
+                                    //.load(String.valueOf(task.getResult().get("UrlImagen")))
+                                  //  .into(imagenPerfil);
+
+                          //  circularImageView.setImageURI((Uri) task.getResult().get("UrlImagen"));
+                            Glide.with(getApplicationContext())
                                     .load(String.valueOf(task.getResult().get("UrlImagen")))
-                                    .into(imagenPerfil);
-                            imagenPerfil.setTag(String.valueOf(task.getResult().get("UrlImagen")));
+                                    .into(circularImageView);
+                           // circularImageView.setShadowGravity(CircularImageView.ShadowGravity.CENTER);
+                            circularImageView.setTag(task.getResult().get("UrlImagen"));
+                            //imagenPerfil.setTag(String.valueOf(task.getResult().get("UrlImagen")));
+                        }else {
+                            circularImageView.setTag("");
                         }
+
                     }
                 });
 
@@ -408,19 +439,90 @@ public class Perfil extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK){
-            Uri patch = data.getData();
-            StorageReference filepath = mStorage.child("img_publicacion/").child(patch.getLastPathSegment());
-            filepath.putFile(patch).addOnSuccessListener(new OnSuccessListener <UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+            if(data.getData()!=null)
+            {
+               // listaimg=new ArrayList<String>();
 
-                Task <Uri> rlImage = taskSnapshot.getStorage().getDownloadUrl();
+if(!circularImageView.getTag().toString().isEmpty()){
+    // Create a reference to the file to delete
 
-                Toast.makeText(Perfil.this, String.valueOf(rlImage), Toast.LENGTH_LONG).show();
+}
 
-                }
-            });
+                Uri u=data.getData();
+                //Toast.makeText(publicar.this,"Una foto ", Toast.LENGTH_LONG).show();
+                //prueba(u);
+                guardarImg(u);
+            }
 
         }
+    }
+
+    public void guardarImg(Uri u){
+
+        Random aleatorio = new Random(System.currentTimeMillis());
+// Producir nuevo int aleatorio entre 0 y 500
+        int intAletorio = aleatorio.nextInt(100);
+        int intAletorio2 = aleatorio.nextInt(150);
+
+        Toast.makeText(getApplicationContext(), "Subiendo Imagen . . .", Toast.LENGTH_LONG).show();
+
+        StorageReference storageRef = storage.getReference();
+        final  StorageReference fotoReferencia = storageRef.child("img_perfil/perfil_"+u.getLastPathSegment() + intAletorio + intAletorio2);
+
+        fotoReferencia.putFile(u).continueWithTask(new Continuation <UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if(!task.isSuccessful()){
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        throw Objects.requireNonNull(task.getException());
+                    }
+                }
+                return fotoReferencia.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()){
+
+
+                    Uri downloadUrl = task.getResult();
+
+
+                    guadarImgDB(downloadUrl);
+                //Toast.makeText(getApplicationContext(), downloadUrl.toString(), Toast.LENGTH_LONG).show();
+                    //mostrarImg(listaimgs);
+                }
+            }
+        });
+
+    }
+
+    public void guadarImgDB(final Uri urlImg){
+
+        DocumentReference usuarioPerfil = db.collection("usuarios").document(codViewU);
+
+// Set the "isCapital" field of the city 'DC'
+        usuarioPerfil
+                .update("UrlImagen", urlImg.toString())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Log.d(TAG, "DocumentSnapshot successfully updated!");
+
+                       // Glide.with(getApplicationContext()).load(urlImg.toString()).into(imagenPerfil);
+
+                        Glide.with(getApplicationContext())
+                                .load(urlImg)
+                                .into(circularImageView);
+                        //circularImageView.setShadowGravity(CircularImageView.ShadowGravity.CENTER);
+                        circularImageView.setTag(urlImg);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Log.w(TAG, "Error updating document", e);
+                    }
+                });
     }
 }

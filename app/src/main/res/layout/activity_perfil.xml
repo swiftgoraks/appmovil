@@ -3,27 +3,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Perfil"
     android:orientation="vertical"
-    >
+    android:gravity="center"
+    android:padding="4dp">
+
 <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="260dp"
-    android:orientation="vertical"
-    android:paddingTop="2dp"
+    android:layout_width="150dp"
+    android:layout_height="150dp"
     >
-    <LinearLayout
+ <!--   <ImageView
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        >
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="125dp"
-            android:layout_height="150dp"
-            android:src="@drawable/usuario"
-            android:id="@+id/PhotoPerfil"
-            />
+        android:layout_height="match_parent"
+        android:src="@drawable/usuario"
+        android:id="@+id/PhotoPerfil"
+        android:background="@drawable/marco_fotos"
+        /> -->
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/usuario"
+        app:civ_border_color="@color/colorPrimary"
+        app:civ_border_width="2dp"
+        app:civ_shadow="false"
+        app:civ_shadow_radius="5"
+        app:civ_shadow_color="@color/colorPrimary"
+        android:id="@+id/imagenCircular"
+        />
+</LinearLayout>
 
 
         <Button
@@ -34,21 +43,32 @@
             android:id="@+id/btnChangeFoto"
             android:onClick="cambiarFoto"
             />
-    </LinearLayout>
+
 <LinearLayout
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_gravity="center"
+    android:gravity="center"
     >
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hola hola"
-        android:id="@+id/lblNomUser"
-        android:paddingBottom="5dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
 
-        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hola hola"
+            android:id="@+id/lblNomUser"
+            android:paddingBottom="5dp"
+
+            />
+
+    </LinearLayout>
+
+
     <TextView
 
         android:layout_width="wrap_content"
@@ -58,14 +78,8 @@
 
         />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginHorizontal="5dp"
-        android:layout_gravity="bottom|end"
-        />
 
-</LinearLayout>
+
 
 </LinearLayout>
 
@@ -73,7 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0dp"
+        android:layout_marginBottom="1dp"
         android:id="@+id/layoutTabs"
         >
 

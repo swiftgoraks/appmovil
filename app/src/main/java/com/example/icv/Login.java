@@ -29,6 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -189,28 +190,42 @@ public class Login extends AppCompatActivity {
 
         // Create a new user with a first and last name
 
-        Map <String, Object> user = new HashMap <>();
+        DocumentReference usuarioPerfil = db.collection("usuarios").document(mAuth.getCurrentUser().getUid());
 
-        user.put("Nombre", nombreU);
-        user.put("Correo", emailU);
-        if (!(imageUrl == null)){
-            user.put("UrlImagen", imageUrl);
+        if(usuarioPerfil == null){
+
+            Map <String, Object> user = new HashMap <>();
+
+            user.put("Nombre", nombreU);
+            user.put("Correo", emailU);
+            if (!(imageUrl == null)){
+                user.put("UrlImagen", imageUrl);
+            }
+            else {
+                user.put("UrlImagen", "");
+            }
+
+            db.collection("usuarios").document(idU).set(user).addOnSuccessListener(new OnSuccessListener <Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+
+
+                    Intent intent  = new Intent(Login.this, home.class);
+                    intent.putExtra("idU", mAuth.getCurrentUser().getUid());
+                    startActivities(new Intent[]{intent});
+                    finish();
+                }
+            });
         }
         else {
-            user.put("UrlImagen", "");
+            Intent intent  = new Intent(Login.this, home.class);
+            intent.putExtra("idU", mAuth.getCurrentUser().getUid());
+            startActivities(new Intent[]{intent});
+            finish();
+
         }
 
-        db.collection("usuarios").document(idU).set(user).addOnSuccessListener(new OnSuccessListener <Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
 
-
-                Intent intent  = new Intent(Login.this, home.class);
-                intent.putExtra("idU", mAuth.getCurrentUser().getUid());
-                startActivities(new Intent[]{intent});
-                finish();
-            }
-        });
 
     }
 

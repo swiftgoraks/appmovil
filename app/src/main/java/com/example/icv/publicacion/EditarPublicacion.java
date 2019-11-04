@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
@@ -14,6 +15,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
@@ -26,6 +29,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.icv.Catalogo;
+import com.example.icv.Login;
 import com.example.icv.Perfil;
 import com.example.icv.R;
 import com.example.icv.home;
@@ -41,6 +46,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -168,6 +174,52 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
         });
 
         initGoogleMap(savedInstanceState);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        Context myContext = this;
+        switch (item.getItemId())
+        {
+            case R.id.menu_catalogo:
+                // Toast.makeText(MainActivity.this, "catalogo", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(myContext, Catalogo.class));
+                // finish();
+                return true;
+            case R.id.menu_explorar:
+                startActivity(new Intent(myContext, home.class));
+                // Toast.makeText(home.this, "Explorar", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.menu_publicar:
+                startActivity(new Intent(myContext, publicar.class));
+                //Toast.makeText(home.this, "publicar", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.menu_perfil:
+                startActivity(new Intent(myContext, Perfil.class));
+                //Toast.makeText(home.this, "perfil", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.menu_mensajes:
+                //startActivity(new Intent(home.this, Chat.class));
+                Toast.makeText(myContext, "mensajes", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.menu_salir:
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getBaseContext(), Login.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK));
+                finish();
+                //Toast.makeText(home.this, "Salir", Toast.LENGTH_LONG).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
     public void datos_publicacion() {

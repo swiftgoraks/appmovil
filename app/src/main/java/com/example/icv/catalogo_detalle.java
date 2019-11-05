@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -36,8 +38,8 @@ public class catalogo_detalle extends AppCompatActivity {
 
     String id_marca;
 
-    ImageView imageMarca;
-    TextView textViewNombre;
+    ImageView imageMarca, imgExterior, imgInterior;
+    TextView textViewNombre, textViewDescripcion, textInterior, textExterior;
 
     FirebaseFirestore db;
     @Override
@@ -49,8 +51,23 @@ public class catalogo_detalle extends AppCompatActivity {
 
         imageMarca = findViewById(R.id.logoMarca);
         textViewNombre = findViewById(R.id.nombreMarca);
+        textViewDescripcion = findViewById(R.id.txtDescripcionModelo);
 
         spinModelo = findViewById(R.id.spinModeloC);
+
+        imgExterior = findViewById(R.id.imgExterior);
+        imgInterior = findViewById(R.id.imgInterior);
+
+        textExterior = findViewById(R.id.txtExterior);
+
+        textInterior = findViewById(R.id.txtInterior);
+
+        textExterior.setVisibility(View.INVISIBLE);
+
+        textInterior.setVisibility(View.INVISIBLE);
+
+        textViewDescripcion.setVisibility(View.INVISIBLE);
+
 
         db = FirebaseFirestore.getInstance();
 
@@ -63,6 +80,83 @@ public class catalogo_detalle extends AppCompatActivity {
 
             obtenermodelo(id_marca);
         }
+
+        spinModelo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(spinModelo.getSelectedItemPosition()>0)
+                {
+        obtenerInfoModelo(String.valueOf(spinModelo.getSelectedItemId()));
+
+                        //Toast.makeText(getApplicationContext(),String.valueOf(spinModelo.getSelectedItemId()), Toast.LENGTH_LONG ).show();
+
+                 }else {
+                   // Toast.makeText(getApplicationContext(),"Esta vacio", Toast.LENGTH_LONG ).show();
+
+                    textExterior.setVisibility(View.INVISIBLE);
+
+                    textInterior.setVisibility(View.INVISIBLE);
+
+                    imgExterior.setVisibility(View.INVISIBLE);
+
+                    imgInterior.setVisibility(View.INVISIBLE);
+
+                    textViewDescripcion.setVisibility(View.INVISIBLE);
+                        }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    public void obtenerInfoModelo(final String id_modeloSelect){
+        db.collection("modelo").whereEqualTo("id_catalogo", id_marca).get().addOnCompleteListener(new OnCompleteListener <QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task <QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+
+
+                    ArrayList<String> imgs[] = new ArrayList <>().toArray(new ArrayList[1]);
+                    int contador = 1;
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        if(id_modeloSelect.equals(String.valueOf(contador))){
+
+                            textViewDescripcion.setText(document.get("descripcion").toString());
+
+                            imgs[0] = (ArrayList<String>) document.get("url_img");
+                        }
+                        contador = contador + 1;
+                    }
+
+                    Glide.with(getApplicationContext())
+                            .load(imgs[0].get(0))
+                            .into(imgExterior);
+
+                    Glide.with(getApplicationContext())
+                            .load(imgs[0].get(1))
+                            .into(imgInterior);
+
+                    textExterior.setVisibility(View.VISIBLE);
+
+                    textInterior.setVisibility(View.VISIBLE);
+
+                    imgExterior.setVisibility(View.VISIBLE);
+
+                    imgInterior.setVisibility(View.VISIBLE);
+
+                    textViewDescripcion.setVisibility(View.VISIBLE);
+
+
+                } else {
+                    Log.d("Mensaje: ", "Error getting documents: ", task.getException());
+                }
+            }
+        });
+
     }
 
     public void obtnerInfoMarca(String idM){

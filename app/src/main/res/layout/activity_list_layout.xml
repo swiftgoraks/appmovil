@@ -96,26 +96,33 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="170dp">
+            android:layout_height="190dp"
+            android:orientation="vertical"
+            >
 
             <TextView
                 android:id="@+id/txtTitulo"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:layout_above="@+id/imgPortada"
+                android:layout_above="@+id/linerPortada"
                 android:textStyle="bold"
                 android:text="@string/pruea"
                 />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="165dp"
+    android:id="@+id/linerPortada"
+    >
+    <ImageView
+        android:id="@+id/imgPortada"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+       />
+</LinearLayout>
 
-            <ImageView
-                android:id="@+id/imgPortada"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="2dp" />
-        </RelativeLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

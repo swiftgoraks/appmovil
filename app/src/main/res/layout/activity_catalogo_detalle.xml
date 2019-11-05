@@ -7,8 +7,18 @@
     tools:context=".catalogo_detalle"
     android:orientation="vertical"
     android:padding="10dp"
-    >
 
+    >
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="130dp"
@@ -29,7 +39,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="130dp"
-            android:gravity="center"
+            android:padding="2dp"
+
             >
 <TextView
     android:layout_width="wrap_content"
@@ -38,7 +49,7 @@
     android:textSize="35dp"
     android:textStyle="bold"
     android:textColor="@color/color_negro"
-    android:layout_marginLeft="-40dp"
+    android:paddingTop="35dp"
     android:id="@+id/nombreMarca"
     />
 
@@ -50,16 +61,15 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center"
     >
-
 
     <androidx.cardview.widget.CardView
         android:id="@+id/btnRegistrar"
-        android:layout_width="180dp"
+        android:layout_width="250dp"
         android:layout_height="45dp"
         android:layout_below="@id/pregunta"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="31dp"
         app:cardBackgroundColor="@color/colorPrimary"
         app:cardCornerRadius="25dp"
         app:cardElevation="10dp"
@@ -80,11 +90,100 @@
                 android:layout_marginEnd="29dp"
                 android:layout_marginBottom="-3dp"
                 android:text="Iniciar Sesion"
-                android:textColor="#000"
-                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#F7F7F7"
+                android:textSize="24sp"
                 android:id="@+id/spinModeloC"
                 />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:gravity="center"
+    >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pruea"
+            android:textStyle="italic"
+            android:id="@+id/txtDescripcionModelo"
+            android:textColor="@color/color_negro"
+            />
+    </LinearLayout>
+
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:gravity="center"
+       android:orientation="vertical"
+       >
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Exterior"
+           android:textColor="@color/color_negro"
+           android:textSize="18sp"
+           android:textStyle="bold"
+           android:id="@+id/txtExterior"
+           />
+
+   </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        >
+ <ImageView
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     android:id="@+id/imgExterior"
+     />
+
+    </LinearLayout>
+
+
+
+        <!--Segunda Foto -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Interior"
+                android:id="@+id/txtInterior"
+                android:textStyle="bold"
+                android:textColor="@color/color_negro"
+                android:textSize="18sp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            >
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/imgInterior"
+                />
+
+        </LinearLayout>
+
+
+</LinearLayout>
+
+</ScrollView>
 </LinearLayout>

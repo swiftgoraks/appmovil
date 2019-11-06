@@ -156,7 +156,6 @@ public class Login extends AppCompatActivity {
     }
 
     private void handleFacebookAccessToken(AccessToken token) {
-      //  Log.d(TAG, "handleFacebookAccessToken:" + token);
 
         final AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
@@ -164,34 +163,21 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            //Log.d(TAG, "signInWithCredential:success");
-                           // FirebaseUser user = mAuth.getCurrentUser();
-                            //updateUI(user);
-
 
                             crearUSerDB(task.getResult().getUser().getUid(), task.getResult().getUser().getDisplayName(), task.getResult().getUser().getEmail(), task.getResult().getUser().getPhotoUrl().toString());
 
                         } else {
-                            // If sign in fails, display a message to the user.
-                           // Log.w(TAG, "signInWithCredential:failure", task.getException());
+
                             Toast.makeText(Login.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-
-                            //updateUI(null);
                         }
-
-                        // ...
                     }
                 });
     }
 
     public void crearUSerDB(String idU, String nombreU, String  emailU,String imageUrl){
 
-        // Create a new user with a first and last name
-
         DocumentReference usuarioPerfil = db.collection("usuarios").document(mAuth.getCurrentUser().getUid());
-
         if(usuarioPerfil == null){
 
             Map <String, Object> user = new HashMap <>();

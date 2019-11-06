@@ -157,7 +157,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
 
         Glide.with(mCtx).load(anun.getListImg().get(0)).into(holder.imgPortada);
-
+            //Picasso.get().load(anun.getListImg().get(0)).into(holder.imgPortada);
 
         holder.setOnClickListeners();
 

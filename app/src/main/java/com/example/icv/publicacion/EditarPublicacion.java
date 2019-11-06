@@ -81,6 +81,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
     public ArrayList<String> listamodelo;
     public String marcabase, modelobase;
     public static double longitude,latitude;
+    public static boolean backpress;
     public static String ciudad;
     public static Uri u;
     public static long idselectMarca, idSelectModel;
@@ -239,13 +240,13 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
                         {
                             listaimg = (ArrayList<String>) document.get("list_img");
                         }
-                        Toast.makeText(EditarPublicacion.this,""+longitude,Toast.LENGTH_SHORT).show();
-                        if(longitude==0)
+                        Toast.makeText(EditarPublicacion.this,"ubica "+backpress,Toast.LENGTH_SHORT).show();
+                        if(longitude==0 || backpress)
                         {
                             longitude=Double.parseDouble(document.get("longitud").toString());
                             latitude=Double.parseDouble(document.get("latitud").toString());
+                            backpress=false;
                         }
-
 
                         txtDescripcion.setText(document.get("descripcion").toString());
                         txtPrecio.setText(document.get("precio").toString());
@@ -253,7 +254,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
                         txtTitulo.setText(document.get("titulo").toString());
                         txtYear.setText(document.get("año").toString());
                         marcabase = document.get("marca").toString();
-                        modelobase = document.get("marca").toString();
+                        modelobase = document.get("modelo").toString();
 
 
                         //  SliderItem sliderItems[] = new SliderItem[listaimg.size()];
@@ -399,15 +400,14 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
                     pos = i;
                 }
             }
-            // if (!modelobase.equals(modelolista.get(pos).modelo)) {
-            // pos=0;
-            //}
+
             ArrayAdapter<String> miAdaptador = new ArrayAdapter<>(EditarPublicacion.this, android.R.layout.simple_spinner_item, listamodelo);
             spinModelo.setAdapter(miAdaptador);
             spinModelo.setSelection(pos + 1);
 
             if (idSelectModel > 0) {
                 int id = (int) idSelectModel;
+
                 spinModelo.setSelection(id);
             }
 
@@ -447,9 +447,9 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
         //editarPublicacion.put("fecha_publicacion", date);
         // editarPublicacion.put("id_usuario",  mAuth.getCurrentUser().getUid());
         editarPublicacion.put("list_img", listaimg);
-        // editarPublicacion.put("latitud",latitud);
-        // editarPublicacion.put("longitud",longitud);
-        // editarPublicacion.put("ciudad",ciudad);
+         editarPublicacion.put("latitud",latitude);
+         editarPublicacion.put("longitud",longitude);
+         editarPublicacion.put("ciudad",ciudad);
 
 
         db.collection("publicacion").document(cod)
@@ -579,11 +579,13 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
         nueva=new Location("nueva");
         nueva.setLatitude(latitude);
         nueva.setLongitude(longitude);
+        Toast.makeText(EditarPublicacion.this,"Ready",Toast.LENGTH_LONG).show();
         LatLng sydney = new LatLng(nueva.getLatitude(), nueva.getLongitude());
         mMap.addMarker(new MarkerOptions().position(sydney).title("Mi publicacion"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,5));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,12));
+        mMap.getUiSettings().setZoomControlsEnabled(true);
         // mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        googleMap.setMyLocationEnabled(true);
+        //googleMap.setMyLocationEnabled(true);
     }
 
     private void initGoogleMap(Bundle savedInstanceState){
@@ -603,5 +605,40 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
         startActivityForResult(ventana,1234);
     }
 
+    @Override
+    public void onResume() {
+        mMapView.onResume();
+        super.onResume();
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        mMapView.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mMapView.onDestroy();
+        mMapView.onExitAmbient();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mMapView.onLowMemory();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        listaimg.removeAll(listaimg);
+        idselectMarca=0;
+        idSelectModel=0;
+        backpress=true;
+        //longitude=0;
+        finish();
+    }
 }

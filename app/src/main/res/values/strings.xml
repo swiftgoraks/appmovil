@@ -6,8 +6,22 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="pruea">pruea</string>
+    <string name="pruea">Prueba</string>
     <string name="title_activity_maps">Map</string>
     <string name="imgDefectoUpload"><![CDATA[https://firebasestorage.googleapis.com/v0/b/icv-project.appspot.com/o/ingresar.png?alt=media&token=9847b2ed-ec9a-4d63-8c75-8fa406a2042f]]></string>
+    <string name="imagen">Imagen</string>
+    <string name="titulo_de_anuncio">Titulo de anuncio: </string>
+    <string name="culaquiera">culaquiera</string>
+    <string name="vendedor">Vendedor: </string>
+    <string name="telefono">Telefono: </string>
+    <string name="precio">Precio: </string>
+    <string name="comentario_del_vendedor">Comentario del vendedor: </string>
+    <string name="ubicaci_n">Ubicación: </string>
+    <string name="marca">Marca</string>
+    <string name="modelo">Modelo</string>
+    <string name="a_o">Año</string>
+    <string name="enviar_mensaje">Enviar Mensaje</string>
+    <string name="informaci_n_t_cnica">Información Técnica</string>
+    <string name="editar">Editar</string>
 
 </resources>

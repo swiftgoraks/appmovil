@@ -149,7 +149,7 @@ public class home extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
 
-                            Toast.makeText(home.this,String.valueOf(task.getResult().size()), Toast.LENGTH_LONG ).show();
+                         //   Toast.makeText(home.this,String.valueOf(task.getResult().size()), Toast.LENGTH_LONG ).show();
 
                             String id_anuncio[] = new String[task.getResult().size()];
                             String titulo[] = new String[task.getResult().size()];
@@ -190,7 +190,7 @@ public class home extends AppCompatActivity {
                             Anuncio anunciosLista[] = new Anuncio[titulo.length - contadorN];
                             for(int i = 0; i <=anunciosLista.length - 1; i++)
                             {
-            Anuncio anuncios =  new Anuncio(id_anuncio[i],titulo[i],year[i], modelo[i], marca[i], id_usuario[i], precio[i], estado[i], descripcion[i], imgs[i], fecha[i], null);
+            Anuncio anuncios =  new Anuncio(id_anuncio[i],titulo[i],year[i], modelo[i], marca[i], id_usuario[i], precio[i], estado[i], descripcion[i], imgs[i], fecha[i], null, null);
 
                                 anunciosLista[i] = anuncios;
                             }

@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
+
+import com.bumptech.glide.Glide;
 import com.example.icv.R;
 import com.squareup.picasso.Picasso;
 
@@ -36,7 +38,8 @@ public class imgAdapter extends RecyclerView.Adapter<imgAdapter.imgHolder>{
     @Override
     public void onBindViewHolder(@NonNull imgHolder holder, int position) {
         imgUpload current=Lista[position];
-        Picasso.get().load(current.getImgUrl()).fit().centerCrop().into(holder.imgview);
+        //Picasso.get().load(current.getImgUrl()).fit().centerCrop().into(holder.imgview);
+        Glide.with(mContext).load(current.getImgUrl()).into(holder.imgview);
     }
 
     @Override

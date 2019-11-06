@@ -14,19 +14,22 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
-
         android:hardwareAccelerated="false"
-        android:largeHeap="true"
-
-        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ver_imagenes" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".ver_mi_publicacion" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".publicacion.EditarPublicacion" />
+        <activity
+            android:name=".ver_imagenes"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".publicacion.EditarPublicacion"
+            android:screenOrientation="portrait" />
         <!--
             The API key for Google Maps-based APIs is defined as a string resource.
             (See the file "res/values/google_maps_api.xml").
@@ -39,15 +42,26 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".Perfil" />
-        <activity android:name=".catalogo_detalle" />
-        <activity android:name=".Catalogo" />
-        <activity android:name=".ver_publicacion" />
-        <activity android:name=".publicacion.publicar" />
+        <activity
+            android:name=".Perfil"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".catalogo_detalle"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Catalogo"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ver_publicacion"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".publicacion.publicar"
+            android:screenOrientation="portrait" />
         <activity android:name=".hola" />
         <activity
             android:name=".publicacion.MapsActivity"
-            android:label="@string/title_activity_maps" />
+            android:label="@string/title_activity_maps"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -71,10 +85,14 @@
         </activity>
         <activity
             android:name=".Resgistrarse"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".home" />
+        <activity
+            android:name=".home"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Login"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

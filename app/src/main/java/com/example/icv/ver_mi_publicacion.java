@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.icv.publicacion.EditarPublicacion;
 import com.example.icv.publicacion.publicar;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,18 +26,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Locale;
 
-import ahmed.easyslider.EasySlider;
-import ahmed.easyslider.SliderItem;
-
-public class ver_publicacion extends AppCompatActivity {
+public class ver_mi_publicacion extends AppCompatActivity {
 
 
-    EasySlider easySlider;
     FirebaseFirestore db;
     String cod;
     String codView;
@@ -49,12 +44,11 @@ public class ver_publicacion extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ver_publicacion);
+        setContentView(R.layout.activity_ver_mi_publicacion);
 
         txtTitulo = findViewById(R.id.txtTituloAnuncio);
         txtDescripcion = findViewById(R.id.txtComentario);
         txtPrecio = findViewById(R.id.txtPrecio);
-        txtVendedor = findViewById(R.id.txtVendedor);
         txtTelefono = findViewById(R.id.txtTelefono);
 
         txtMarca = findViewById(R.id.txtMarca);
@@ -65,14 +59,14 @@ public class ver_publicacion extends AppCompatActivity {
 
         btnVer_info = findViewById(R.id.btnInformacion);
 
-       // easySlider = findViewById(R.id.slider);
+        // easySlider = findViewById(R.id.slider);
         db = FirebaseFirestore.getInstance();
 
         myRecyclerViewSlider = findViewById(R.id.myRecycleSlider);
 
         myRecyclerViewSlider.setHasFixedSize(true);
         LinearLayoutManager horizontalLayoutManager
-                = new LinearLayoutManager(ver_publicacion.this, LinearLayoutManager.HORIZONTAL, false);
+                = new LinearLayoutManager(ver_mi_publicacion.this, LinearLayoutManager.HORIZONTAL, false);
         myRecyclerViewSlider.setLayoutManager(horizontalLayoutManager);
 
 
@@ -81,14 +75,14 @@ public class ver_publicacion extends AppCompatActivity {
 
         if (extras != null){
             cod = extras.getString("publicacionCod");
-            txtVendedor.setText(extras.getString("vendedor"));
 
-            codView = extras.getString("CodU");
+//            codView = extras.getString("CodU");
 
-            datos_publicacion();
+           // Toast.makeText(getApplicationContext(), cod, Toast.LENGTH_LONG).show();
+
+           datos_publicacion();
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -135,6 +129,7 @@ public class ver_publicacion extends AppCompatActivity {
         }
 
     }
+
     public void datos_publicacion(){
 
         DocumentReference docRef = db.collection("publicacion").document(cod);
@@ -171,20 +166,20 @@ public class ver_publicacion extends AppCompatActivity {
                         String sliderItems[] = new String[imgs.size()];
                         for(int i = 0; i <=imgs.size() -1; i++)
                         {
-                        // Toast.makeText(ver_publicacion.this, imgs.get(i), Toast.LENGTH_LONG).show();
+                            // Toast.makeText(ver_publicacion.this, imgs.get(i), Toast.LENGTH_LONG).show();
                             sliderItems[i] = imgs.get(i);
                         }
 
-                        adapter_slider adaptador = new adapter_slider(ver_publicacion.this, sliderItems, cod);
+                        adapter_slider adaptador = new adapter_slider(ver_mi_publicacion.this, sliderItems, cod);
                         myRecyclerViewSlider.setAdapter(adaptador);
 
 
 
                         //easySlider.setPages(Arrays.asList(sliderItems));
-                       //easySlider.setTimer(0);
+                        //easySlider.setTimer(0);
 
 
-                       // holder.txtNombreUserV.setText(document.get("Nombre").toString());
+                        // holder.txtNombreUserV.setText(document.get("Nombre").toString());
                     } else {
                     }
                 } else {
@@ -194,21 +189,13 @@ public class ver_publicacion extends AppCompatActivity {
         });
     }
 
+
     public void verInformacion(View view) {
-        Intent intent = new Intent(ver_publicacion.this, Catalogo.class);
-        startActivity(intent);
     }
 
-    public void verPerfil(View view) {
-        Intent intent = new Intent(ver_publicacion.this, Perfil.class);
-        intent.putExtra("idU", codView);
-        startActivity(intent);
-    }
-
-    public void verImagnes(View view) {
-
-        Intent intent  = new Intent(ver_publicacion.this, ver_imagenes.class);
-        intent.putExtra("id_p", cod);
-        startActivities(new Intent[]{intent});
+    public void editarPublicacion(View view) {
+     Intent intent = new Intent(this, EditarPublicacion.class);
+     intent.putExtra("publicacionCod", cod);
+     startActivity(intent);
     }
 }

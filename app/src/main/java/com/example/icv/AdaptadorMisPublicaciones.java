@@ -14,6 +14,9 @@ package com.example.icv;
         import com.example.icv.publicacion.EditarPublicacion;
         import com.google.firebase.firestore.FirebaseFirestore;
 
+        import java.text.NumberFormat;
+        import java.util.Locale;
+
 class AdaptadorMisPublicaciones extends RecyclerView.Adapter<AdaptadorMisPublicaciones.MyViewHolder> {
     // private String[] mDataset;
     Anuncio anunciosLista[];
@@ -55,7 +58,13 @@ class AdaptadorMisPublicaciones extends RecyclerView.Adapter<AdaptadorMisPublica
        // if (usuario_view.equals(anun.getId_usuario())) {
             holder.txtTituloMP.setText(anun.getTitulo());
             holder.txtFecha.setText(anun.getFecha_publicacion());
-            holder.txtPrecio.setText(String.valueOf(anun.getPrecio()));
+
+        NumberFormat nf = NumberFormat.getInstance();
+        nf = NumberFormat.getInstance(Locale.ENGLISH);
+
+        Double precio = anun.getPrecio();
+
+            holder.txtPrecio.setText(" $ " + nf.format(precio));
             holder.txtDescripcion.setText(anun.getDescripcion());
             holder.txtId_pub.setText(anun.getId_anuncio());
 
@@ -89,7 +98,7 @@ class AdaptadorMisPublicaciones extends RecyclerView.Adapter<AdaptadorMisPublica
         TextView txtTituloMP;
         ImageView imgPortada;
         TextView txtPrecio;
-        Button btEdit;
+        Button btEdit, btnVer;
 
        // ImageView imgPortada, imgFav, ProfileImage, imgDefault;
       //  Button btnMas;
@@ -107,10 +116,12 @@ class AdaptadorMisPublicaciones extends RecyclerView.Adapter<AdaptadorMisPublica
             txtPrecio = itemView.findViewById(R.id.txtPrecioMP);
             txtId_pub=itemView.findViewById(R.id.idPublicacion);
             btEdit=itemView.findViewById(R.id.editarMP);
+            btnVer = itemView.findViewById(R.id.verMP);
         }
 
         void setOnClickListeners(){
             btEdit.setOnClickListener(this);
+            btnVer.setOnClickListener(this);
 
         }
 
@@ -124,8 +135,10 @@ class AdaptadorMisPublicaciones extends RecyclerView.Adapter<AdaptadorMisPublica
                     intent.putExtra("publicacionCod", txtId_pub.getText());
                     contextoMy.startActivities(new Intent[]{intent});
                     break;
-                case R.id.imgFav:
-
+                case R.id.verMP:
+                    Intent intent2  = new Intent(contextoMy, ver_mi_publicacion.class);
+                    intent2.putExtra("publicacionCod", txtId_pub.getText());
+                    contextoMy.startActivities(new Intent[]{intent2});
                     break;
 
             }

@@ -134,6 +134,7 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
+                idSelectModel=0;
                 obtenermodelo();
                // Toast.makeText(publicar.this,""+i,Toast.LENGTH_SHORT).show();
             }
@@ -502,7 +503,7 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
     public void onAgregarClick(int position) {
         Intent i= new Intent(Intent.ACTION_GET_CONTENT);
         //String[] mimeTypes = {"image/jpeg", "image/png"};
-        i.setType("image/jpeg");
+        i.setType("image/*");
         i.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
         i.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
         //i.putExtra(Intent.EXTRA_MIME_TYPES,mimeTypes);

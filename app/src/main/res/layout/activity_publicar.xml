@@ -64,7 +64,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Ingrese el kilometraje"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:textSize="20sp"
                     />
 
@@ -85,6 +85,39 @@
                     android:inputType="numberDecimal"
                     android:textSize="20sp"
                     />
+                <EditText
+                    android:id="@+id/txtTel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Ingrese número de contacto"
+                    android:inputType="phone"
+                    android:textSize="20sp"
+                    />
+                    <RadioGroup
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_margin="8dp"
+                        >
+                        <RadioButton
+                            android:id="@+id/rdFijo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="Precio Fijo"
+                            android:checked="true"
+                            android:textSize="20sp"
+                            android:buttonTint="@color/colorPrimary"
+                            />
+                        <RadioButton
+                            android:id="@+id/rdNego"
+                            android:layout_marginLeft="8dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="Precio Negociable"
+                            android:textSize="20sp"
+                            />
+                    </RadioGroup>
+
                 <Button
                     android:id="@+id/btUbicacion"
                     android:layout_width="match_parent"

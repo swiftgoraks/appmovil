@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -63,14 +64,15 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
     public ArrayList<String> listamodelo;
     private Button btPublicar,btUbicacion;
     private FirebaseStorage storage;
-    private EditText txtTitulo,txtAnio,txtKm,txtDescrip,txtPrecio;
-    public static ArrayList<String> listaimg;
+    private EditText txtTitulo,txtAnio,txtKm,txtDescrip,txtPrecio,txtCel;
+    public static ArrayList<String> listaimg = new ArrayList<String>();
     private static final int fotoenviada=1;
     private ImageButton btImg;
     public static String latitud,longitud,ciudad;
     public static long idselectMarca,idSelectModel;
     private RecyclerView mRecyclerView;
     private imgAdapter mAdapter;
+    private RadioButton rdFijo,rdNego;
 
 
     @Override
@@ -88,6 +90,9 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
         txtKm=findViewById(R.id.txtKm);
         txtTitulo=findViewById(R.id.txtTitulo);
         txtPrecio=findViewById(R.id.txtPrecio);
+        txtCel=findViewById(R.id.txtTel);
+        rdFijo=findViewById(R.id.rdFijo);
+        rdNego=findViewById(R.id.rdNego);
         storage=FirebaseStorage.getInstance();
         btImg=findViewById(R.id.btImg);
         btUbicacion=findViewById(R.id.btUbicacion);
@@ -360,6 +365,17 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
             int anio=Integer.parseInt(txtAnio.getText().toString());
             double precio=Double.parseDouble(txtPrecio.getText().toString());
             String descrip=txtDescrip.getText().toString();
+            double km=Double.parseDouble(txtKm.getText().toString());
+            String telefono=txtCel.getText().toString();
+            String rdSelect;
+            if(rdFijo.isChecked())
+            {
+                rdSelect="Fijo";
+            }
+            else
+            {
+                rdSelect="Negociable";
+            }
 
             DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
             String date = df.format(Calendar.getInstance().getTime());
@@ -369,10 +385,10 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
             user.put("marca", marca);
             user.put("modelo", modelo);
             user.put("año", anio);
-          //  user.put("kilometraje", passU);
+            user.put("kilometraje", km);
             user.put("precio", precio);
             user.put("descripcion", descrip);
-            user.put("Telefono", "+503 - 74827879");
+            user.put("Telefono", telefono);
             user.put("estado", "activo");
             user.put("fecha_publicacion", date);
             user.put("id_usuario",  mAuth.getCurrentUser().getUid());
@@ -380,12 +396,13 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
             user.put("latitud",latitud);
             user.put("longitud",longitud);
             user.put("ciudad",ciudad);
-
+            user.put("PrecioTipo",rdSelect);
 
             db.collection("publicacion").document().set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     startActivity(new Intent(publicar.this, home.class));
+                    listaimg.removeAll(listaimg);
                     finish();
                 }
             });
@@ -401,22 +418,22 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
             {
                 Toast.makeText(publicar.this,"varias fotos", Toast.LENGTH_LONG).show();
                 int cantidadselect=data.getClipData().getItemCount();
-                listaimg=new ArrayList<String>();
+                //listaimg=new ArrayList<String>();
                 for(int i=0; i<cantidadselect;i++)
                 {
                     Uri u=data.getClipData().getItemAt(i).getUri();
-                    guardarImg(u,listaimg);
+                    guardarImg(u);
                 }
 
             }
             else if(data.getData()!=null)
             {
-                listaimg=new ArrayList<String>();
+                //listaimg=new ArrayList<String>();
 
                 Uri u=data.getData();
                 Toast.makeText(publicar.this,"Una foto ", Toast.LENGTH_LONG).show();
                 //prueba(u);
-                guardarImg(u,listaimg);
+                guardarImg(u);
             }
         }else if (requestCode == 1234 && resultCode == RESULT_OK)
         {
@@ -436,7 +453,7 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
 
     }
 
-    public void guardarImg(Uri u,final ArrayList<String> listaimgs)
+    public void guardarImg(Uri u)
     {
         StorageReference storageRef = storage.getReference();
         final  StorageReference fotoReferencia = storageRef.child("img_publicacion/"+u.getLastPathSegment());
@@ -456,8 +473,14 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()){
                     Uri downloadUrl = task.getResult();
-                    listaimgs.add(downloadUrl.toString());
-                    mostrarImg(listaimgs);
+
+                    task.isComplete();
+                    {
+                        Toast.makeText(publicar.this,"Se han subidoasadsa: "+listaimg.size()+" img.",Toast.LENGTH_LONG).show();
+                    }
+                    listaimg.add(downloadUrl.toString());
+                    Toast.makeText(publicar.this,"Se han subido: "+listaimg.size()+" img.",Toast.LENGTH_LONG).show();
+                    mostrarImg(listaimg);
                 }
             }
         });
@@ -521,5 +544,11 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
 
         mAdapter.setOnClickListener(publicar.this);
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        listaimg.removeAll(listaimg);
     }
 }

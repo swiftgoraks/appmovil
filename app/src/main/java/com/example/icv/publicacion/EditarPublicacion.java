@@ -139,8 +139,8 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
+                idSelectModel=0;
                 obtenermodelo();
-                // Toast.makeText(publicar.this,""+i,Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -155,6 +155,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
                 if (spinModelo.getSelectedItemPosition() > 0) {
                     idSelectModel = spinModelo.getSelectedItemId();
                 }
+
             }
 
             @Override
@@ -388,13 +389,13 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
     public void obtenerlistadomodelo() {
         listamodelo = new ArrayList<String>();
         listamodelo.add("Seleccione modelo");
-        int pos = 0;
+        int pos = -1;
 
         if (modelolista == null) {
             //txtt.setText("nulo");
         } else {
 
-            for (int i = 0; i <= modelolista.size() - 1; i++) {
+            for (int i = 0; i <= modelolista.size()-1 ; i++) {
                 listamodelo.add(modelolista.get(i).modelo);
                 if (modelobase.equals(modelolista.get(i).modelo)) {
                     pos = i;
@@ -403,7 +404,11 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
 
             ArrayAdapter<String> miAdaptador = new ArrayAdapter<>(EditarPublicacion.this, android.R.layout.simple_spinner_item, listamodelo);
             spinModelo.setAdapter(miAdaptador);
-            spinModelo.setSelection(pos + 1);
+            if(pos>=0)
+            {
+                spinModelo.setSelection(pos+1 );
+            }
+
 
             if (idSelectModel > 0) {
                 int id = (int) idSelectModel;
@@ -480,7 +485,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
                 //listaimg = new ArrayList<String>();
                 for (int i = 0; i < cantidadselect; i++) {
                     u = data.getClipData().getItemAt(i).getUri();
-                    // guardarImg(u);
+                     guardarImg(u);
 
                 }
             } else if (data.getData() != null) {
@@ -527,13 +532,6 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
                     Uri downloadUrl = task.getResult();
                     listaimg.add(downloadUrl.toString());
                     Toast.makeText(EditarPublicacion.this,"Se han subido: "+listaimg.size()+" img.",Toast.LENGTH_LONG).show();
-                    //  SliderItem sliderItems[] = new SliderItem[listaimg.size()];
-                    // for (int i = 0; i <= listaimg.size() - 1; i++) {
-                    //     sliderItems[i] = (new SliderItem("", listaimg.get(i)));
-                    //  }
-
-                    //  easySlider.setPages(Arrays.asList(sliderItems));
-                    //  easySlider.setTimer(0);
                     mostrarImg(listaimg);
                 }
             }

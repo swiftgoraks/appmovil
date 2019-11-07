@@ -81,7 +81,6 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
     public ArrayList<String> listamodelo;
     public String marcabase, modelobase;
     public static double longitude,latitude;
-    public static boolean backpress;
     public static String ciudad;
     public static Uri u;
     public static long idselectMarca, idSelectModel;
@@ -125,7 +124,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
         LinearLayoutManager horizontalLayoutManager
                 = new LinearLayoutManager(EditarPublicacion.this, LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(horizontalLayoutManager);
-
+        Toast.makeText(EditarPublicacion.this,"long "+longitude,Toast.LENGTH_SHORT).show();
 
         Bundle extras = getIntent().getExtras();
 
@@ -241,12 +240,12 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
                         {
                             listaimg = (ArrayList<String>) document.get("list_img");
                         }
-                        Toast.makeText(EditarPublicacion.this,"ubica "+backpress,Toast.LENGTH_SHORT).show();
-                        if(longitude==0 || backpress)
+
+                        if(longitude==0.0)
                         {
                             longitude=Double.parseDouble(document.get("longitud").toString());
                             latitude=Double.parseDouble(document.get("latitud").toString());
-                            backpress=false;
+                            Toast.makeText(EditarPublicacion.this, +latitude+"l: "+longitude, Toast.LENGTH_LONG).show();
                         }
 
                         txtDescripcion.setText(document.get("descripcion").toString());
@@ -256,23 +255,9 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
                         txtYear.setText(document.get("año").toString());
                         marcabase = document.get("marca").toString();
                         modelobase = document.get("modelo").toString();
-
-
-                        //  SliderItem sliderItems[] = new SliderItem[listaimg.size()];
-                        // imgUpload anunciosLista[] = new imgUpload[listaimg.size()];
-                        // for (int i = 0; i <= anunciosLista.length - 1; i++) {
-                        //  sliderItems[i] = (new SliderItem("", listaimg.get(i)));
-                        //  imgUpload imgs=new imgUpload(listaimg.get(i));
-                        //  anunciosLista[i]=imgs;
-                        //  Toast.makeText(EditarPublicacion.this,listaimg.size()+" : "+listaimg.get(i),Toast.LENGTH_LONG).show();
-                        // mUploads.add(upload);
-                        //  }
                         mostrarImg(listaimg);
-                        // mAdapter=new imgAdapter(EditarPublicacion.this, anunciosLista);
-                        // mRecyclerView.setAdapter(mAdapter);
-                        //easySlider.setPages(Arrays.asList(sliderItems));
-                        // easySlider.setTimer(0);
                         obtenermarca();
+
                     } else {
                     }
                 } else {
@@ -452,9 +437,9 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
         //editarPublicacion.put("fecha_publicacion", date);
         // editarPublicacion.put("id_usuario",  mAuth.getCurrentUser().getUid());
         editarPublicacion.put("list_img", listaimg);
-         editarPublicacion.put("latitud",latitude);
-         editarPublicacion.put("longitud",longitude);
-         editarPublicacion.put("ciudad",ciudad);
+        editarPublicacion.put("latitud",latitude);
+        editarPublicacion.put("longitud",longitude);
+        editarPublicacion.put("ciudad",ciudad);
         //editarPublicacion.put("PrecioTipo",rdSelect);
 
 
@@ -576,16 +561,26 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         nueva=new Location("nueva");
-        nueva.setLatitude(latitude);
-        nueva.setLongitude(longitude);
-        Toast.makeText(EditarPublicacion.this,"Ready",Toast.LENGTH_LONG).show();
-        LatLng sydney = new LatLng(nueva.getLatitude(), nueva.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Mi publicacion"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,12));
-        mMap.getUiSettings().setZoomControlsEnabled(true);
         // mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         //googleMap.setMyLocationEnabled(true);
+        if(longitude==0.0 )
+        {
+            ObtenerLocale(googleMap);
+
+        }
+        else
+        {
+            nueva.setLatitude(latitude);
+            nueva.setLongitude(longitude);
+            LatLng sydney = new LatLng(nueva.getLatitude(), nueva.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(sydney).title("Mi publicacion"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,12));
+            mMap.getUiSettings().setZoomControlsEnabled(true);
+        }
+
     }
+
+
 
     private void initGoogleMap(Bundle savedInstanceState){
         // *** IMPORTANT ***
@@ -620,7 +615,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
     public void onDestroy() {
         super.onDestroy();
         mMapView.onDestroy();
-        mMapView.onExitAmbient();
+        Runtime.getRuntime().gc();
     }
 
     @Override
@@ -632,12 +627,39 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
+        finish();
         listaimg.removeAll(listaimg);
         idselectMarca=0;
         idSelectModel=0;
-        backpress=true;
-        //longitude=0;
-        finish();
+        longitude=0.0;
+        latitude=0.0;
+    }
+
+    public void ObtenerLocale(final GoogleMap googleMap) {
+
+        DocumentReference docRef = db.collection("publicacion").document(cod);
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        mMap = googleMap;
+                        longitude=Double.parseDouble(document.get("longitud").toString());
+                        latitude=Double.parseDouble(document.get("latitud").toString());
+                        LatLng sydney = new LatLng(latitude, longitude);
+                        mMap.addMarker(new MarkerOptions().position(sydney).title("Mi publicacion"));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,12));
+                        mMap.getUiSettings().setZoomControlsEnabled(true);
+                    }
+                } else {
+                    //Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
     }
 }

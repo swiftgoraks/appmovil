@@ -455,6 +455,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
          editarPublicacion.put("latitud",latitude);
          editarPublicacion.put("longitud",longitude);
          editarPublicacion.put("ciudad",ciudad);
+        //editarPublicacion.put("PrecioTipo",rdSelect);
 
 
         db.collection("publicacion").document(cod)

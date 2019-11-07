@@ -70,6 +70,7 @@ public class Perfil extends AppCompatActivity {
     String descripcionF[];
     ArrayList<String> imgsF[] ;
     String fechaF[];
+    String ciudad[];
    // String if_favoritoS[] ;
 
     String idPI = null;
@@ -128,7 +129,7 @@ public class Perfil extends AppCompatActivity {
 
         //}
 
-        Toast.makeText(this, codViewU, Toast.LENGTH_LONG).show();
+       // Toast.makeText(this, codViewU, Toast.LENGTH_LONG).show();
 
         TabHost tabs = findViewById(R.id.miTabHost);
         tabs.setup();
@@ -148,7 +149,7 @@ public class Perfil extends AppCompatActivity {
         tabs.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String s) {
-                Toast.makeText(Perfil.this, "Tab " + s, Toast.LENGTH_LONG).show();
+               // Toast.makeText(Perfil.this, "Tab " + s, Toast.LENGTH_LONG).show();
 
                 if(s.equals("mitab2")){
                     cargarMF();
@@ -259,7 +260,7 @@ public class Perfil extends AppCompatActivity {
                             Anuncio anunciosLista[] = new Anuncio[titulo.length];
                             for(int i = 0; i <=titulo.length - 1; i++)
                             {
-                                Anuncio anuncios =  new Anuncio(id_anuncio[i],titulo[i],year[i], modelo[i], marca[i], id_usuario[i], precio[i], estado[i], descripcion[i], imgs[i], fecha[i], null);
+                                Anuncio anuncios =  new Anuncio(id_anuncio[i],titulo[i],year[i], modelo[i], marca[i], id_usuario[i], precio[i], estado[i], descripcion[i], imgs[i], fecha[i], null, null);
 
                                 anunciosLista[i] = anuncios;
                             }
@@ -317,6 +318,7 @@ public class Perfil extends AppCompatActivity {
                              descripcionF = new String[id_anuncioFF.length];
                              imgsF= new ArrayList <>().toArray(new ArrayList[id_anuncioFF.length]);
                              fechaF = new String[id_anuncioFF.length];
+                             ciudad = new String[id_anuncioFF.length];
 
                              contarPF = 0 ;
 
@@ -346,7 +348,7 @@ public class Perfil extends AppCompatActivity {
                                                                 descripcionF[contarPF] = document.get("descripcion").toString();
                                                                 imgsF[contarPF] = (ArrayList<String>) document.get("list_img");
                                                                 fechaF[contarPF] = document.get("fecha_publicacion").toString();
-
+                                                                ciudad[contarPF] = document.get("ciudad").toString();
                                                                 contarPF = contarPF + 1;
                                                             }
                                                         }
@@ -356,7 +358,7 @@ public class Perfil extends AppCompatActivity {
                                                     Anuncio anunciosListaF[] = new Anuncio[tituloF.length];
                                                     for(int i = 0; i <=tituloF.length - 1; i++)
                                                     {
-                                                      Anuncio anunciosF =  new Anuncio(id_anuncioF[i],tituloF[i],yearF[i], modeloF[i], marcaF[i], id_usuarioF[i], precioF[i], estadoF[i], descripcionF[i], imgsF[i], fechaF[i], id_Favorito[i]);
+                                                      Anuncio anunciosF =  new Anuncio(id_anuncioF[i],tituloF[i],yearF[i], modeloF[i], marcaF[i], id_usuarioF[i], precioF[i], estadoF[i], descripcionF[i], imgsF[i], fechaF[i], id_Favorito[i], ciudad[i]);
 
                                                       anunciosListaF[i] = anunciosF;
                                                         //Toast.makeText(Perfil.this, tituloF[0] + " " + tituloF[1], Toast.LENGTH_LONG).show();

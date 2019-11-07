@@ -28,7 +28,9 @@ package com.example.icv;
         import com.mikhaellopez.circularimageview.CircularImageView;
         import com.squareup.picasso.Picasso;
 
+        import java.text.NumberFormat;
         import java.util.HashMap;
+        import java.util.Locale;
         import java.util.Map;
 
 class AdaptadorMisFavoritos extends RecyclerView.Adapter<AdaptadorMisFavoritos.MyViewHolder> {
@@ -86,9 +88,15 @@ class AdaptadorMisFavoritos extends RecyclerView.Adapter<AdaptadorMisFavoritos.M
         holder.txtTitulo.setText(anun.getTitulo());
         holder.txtFecha.setText(anun.getFecha_publicacion());
         holder.txtDescripcion.setText(anun.getDescripcion());
-        holder.txtPrecio.setText(String.valueOf(anun.getPrecio()));
+
+
+        NumberFormat nf = NumberFormat.getInstance();
+        nf = NumberFormat.getInstance(Locale.ENGLISH);
+
+        holder.txtPrecio.setText("$ " + nf.format(anun.getPrecio()));
         holder.txtId_pub.setText(anun.getId_anuncio());
         holder.txt_id_favorito.setText(anun.getId_favorito());
+        holder.txtCiudad.setText(anun.getCiudad());
 
         /// Extrae informacion de favoritos del vendedor.
         DocumentReference docRef = db.collection("usuarios").document(anun.getId_usuario());
@@ -154,7 +162,7 @@ class AdaptadorMisFavoritos extends RecyclerView.Adapter<AdaptadorMisFavoritos.M
         ImageView imgPortada, imgFav,  imgDefault;
         Button btnverMF, btnEliminarMF;
         Context contextoMy;
-        TextView txtPrecio;
+        TextView txtPrecio, txtCiudad;
 
         CircularImageView ProfileImage;
 
@@ -183,6 +191,8 @@ class AdaptadorMisFavoritos extends RecyclerView.Adapter<AdaptadorMisFavoritos.M
             txtNombreUserV = itemView.findViewById(R.id.txtNomVendedor);
 
             ProfileImage = itemView.findViewById(R.id.PerfilMF);
+
+            txtCiudad = itemView.findViewById(R.id.txtCiudadMF);
 
             //Prueba click
 

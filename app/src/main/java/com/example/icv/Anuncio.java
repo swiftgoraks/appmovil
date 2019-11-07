@@ -17,9 +17,11 @@ public class Anuncio {
    public ArrayList<String> listImg;
    public String fecha_publicacion;
    public String id_favorito;
+   public String ciudad;
 
 
-   public Anuncio(String id_anuncio, String titulo, int year, String modelo, String marca, String id_usuario, double precio, String estado, String descripcion, ArrayList <String> listImg, String fecha_publicacion, String id_favorito) {
+
+   public Anuncio(String id_anuncio, String titulo, int year, String modelo, String marca, String id_usuario, double precio, String estado, String descripcion, ArrayList <String> listImg, String fecha_publicacion, String id_favorito, String ciudad) {
       this.id_anuncio = id_anuncio;
       this.titulo = titulo;
       this.year = year;
@@ -32,6 +34,7 @@ public class Anuncio {
       this.listImg = listImg;
       this.fecha_publicacion = fecha_publicacion;
       this.id_favorito = id_favorito;
+      this.ciudad = ciudad;
    }
 
    public String getId_favorito() {
@@ -39,6 +42,10 @@ public class Anuncio {
    }
    public String getId_anuncio() {
       return id_anuncio;
+   }
+
+   public String getCiudad() {
+      return ciudad;
    }
 
    public String getTitulo() {

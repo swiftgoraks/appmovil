@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -81,11 +82,11 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
     public ArrayList<String> listamodelo;
     public String marcabase, modelobase;
     public static double longitude,latitude;
-    public static String ciudad;
+    public static String ciudad,radiobt;
     public static Uri u;
     public static long idselectMarca, idSelectModel;
     private ImageButton btImg;
-    TextView txtTitulo, txtDescripcion, txtPrecio, txtTelefono, txtYear;
+    TextView txtTitulo, txtDescripcion, txtPrecio, txtTelefono, txtYear,txtKm;
     Spinner spinMarca, spinModelo;
     FirebaseFirestore db;
     String cod;
@@ -100,6 +101,8 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
     Location nueva;
     private GoogleMap mMap;
     private MapView mMapView;
+    private RadioButton rdFijo,rdNego;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +115,10 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
         txtYear = findViewById(R.id.txtAnio);
         txtDescripcion = findViewById(R.id.txtDescripcion);
         txtPrecio = findViewById(R.id.txtPrecio);
-        txtTelefono = findViewById(R.id.txtKm);
+        txtKm = findViewById(R.id.txtKm);
+        txtTelefono=findViewById(R.id.txtTel);
+        rdFijo=findViewById(R.id.rdFijo);
+        rdNego=findViewById(R.id.rdNego);
         btImg = findViewById(R.id.btImg);
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
@@ -248,8 +254,23 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
                             Toast.makeText(EditarPublicacion.this, +latitude+"l: "+longitude, Toast.LENGTH_LONG).show();
                         }
 
+                        if(radiobt==null)
+                        {
+                            radiobt=document.get("PrecioTipo").toString();
+                            if(radiobt.equals("Fijo"))
+                            {
+                                rdFijo.setChecked(true);
+                            }
+                            else
+                            {
+                                rdNego.setChecked(true);
+                            }
+                        }
+
+
                         txtDescripcion.setText(document.get("descripcion").toString());
                         txtPrecio.setText(document.get("precio").toString());
+                        txtKm.setText(document.get("kilometraje").toString());
                         txtTelefono.setText(document.get("Telefono").toString());
                         txtTitulo.setText(document.get("titulo").toString());
                         txtYear.setText(document.get("año").toString());
@@ -419,6 +440,16 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
         double precio = Double.parseDouble(txtPrecio.getText().toString());
         String descrip = txtDescripcion.getText().toString();
         String telefono = txtTelefono.getText().toString();
+        String km=txtKm.getText().toString();
+        String preciotipo;
+        if(rdFijo.isChecked())
+        {
+            preciotipo="Fijo";
+        }
+        else
+        {
+            preciotipo="Negociable";
+        }
 
         // DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         // String date = df.format(Calendar.getInstance().getTime());
@@ -429,7 +460,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
         editarPublicacion.put("marca", marca);
         editarPublicacion.put("modelo", modelo);
         editarPublicacion.put("año", anio);
-        //  user.put("kilometraje", passU);
+        editarPublicacion.put("kilometraje", km);
         editarPublicacion.put("precio", precio);
         editarPublicacion.put("descripcion", descrip);
         editarPublicacion.put("Telefono", telefono);
@@ -440,7 +471,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
         editarPublicacion.put("latitud",latitude);
         editarPublicacion.put("longitud",longitude);
         editarPublicacion.put("ciudad",ciudad);
-        //editarPublicacion.put("PrecioTipo",rdSelect);
+        editarPublicacion.put("PrecioTipo",preciotipo);
 
 
         db.collection("publicacion").document(cod)
@@ -450,6 +481,11 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
                     public void onSuccess(Void aVoid) {
                         //startActivity(new Intent(EditarPublicacion.this, Perfil.class));
                         listaimg.removeAll(listaimg);
+                        radiobt=null;
+                        idselectMarca=0;
+                        idSelectModel=0;
+                        longitude=0.0;
+                        latitude=0.0;
                         finish();
                     }
                 })
@@ -633,6 +669,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
         idSelectModel=0;
         longitude=0.0;
         latitude=0.0;
+        radiobt=null;
     }
 
     public void ObtenerLocale(final GoogleMap googleMap) {

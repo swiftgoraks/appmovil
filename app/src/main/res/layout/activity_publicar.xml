@@ -156,6 +156,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Publicar anuncio"
+                android:background="@drawable/ubicacion"
+                android:textColor="@color/color_negro"
                 />
 
         </LinearLayout>

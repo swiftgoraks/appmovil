@@ -36,7 +36,7 @@
             <TextView
                 android:id="@+id/txtt"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:hint="Titulo del anuncio:"
                 android:padding="10dp"
                 android:textSize="20sp"
@@ -89,6 +89,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:hint="Número Contacto:"
+                android:padding="10dp"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:hint="Precio:"
                 android:padding="10dp"
                 android:textSize="20sp"
@@ -115,16 +123,15 @@
             <Spinner
                 android:id="@+id/spinMarca"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-
+                android:layout_height="40dp"
+                android:textSize="35sp"
                 />
 
             <Spinner
                 android:id="@+id/spinModelo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:layout_height="40dp"
+                android:textSize="35sp"
                 />
 
             <EditText
@@ -133,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Ingrese el año"
                 android:inputType="number"
-                android:textSize="20sp"
+                android:textSize="22sp"
                 />
 
             <EditText
@@ -153,6 +160,14 @@
                 android:textSize="20sp"
                 android:lines="2"
                 />
+            <EditText
+                android:id="@+id/txtTel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingrese número de contacto"
+                android:inputType="phone"
+                android:textSize="20sp"
+                />
 
             <EditText
                 android:id="@+id/txtPrecio"
@@ -166,6 +181,38 @@
         </LinearLayout>
 
     </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            >
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="8dp"
+                >
+                <RadioButton
+                    android:id="@+id/rdFijo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Precio Fijo"
+                    android:checked="true"
+                    android:textSize="20sp"
+                    android:buttonTint="@color/colorPrimary"
+                    />
+                <RadioButton
+                    android:id="@+id/rdNego"
+                    android:layout_marginLeft="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Precio Negociable"
+                    android:textSize="20sp"
+                    />
+            </RadioGroup>
+        </LinearLayout>
 
     <LinearLayout
         android:layout_width="260dp"
@@ -192,6 +239,8 @@
             android:layout_height="wrap_content"
             android:hint="Seleccionar Ubicacion"
             android:onClick="NuevaUbicacion"
+            android:background="@drawable/ubicacion"
+            android:textColor="@color/color_negro"
             />
 
         <ImageButton
@@ -206,6 +255,8 @@
             android:layout_height="wrap_content"
             android:hint="Publicar anuncio"
             android:onClick="Guardar"
+            android:background="@drawable/ubicacion"
+            android:textColor="@color/color_negro"
             />
 
     </LinearLayout>

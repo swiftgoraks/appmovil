@@ -21,24 +21,29 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.common.collect.Maps;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.okhttp.internal.DiskLruCache;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static com.example.icv.R.drawable.ic_periodico;
 import static com.example.icv.R.mipmap.ic_launcher;
 
-public class home extends AppCompatActivity {
+public class home extends AppCompatActivity  implements filtroClass.FinalizoCuadroDialogo {
 
 
     public FirebaseAuth mAuth;
     public TextView textBienvienido;
     private Button btPublicar;
+
+    Boolean filtro = false;
 
 
 
@@ -60,6 +65,7 @@ public class home extends AppCompatActivity {
            //idU = extras.getString("idU");
        //}
 
+        filtro = false;
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         idU= mAuth.getCurrentUser().getUid();
@@ -112,6 +118,7 @@ public class home extends AppCompatActivity {
                 //Toast.makeText(home.this, "publicar", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_perfil:
+                filtro = false;
                 startActivity(new Intent(home.this, Perfil.class));
                 //Toast.makeText(home.this, "perfil", Toast.LENGTH_LONG).show();
                 return true;
@@ -136,7 +143,10 @@ public class home extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        cargarAnuncios();
+        if(filtro != true){
+            cargarAnuncios();
+        }
+
     }
 
     public void cargarAnuncios(){
@@ -217,4 +227,118 @@ public class home extends AppCompatActivity {
     }
 
 
+    public void abrirDialogo(View view) {
+        new filtroClass(this,home.this);
+    }
+
+
+    public void cargarAnunciosFiltro(String marca, String modeloE){
+
+        Query query = null;
+        Query queryTemp = null;
+
+
+                if(!modeloE.equals("")){
+                    query =  db.collection("publicacion").whereEqualTo("marca", marca)
+                            .whereEqualTo("modelo", modeloE);
+                }else {
+                    query = db.collection("publicacion").whereEqualTo("marca", marca);
+                }
+
+
+
+        //db.collection("publicacion").whereEqualTo("marca", marca)
+                query.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+
+                            //   Toast.makeText(home.this,String.valueOf(task.getResult().size()), Toast.LENGTH_LONG ).show();
+
+                            String id_anuncio[] = new String[task.getResult().size()];
+                            String titulo[] = new String[task.getResult().size()];
+                            Integer year[] = new Integer[task.getResult().size()];
+                            String modelo[] = new String[task.getResult().size()];
+                            String marca [] = new String[task.getResult().size()];
+                            String id_usuario [] = new String[task.getResult().size()];
+                            Double precio[] = new Double[task.getResult().size()];
+                            String estado [] = new String[task.getResult().size()];
+                            String descripcion [] = new String[task.getResult().size()];
+                            ArrayList<String> imgs[] = new ArrayList <>().toArray(new ArrayList[task.getResult().size()]);
+                            String fecha[] = new String[task.getResult().size()];
+                            int contador = 0;
+                            int contadorN = 0;
+                            int marcaN = 0;
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                if (!document.get("id_usuario").toString().equals(idU)){
+
+
+                                        id_anuncio[contador] = document.getId();
+                                        titulo[contador] = document.get("titulo").toString();
+                                        year[contador] =Integer.parseInt(document.get("año").toString());
+                                        modelo[contador] = document.get("modelo").toString();
+                                        marca[contador] = document.get("marca").toString();
+                                        id_usuario[contador] = document.get("id_usuario").toString();
+                                        precio[contador] =  Double.parseDouble(document.get("precio").toString());
+                                        estado[contador] = document.get("estado").toString();
+                                        descripcion[contador] = document.get("descripcion").toString();
+                                        imgs[contador] = (ArrayList<String>) document.get("list_img");
+                                        fecha[contador] = document.get("fecha_publicacion").toString();
+                                        contador = contador + 1;
+
+
+
+                                }
+                                else {
+                                    contadorN = contadorN +1;
+                                }
+
+                            }
+
+                            Anuncio anunciosLista[] = new Anuncio[titulo.length - contadorN];
+                            for(int i = 0; i <=anunciosLista.length - 1; i++)
+                            {
+                                Anuncio anuncios =  new Anuncio(id_anuncio[i],titulo[i],year[i], modelo[i], marca[i], id_usuario[i], precio[i], estado[i], descripcion[i], imgs[i], fecha[i], null, null);
+
+                                anunciosLista[i] = anuncios;
+                            }
+
+
+                            MyAdapter adaptador = new MyAdapter(home.this, anunciosLista, idU);
+                            myRecyclerView.setAdapter(adaptador);
+
+                        } else {
+                            Log.d("Mensaje: ", "Error getting documents: ", task.getException());
+                        }
+
+
+                    }
+                });
+
+    }
+
+
+    @Override
+    public void resultado(String marca, String modelo) {
+        String marcaR = marca;
+        String modeloR = modelo;
+
+        if(!marcaR.equals("Ninguna")){
+            if(!modeloR.equals("Seleccione modelo")){
+                filtro = true;
+
+                cargarAnunciosFiltro(marcaR, modeloR);
+            }
+            else{
+                cargarAnunciosFiltro(marcaR, "");
+            }
+
+        }else{
+            filtro = false;
+            cargarAnuncios();
+        }
+    }
 }

@@ -56,7 +56,7 @@ public class Perfil extends AppCompatActivity {
 
     String codViewU;
 
-
+    home home;
     ///
 
     String id_anuncioF[];
@@ -97,6 +97,7 @@ public class Perfil extends AppCompatActivity {
         circularImageView = findViewById(R.id.imagenCircular);
 
         storage=FirebaseStorage.getInstance();
+
 
         mStorage = FirebaseStorage.getInstance().getReference();
         //imagenPerfil = findViewById(R.id.PhotoPerfil);

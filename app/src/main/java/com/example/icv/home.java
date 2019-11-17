@@ -2,16 +2,19 @@ package com.example.icv;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static com.example.icv.R.drawable.*;
 import static com.example.icv.R.drawable.ic_periodico;
 import static com.example.icv.R.mipmap.ic_launcher;
 
@@ -54,6 +58,10 @@ public class home extends AppCompatActivity  implements filtroClass.FinalizoCuad
 
     static String idU;
 
+    ImageView imgCancelar, imgBusqueda;
+
+    Button btnFiltro;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,9 +70,14 @@ public class home extends AppCompatActivity  implements filtroClass.FinalizoCuad
 
         Bundle extras  = getIntent().getExtras();
 
+
+imgCancelar = findViewById(R.id.imgCancelar);
+imgBusqueda = findViewById(R.id.imgBuscar);
        //if (extras != null){
            //idU = extras.getString("idU");
        //}
+
+        btnFiltro = findViewById(R.id.btnFiltro);
 
         filtro = false;
         mAuth = FirebaseAuth.getInstance();
@@ -324,22 +337,33 @@ public class home extends AppCompatActivity  implements filtroClass.FinalizoCuad
 
     @Override
     public void resultado(String marca, String modelo) {
-        String marcaR = marca;
-        String modeloR = modelo;
 
-        if(!marcaR.equals("Ninguna")){
-            if(!modeloR.equals("Seleccione modelo")){
-                filtro = true;
+        if(!marca.equals("Ninguna")){
+            filtro = true;
+            if(!modelo.equals("Seleccione modelo")){
+                cargarAnunciosFiltro(marca, modelo);
+                imgCancelar.setVisibility(View.VISIBLE);
+                imgBusqueda.setImageResource(exito);
 
-                cargarAnunciosFiltro(marcaR, modeloR);
             }
             else{
-                cargarAnunciosFiltro(marcaR, "");
+                cargarAnunciosFiltro(marca, "");
+                imgCancelar.setVisibility(View.VISIBLE);
+                imgBusqueda.setImageResource(exito);
             }
 
         }else{
             filtro = false;
+            imgCancelar.setVisibility(View.INVISIBLE);
+            imgBusqueda.setImageResource(busqueda);
             cargarAnuncios();
         }
+    }
+
+    public void cancelarFiltro(View view) {
+        filtro = false;
+        imgCancelar.setVisibility(View.INVISIBLE);
+        imgBusqueda.setImageResource(busqueda);
+        cargarAnuncios();
     }
 }

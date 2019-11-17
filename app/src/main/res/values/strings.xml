@@ -23,5 +23,9 @@
     <string name="enviar_mensaje">Enviar Mensaje</string>
     <string name="informaci_n_t_cnica">Información Técnica</string>
     <string name="editar">Editar</string>
+    <string name="filtrar">Filtrar</string>
+    <string name="anuncios">Anuncios</string>
+    <string name="cancelar">cancelar</string>
+    <string name="tipo_de_precio">Tipo de precio</string>
 
 </resources>

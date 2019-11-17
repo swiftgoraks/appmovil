@@ -266,6 +266,28 @@
                 android:background="@color/color_blanco"
                 />
         </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lblPrecio1"
+                android:text="@string/tipo_de_precio"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/color_negro"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txttypePrcio"
+                android:text="@string/culaquiera"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@color/color_blanco"
+                />
+        </TableRow>
     </TableLayout>
 
 

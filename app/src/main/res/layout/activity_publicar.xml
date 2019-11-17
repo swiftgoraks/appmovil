@@ -50,6 +50,13 @@
                     android:textSize="30sp"
                     />
 
+                <Spinner
+                    android:id="@+id/spinMotor"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:textSize="30sp"
+                    />
+
                 <EditText
                     android:id="@+id/txtAnio"
                     android:layout_width="match_parent"

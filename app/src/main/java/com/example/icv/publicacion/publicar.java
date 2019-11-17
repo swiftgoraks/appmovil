@@ -55,13 +55,19 @@ import java.util.Objects;
 
 public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
 
-    private Spinner spinMarcar,spinModelo;
+    private Spinner spinMarcar,spinModelo, spinMotor;
     public FirebaseAuth mAuth;
     public FirebaseFirestore db;
     public ArrayList<marca> marcalista;
     public ArrayList<modelo> modelolista;
     public ArrayList<String> listamarca;
     public ArrayList<String> listamodelo;
+
+    ///Para motor////
+    public ArrayList<Motor> modeloMotor;
+    public ArrayList<String> listaMotor;
+    //****///
+
     private Button btPublicar,btUbicacion;
     private FirebaseStorage storage;
     private EditText txtTitulo,txtAnio,txtKm,txtDescrip,txtPrecio,txtCel;
@@ -69,7 +75,7 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
     private static final int fotoenviada=1;
     private ImageButton btImg;
     public static String latitud,longitud,ciudad;
-    public static long idselectMarca,idSelectModel;
+    public static long idselectMarca,idSelectModel, idMotorSelect;
     private RecyclerView mRecyclerView;
     private imgAdapter mAdapter;
     private RadioButton rdFijo,rdNego;
@@ -85,6 +91,10 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
         spinMarcar=findViewById(R.id.spinMarca);
         btPublicar=findViewById(R.id.btPublicarAnuncio);
         spinModelo=findViewById(R.id.spinModelo);
+
+        ///spin motor//
+        spinMotor = findViewById(R.id.spinMotor);
+        //***//
         txtAnio=findViewById(R.id.txtAnio);
         txtDescrip=findViewById(R.id.txtDescripcion);
         txtKm=findViewById(R.id.txtKm);
@@ -140,7 +150,10 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 idSelectModel=0;
+                idMotorSelect = 0;
+
                 obtenermodelo();
+                obtenerMotor();
                // Toast.makeText(publicar.this,""+i,Toast.LENGTH_SHORT).show();
             }
 
@@ -156,6 +169,7 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
                 if(spinModelo.getSelectedItemPosition()>0)
                 {
                     idSelectModel=spinModelo.getSelectedItemId();
+                    idMotorSelect = spinMotor.getSelectedItemId();
                 }
             }
 
@@ -285,7 +299,7 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
 
             idselectMarca=spinMarcar.getSelectedItemId();
             int id=(int) idselectMarca;
-            db.collection("modelo").whereEqualTo("id_catalogo", marcalista.get(id-1).getId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            db.collection("motores").whereEqualTo("id_marca", marcalista.get(id-1).getId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
@@ -325,6 +339,93 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
             spinModelo.setAdapter(miAdaptador);
         }
     }
+
+    ////Obtener motor /////
+    public void obtenerMotor()
+    {
+        if(spinMarcar.getSelectedItemPosition()>0)
+        {
+
+            idselectMarca=spinMarcar.getSelectedItemId();
+
+            int id=(int) idselectMarca;
+
+            //Toast.makeText(this, marcalista.get(id-1).getId(), Toast.LENGTH_LONG).show();
+            db.collection("motores").whereEqualTo("id_marca", marcalista.get(id-1).getId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+
+                        String motores [] = new String[task.getResult().size()];
+                        String id [] = new String[task.getResult().size()];
+                        int contador = 0;
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            motores[contador] = document.get("motor").toString();
+                            id[contador] = document.get("id_marca").toString();
+                            contador = contador + 1;
+                        }
+
+                        Motor cat=null;
+                        modeloMotor=new ArrayList<Motor>();
+
+                        for(int i = 0; i <=motores.length -1; i++)
+                        {
+                            cat=new Motor();
+                            cat.setMotor(motores[i]);
+                            cat.setId(id[i]);
+                            modeloMotor.add(cat);
+                        }
+                       // obtenerlistadoMotor();
+                    } else {
+                        Log.d("Mensaje: ", "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+
+        }
+        else
+        {
+            listaMotor=new ArrayList<String>();
+            listaMotor.add("Seleccione una marca");
+            ArrayAdapter<String> miAdaptador=new ArrayAdapter<>(publicar.this,android.R.layout.simple_spinner_item,listaMotor);
+            spinMotor.setAdapter(miAdaptador);
+        }
+    }
+
+    ///*Fin obtener Motor *///
+
+    ///Obtener lista Motor ////
+    public void obtenerlistadoMotor()
+    {
+        listaMotor=new ArrayList<String>();
+        listaMotor.add("Motor sin espesificar");
+
+        if(modelolista==null)
+        {
+            //txtt.setText("nulo");
+        }
+        else
+        {
+
+            for(int i = 0; i <=modeloMotor.size()-1; i++)
+            {
+                listaMotor.add(modeloMotor.get(i).motor);
+            }
+            ArrayAdapter<String> miAdaptador=new ArrayAdapter<>(publicar.this,android.R.layout.simple_spinner_item,listaMotor);
+            spinMotor.setAdapter(miAdaptador);
+
+            if(idMotorSelect>0)
+            {
+                int id=(int) idMotorSelect;
+                spinMotor.setSelection(id);
+            }
+
+        }
+
+    }
+
+    //**Fin obtener listaMotor ///
+
 
     public void obtenerlistadomodelo()
     {
@@ -367,6 +468,18 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
             String descrip=txtDescrip.getText().toString();
             double km=Double.parseDouble(txtKm.getText().toString());
             String telefono=txtCel.getText().toString();
+            ///***///
+            String motorS = "";
+            if(spinMotor.getSelectedItemPosition()>0){
+                motorS = spinMotor.getSelectedItem().toString();
+            }
+            else{
+
+                motorS = "Sin espesificar";
+            }
+
+            ///***///
+
             String rdSelect;
             if(rdFijo.isChecked())
             {
@@ -397,6 +510,7 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
             user.put("longitud",longitud);
             user.put("ciudad",ciudad);
             user.put("PrecioTipo",rdSelect);
+            user.put("Motor",motorS);
 
             db.collection("publicacion").document().set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override

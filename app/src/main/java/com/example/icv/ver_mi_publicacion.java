@@ -36,7 +36,7 @@ public class ver_mi_publicacion extends AppCompatActivity {
     String cod;
     String codView;
 
-    TextView txtTitulo, txtDescripcion, txtVendedor, txtPrecio, txtTelefono, txtYear, txtMarca, txtModelo, txtLugar;
+    TextView txtTitulo, txtDescripcion, txtVendedor, txtPrecio, txtTelefono, txtYear, txtMarca, txtModelo, txtLugar, txttypeP;
 
     Button btnVer_info;
 
@@ -54,6 +54,8 @@ public class ver_mi_publicacion extends AppCompatActivity {
         txtMarca = findViewById(R.id.txtMarca);
         txtModelo = findViewById(R.id.txtModelo);
         txtYear = findViewById(R.id.txtYear);
+
+        txttypeP = findViewById(R.id.txttypePrcio2);
 
         txtLugar = findViewById(R.id.txtLugarP);
 
@@ -161,6 +163,7 @@ public class ver_mi_publicacion extends AppCompatActivity {
                         txtModelo.setText(document.get("modelo").toString());
                         txtYear.setText(document.get("año").toString());
                         txtLugar.setText(document.get("ciudad").toString());
+                        txttypeP.setText(document.get("PrecioTipo").toString());
 
 
                         String sliderItems[] = new String[imgs.size()];

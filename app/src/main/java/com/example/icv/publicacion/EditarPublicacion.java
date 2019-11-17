@@ -48,7 +48,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -81,13 +80,21 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
     public ArrayList<String> listamarca;
     public ArrayList<String> listamodelo;
     public String marcabase, modelobase;
+
+
+    ////Motor/////
+    public ArrayList<Motor> motorlista;
+    public ArrayList<String> listaMotor;
+    public String motorbase;
+    public static long idselectMotor;
+    //////fin motor/////
     public static double longitude,latitude;
     public static String ciudad,radiobt;
     public static Uri u;
     public static long idselectMarca, idSelectModel;
     private ImageButton btImg;
     TextView txtTitulo, txtDescripcion, txtPrecio, txtTelefono, txtYear,txtKm;
-    Spinner spinMarca, spinModelo;
+    Spinner spinMarca, spinModelo, spinMotor;
     FirebaseFirestore db;
     String cod;
     private static final int fotoenviada = 1;
@@ -125,6 +132,8 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
         mRecyclerView=findViewById(R.id.recycler_imgpublic);
         mMapView = findViewById(R.id.mapa);
 
+        spinMotor = findViewById(R.id.spinMotorS);
+
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(EditarPublicacion.this));
         LinearLayoutManager horizontalLayoutManager
@@ -145,7 +154,10 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 idSelectModel=0;
+                idselectMotor = 0;
+                obtenerMotor();
                 obtenermodelo();
+
             }
 
             @Override
@@ -276,6 +288,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
                         txtYear.setText(document.get("año").toString());
                         marcabase = document.get("marca").toString();
                         modelobase = document.get("modelo").toString();
+                        motorbase = document.get("Motor").toString();
                         mostrarImg(listaimg);
                         obtenermarca();
 
@@ -426,6 +439,100 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
 
     }
 
+    ////Obtener motor /////
+    public void obtenerMotor()
+    {
+
+
+
+        if (spinMarca.getSelectedItemPosition() > 0) {
+
+            idselectMarca = spinMarca.getSelectedItemId();
+            int id = (int) idselectMarca;
+            String marca = marcalista.get(id - 1).getId();
+
+            db.collection("motores").whereEqualTo("id_marca", marca)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+
+                        String motores[] = new String[task.getResult().size()];
+                        String id[] = new String[task.getResult().size()];
+                        int contador = 0;
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            motores[contador] = document.get("motor").toString();
+                            id[contador] = document.get("id_marca").toString();
+                            contador = contador + 1;
+                        }
+
+                        Motor cat = null;
+                        motorlista = new ArrayList<Motor>();
+
+                        for (int i = 0; i <= motores.length - 1; i++) {
+                            cat = new Motor();
+                            cat.setMotor(motores[i]);
+                            cat.setId(id[i]);
+                            motorlista.add(cat);
+                        }
+                        obtenerlistadoMotor();
+                    } else {
+                        Log.d("Mensaje: ", "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+
+        } else {
+            listaMotor = new ArrayList<String>();
+            listaMotor.add("Seleccione una marca");
+            ArrayAdapter<String> miAdaptador = new ArrayAdapter<>(EditarPublicacion.this, android.R.layout.simple_spinner_item, listaMotor);
+            spinMotor.setAdapter(miAdaptador);
+        }
+
+    }
+
+    ///*Fin obtener Motor *///
+
+    ///Obtener lista Motor ////
+    public void obtenerlistadoMotor()
+    {
+        listaMotor = new ArrayList<String>();
+        listaMotor.add("Motor sin Espesificar");
+        int pos = -1;
+
+        if (motorlista == null) {
+            //txtt.setText("nulo");
+        } else {
+
+            for (int i = 0; i <= motorlista.size()-1 ; i++) {
+                listaMotor.add(motorlista.get(i).motor);
+                if (motorbase.equals(motorlista.get(i).motor)) {
+                    pos = i;
+                }
+            }
+
+            ArrayAdapter<String> miAdaptador = new ArrayAdapter<>(EditarPublicacion.this, android.R.layout.simple_spinner_item, listaMotor);
+            spinMotor.setAdapter(miAdaptador);
+            if(pos>=0)
+            {
+                spinMotor.setSelection(pos+1 );
+            }
+
+
+            if (idselectMotor > 0) {
+                int id = (int) idselectMotor;
+
+                spinMotor.setSelection(id);
+            }
+
+        }
+
+    }
+
+    //**Fin obtener listaMotor ///
+
+
     public void Guardar(View view) {
         // if(task!=null &&task.isInProgress())
         // {
@@ -451,6 +558,15 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
             preciotipo="Negociable";
         }
 
+
+        String motorS = "";
+        if(spinMotor.getSelectedItemPosition()>0){
+            motorS = spinMotor.getSelectedItem().toString();
+        }
+        else{
+
+            motorS = "Sin espesificar";
+        }
         // DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         // String date = df.format(Calendar.getInstance().getTime());
 
@@ -472,6 +588,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
         editarPublicacion.put("longitud",longitude);
         editarPublicacion.put("ciudad",ciudad);
         editarPublicacion.put("PrecioTipo",preciotipo);
+        editarPublicacion.put("Motor",motorS);
 
 
         db.collection("publicacion").document(cod)

@@ -21,8 +21,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ver_mi_publicacion" android:screenOrientation="portrait">
-        </activity>
+        <activity android:name=".Chat.listadoUsuarioActivity"></activity>
+        <activity android:name=".Chat.MensajeriaActivity" />
+        <activity
+            android:name=".ver_mi_publicacion"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ver_imagenes"
             android:screenOrientation="portrait"

@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.icv.Chat.listadoUsuarioActivity;
 import com.example.icv.publicacion.MapsActivity;
 import com.example.icv.publicacion.publicar;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -123,7 +124,7 @@ public class home extends AppCompatActivity  implements filtroClass.FinalizoCuad
                 //Toast.makeText(home.this, "perfil", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_mensajes:
-                //startActivity(new Intent(home.this, Chat.class));
+                startActivity(new Intent(home.this, listadoUsuarioActivity.class));
                 Toast.makeText(home.this, "mensajes", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_salir:

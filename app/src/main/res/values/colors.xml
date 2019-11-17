@@ -21,6 +21,10 @@
     <color name="colorGris">#f1f1f1</color>
 
     <color name="colorFiltro">#8EF593</color>
+    <color name="gris">#F28F918D</color>
+    <color name="blanco">#FFFF</color>
+    <color name="verde">#F288C76D</color>
+
 
 
  </resources>

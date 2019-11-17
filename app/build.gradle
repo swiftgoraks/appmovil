@@ -45,6 +45,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-storage:4.3.1'
     implementation 'com.google.firebase:firebase-database:16.0.1' //base datos
     implementation 'com.google.firebase:firebase-auth:16.0.1'
+    implementation 'com.firebaseui:firebase-ui-database:4.3.1'
 
 
     //noinspection GradleCompatible
@@ -62,6 +63,8 @@ dependencies {
 
     implementation 'com.github.GoodieBag:CarouselPicker:v1.1'
 
+    //horaa
+    implementation 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
 
     //CirecleImageView
     implementation 'de.hdodenhof:circleimageview:3.0.1'

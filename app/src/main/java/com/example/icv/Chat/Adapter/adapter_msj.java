@@ -66,7 +66,10 @@ public class adapter_msj extends RecyclerView.Adapter<holder_msj> {
         if(lUsuario!=null)
         {
             holder.getTxtUser().setText(lUsuario.getUsuario().getNombre());
-            Glide.with(cont).load(lUsuario.getUsuario().getFotoPerfil()).into(holder.getImgUser());
+            if(!lUsuario.getUsuario().getFotoPerfil().isEmpty())
+            {
+                Glide.with(cont).load(lUsuario.getUsuario().getFotoPerfil()).into(holder.getImgUser());
+            }
 
         }
 

@@ -1,21 +1,20 @@
 package com.example.icv.Chat;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.icv.Chat.Adapter.adapter_msj;
 import com.example.icv.Chat.Persistencia.MensajeriaDAO;
@@ -45,8 +44,8 @@ public class MensajeriaActivity extends AppCompatActivity {
     private TextView txtuser;
     private RecyclerView rvMsj;
     private EditText txtMsj;
-    private Button btEnviar;
-    private ImageButton btImg;
+    //private Button btEnviar;
+    private ImageButton btImg,btEnviar;
 
     private adapter_msj adapter;
     private FirebaseAuth mAuth;
@@ -110,8 +109,7 @@ public class MensajeriaActivity extends AppCompatActivity {
             }
         });
 
-        FirebaseDatabase.getInstance().getReference("mensajes").child(UsuarioDAO.getInstance().
-                getKeyUsuario()).child(keyreceptor).addChildEventListener(new ChildEventListener() {
+        FirebaseDatabase.getInstance().getReference("mensajes").child(mAuth.getCurrentUser().getUid()).child(keyreceptor).addChildEventListener(new ChildEventListener() {
 
             Map<String, LUsuario> mapUsuTemporal= new HashMap<>();
 
@@ -164,7 +162,9 @@ public class MensajeriaActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
+
         });
+
 
         btImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,42 +181,6 @@ public class MensajeriaActivity extends AppCompatActivity {
     {
         rvMsj.scrollToPosition(adapter.getItemCount()-1);
     }
-/*
-    @Override
-    protected void onResume() {
-        super.onResume();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        //if(currentUser!=null) {
-        //    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        //    if (user != null) {
-        //        usuariolog= user.getEmail()+user.getDisplayName();
-        //        Toast.makeText(this,""+user.getEmail()+","+user.getDisplayName(), Toast.LENGTH_LONG).show();
-        //        txtuser.setText(usuariolog);
-        //    }
-
-            DatabaseReference reference = database.getReference("usuario/"+currentUser.getUid());
-            reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    usuario usuario=dataSnapshot.getValue(usuario.class);
-                    usuariolog=usuario.getNombre();
-                    Toast.makeText(MainActivityChat.this,""+usuario.getNombre(), Toast.LENGTH_LONG).show();
-                    txtuser.setText(usuariolog);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-       // }
-       // else
-       // {
-            //startActivity(new Intent(MainActivityChat.this,LoginActivity.class));
-            //finish();
-       // }
-
-    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

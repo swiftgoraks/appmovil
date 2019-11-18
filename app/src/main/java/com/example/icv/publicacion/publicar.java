@@ -1,11 +1,5 @@
 package com.example.icv.publicacion;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -24,11 +18,16 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.icv.Catalogo;
 import com.example.icv.Login;
 import com.example.icv.Perfil;
 import com.example.icv.R;
-import com.example.icv.Resgistrarse;
 import com.example.icv.home;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -42,12 +41,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -299,7 +296,7 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
 
             idselectMarca=spinMarcar.getSelectedItemId();
             int id=(int) idselectMarca;
-            db.collection("motores").whereEqualTo("id_marca", marcalista.get(id-1).getId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            db.collection("modelo").whereEqualTo("id_catalogo", marcalista.get(id-1).getId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
@@ -375,7 +372,7 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
                             cat.setId(id[i]);
                             modeloMotor.add(cat);
                         }
-                       // obtenerlistadoMotor();
+                        obtenerlistadoMotor();
                     } else {
                         Log.d("Mensaje: ", "Error getting documents: ", task.getException());
                     }
@@ -398,7 +395,7 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
     public void obtenerlistadoMotor()
     {
         listaMotor=new ArrayList<String>();
-        listaMotor.add("Motor sin espesificar");
+        listaMotor.add("Motor sin especificar");
 
         if(modelolista==null)
         {

@@ -231,6 +231,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                     Intent intent  = new Intent(contextoMy, ver_publicacion.class);
                     intent.putExtra("publicacionCod", txtId_pub.getText());
                     intent.putExtra("vendedor", txtNombreUserV.getText());
+
                     intent.putExtra("CodU", usuario_view);
                     contextoMy.startActivities(new Intent[]{intent});
                      break;

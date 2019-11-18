@@ -328,9 +328,13 @@
                 android:drawableStart="@drawable/ic_info_black_24dp"
                 android:background="@color/colorPrimary"
                 />
+            <TextView
+                android:layout_width="2dp"
+                android:layout_height="2dp"
+                android:id="@+id/txtIDVendedor"
+                android:visibility="invisible"
+                />
         </LinearLayout>
-
-
     </LinearLayout>
         </LinearLayout>
     </ScrollView>

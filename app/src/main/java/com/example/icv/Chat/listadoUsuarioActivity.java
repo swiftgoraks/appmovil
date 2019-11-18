@@ -1,47 +1,60 @@
 package com.example.icv.Chat;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.icv.Chat.Holder.usuarioViewHolder;
-import com.example.icv.Chat.Persistencia.UsuarioDAO;
 import com.example.icv.Chat.entidades.Base.usuario;
 import com.example.icv.Chat.entidades.Logica.LUsuario;
 import com.example.icv.R;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 public class listadoUsuarioActivity extends AppCompatActivity {
 
     private RecyclerView rvUsuario;
-    private FirebaseRecyclerAdapter adapter;
+   // private FirebaseRecyclerAdapter adapter;
+    FirestoreRecyclerAdapter adapter;
+    public FirebaseFirestore db;
+    public FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listado_usuario);
 
         rvUsuario=findViewById(R.id.rvUsuarios);
+        mAuth = FirebaseAuth.getInstance();
 
 
         LinearLayoutManager linear=new LinearLayoutManager(listadoUsuarioActivity.this);
         rvUsuario.setLayoutManager(linear);
-        Query query= FirebaseDatabase.getInstance().getReference().child("usuario");
+        db = FirebaseFirestore.getInstance();
 
-        FirebaseRecyclerOptions<usuario> options= new FirebaseRecyclerOptions.Builder<usuario>()
-                .setQuery(query,usuario.class).build();
+        Query query = FirebaseFirestore.getInstance().collection("usuarios");
+              //  .whereLessThan("Correo",mAuth.getCurrentUser().getEmail());
+        //Query query= FirebaseDatabase.getInstance().getReference().child("usuario");
 
-        adapter = new FirebaseRecyclerAdapter<usuario, usuarioViewHolder>(options) {
+       // FirebaseRecyclerOptions<usuario> options= new FirebaseRecyclerOptions.Builder<usuario>().setQuery(query,usuario.class).build();
+
+        FirestoreRecyclerOptions<usuario> options = new FirestoreRecyclerOptions.Builder<usuario>()
+                .setQuery(query, usuario.class)
+                .build();
+
+       // Toast.makeText(listadoUsuarioActivity.this, mAuth.getCurrentUser().getEmail(),Toast.LENGTH_LONG).show();
+
+         adapter = new FirestoreRecyclerAdapter<usuario, usuarioViewHolder>(options) {
             @Override
             public usuarioViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 // Create a new instance of the ViewHolder, in this case we are using a custom
@@ -56,11 +69,10 @@ public class listadoUsuarioActivity extends AppCompatActivity {
             protected void onBindViewHolder(final usuarioViewHolder holder, int position, final usuario model) {
                 Glide.with(listadoUsuarioActivity.this).load(model.getFotoPerfil()).into(holder.getImg());
                 holder.getTxtnombre().setText(model.getNombre());
-                final LUsuario lUsuario= new LUsuario(getSnapshots().getSnapshot(position).getKey(),model);
+                final LUsuario lUsuario= new LUsuario(getSnapshots().getSnapshot(position).getId(),model);
                 holder.getLinear().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(listadoUsuarioActivity.this, UsuarioDAO.getInstance().getKeyUsuario()+"  :  "+lUsuario.getKey(),Toast.LENGTH_SHORT).show();
                         Intent intent=new Intent(listadoUsuarioActivity.this,MensajeriaActivity.class);
                         intent.putExtra("key_receptor",lUsuario.getKey());
                         intent.putExtra("nombre_receptor",holder.getTxtnombre().getText());

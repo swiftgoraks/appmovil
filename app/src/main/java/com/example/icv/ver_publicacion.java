@@ -1,10 +1,5 @@
 package com.example.icv;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -14,8 +9,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.icv.Chat.MensajeriaActivity;
+import com.example.icv.Chat.listadoUsuarioActivity;
 import com.example.icv.publicacion.publicar;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,13 +26,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Locale;
 
 import ahmed.easyslider.EasySlider;
-import ahmed.easyslider.SliderItem;
 
 public class ver_publicacion extends AppCompatActivity {
 
@@ -41,7 +39,7 @@ public class ver_publicacion extends AppCompatActivity {
     String cod;
     String codView;
 
-    TextView txtTitulo, txtDescripcion, txtVendedor, txtPrecio, txtTelefono, txtYear, txtMarca, txtModelo, txtLugar, txttypePrcio;
+    TextView txtTitulo, txtDescripcion, txtVendedor, txtPrecio, txtTelefono, txtYear, txtMarca, txtModelo, txtLugar, txttypePrcio,txtIdVendedor;
 
     Button btnVer_info;
 
@@ -56,7 +54,7 @@ public class ver_publicacion extends AppCompatActivity {
         txtPrecio = findViewById(R.id.txtPrecio);
         txtVendedor = findViewById(R.id.txtVendedor);
         txtTelefono = findViewById(R.id.txtTelefono);
-
+        txtIdVendedor=findViewById(R.id.txtIDVendedor);
         txtMarca = findViewById(R.id.txtMarca);
         txtModelo = findViewById(R.id.txtModelo);
         txtYear = findViewById(R.id.txtYear);
@@ -76,16 +74,12 @@ txttypePrcio = findViewById(R.id.txttypePrcio);
                 = new LinearLayoutManager(ver_publicacion.this, LinearLayoutManager.HORIZONTAL, false);
         myRecyclerViewSlider.setLayoutManager(horizontalLayoutManager);
 
-
-
         Bundle extras  = getIntent().getExtras();
 
         if (extras != null){
             cod = extras.getString("publicacionCod");
             txtVendedor.setText(extras.getString("vendedor"));
-
             codView = extras.getString("CodU");
-
             datos_publicacion();
         }
     }
@@ -122,7 +116,9 @@ txttypePrcio = findViewById(R.id.txttypePrcio);
                 return true;
             case R.id.menu_mensajes:
                 //startActivity(new Intent(home.this, Chat.class));
-                Toast.makeText(myContext, "mensajes", Toast.LENGTH_LONG).show();
+                Intent intent=new Intent(ver_publicacion.this, listadoUsuarioActivity.class);
+                startActivity(intent);
+               // Toast.makeText(myContext, "mensajes", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_salir:
                 FirebaseAuth.getInstance().signOut();
@@ -158,11 +154,10 @@ txttypePrcio = findViewById(R.id.txttypePrcio);
                         nf = NumberFormat.getInstance(Locale.ENGLISH);
 
                         Double precio = Double.parseDouble(document.get("precio").toString());
-
+                        txtIdVendedor.setText(document.get("id_usuario").toString());
                         txtPrecio.setText( " $ " + nf.format(precio));
                         txtTelefono.setText(document.get("Telefono").toString());
                         txtTitulo.setText(document.get("titulo").toString());
-
                         txtMarca.setText(document.get("marca").toString());
                         txtModelo.setText(document.get("modelo").toString());
                         txtYear.setText(document.get("año").toString());
@@ -202,8 +197,13 @@ txttypePrcio = findViewById(R.id.txttypePrcio);
     }
 
     public void verPerfil(View view) {
-        Intent intent = new Intent(ver_publicacion.this, Perfil.class);
-        intent.putExtra("idU", codView);
+        //Intent intent = new Intent(ver_publicacion.this, Perfil.class);
+       // intent.putExtra("idU", codView);
+       // startActivity(intent);
+
+        Intent intent=new Intent(ver_publicacion.this, MensajeriaActivity.class);
+        intent.putExtra("key_receptor",txtIdVendedor.getText());
+        intent.putExtra("nombre_receptor",txtVendedor.getText());
         startActivity(intent);
     }
 

@@ -3,18 +3,29 @@ package com.example.icv;
 
         import android.content.Context;
         import android.content.Intent;
+        import android.util.Log;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
         import android.widget.Button;
         import android.widget.ImageView;
         import android.widget.TextView;
+        import android.widget.Toast;
+
+        import androidx.annotation.NonNull;
         import androidx.recyclerview.widget.RecyclerView;
         import com.bumptech.glide.Glide;
         import com.example.icv.publicacion.EditarPublicacion;
+        import com.example.icv.publicacion.modelo;
+        import com.google.android.gms.tasks.OnCompleteListener;
+        import com.google.android.gms.tasks.OnSuccessListener;
+        import com.google.android.gms.tasks.Task;
         import com.google.firebase.firestore.FirebaseFirestore;
+        import com.google.firebase.firestore.QueryDocumentSnapshot;
+        import com.google.firebase.firestore.QuerySnapshot;
 
         import java.text.NumberFormat;
+        import java.util.ArrayList;
         import java.util.Locale;
 
 class AdaptadorMisPublicaciones extends RecyclerView.Adapter<AdaptadorMisPublicaciones.MyViewHolder> {
@@ -98,7 +109,7 @@ class AdaptadorMisPublicaciones extends RecyclerView.Adapter<AdaptadorMisPublica
         TextView txtTituloMP;
         ImageView imgPortada;
         TextView txtPrecio;
-        Button btEdit, btnVer;
+        Button btEdit, btnVer, btnEliminar;
 
        // ImageView imgPortada, imgFav, ProfileImage, imgDefault;
       //  Button btnMas;
@@ -117,12 +128,13 @@ class AdaptadorMisPublicaciones extends RecyclerView.Adapter<AdaptadorMisPublica
             txtId_pub=itemView.findViewById(R.id.idPublicacion);
             btEdit=itemView.findViewById(R.id.editarMP);
             btnVer = itemView.findViewById(R.id.verMP);
+            btnEliminar = itemView.findViewById(R.id.eliminarMP);
         }
 
         void setOnClickListeners(){
             btEdit.setOnClickListener(this);
             btnVer.setOnClickListener(this);
-
+            btnEliminar.setOnClickListener(this);
         }
 
         @Override
@@ -139,6 +151,65 @@ class AdaptadorMisPublicaciones extends RecyclerView.Adapter<AdaptadorMisPublica
                     Intent intent2  = new Intent(contextoMy, ver_mi_publicacion.class);
                     intent2.putExtra("publicacionCod", txtId_pub.getText());
                     contextoMy.startActivities(new Intent[]{intent2});
+                    break;
+                case R.id.eliminarMP:
+                    //Intent intent3  = new Intent(contextoMy, ver_mi_publicacion.class);
+                    //intent3.putExtra("publicacionCod", txtId_pub.getText());
+                    //contextoMy.startActivities(new Intent[]{intent3});
+
+                    ///Eliminar Favoritos///
+
+                    db.collection("usuario_fav").whereEqualTo("id_anuncio",txtId_pub.getText()).get().addOnCompleteListener(new OnCompleteListener <QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task <QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+
+                                int contador = 0;
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                    db.collection("usuario_fav").document(document.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Toast.makeText(contextoMy, "Eliminado Favoritos", Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                }
+
+
+                            } else {
+                                Log.d("Mensaje: ", "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+
+
+
+                    //***///
+
+
+                    ///Eliminar Publicacion///
+
+                    db.collection("publicacion").document(txtId_pub.getText().toString()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            //startActivity(new Intent(Resgistrarse.this, home.class));
+                            Anuncio list_temp[] = new Anuncio[anunciosLista.length - 1];
+
+
+                            for(int i =0 ; i <=list_temp.length -1; i++)
+                            {
+                                if(!anunciosLista[i].equals(String.valueOf(txtId_pub.getText()))){
+                                    list_temp[i] = anunciosLista[i];
+                                }
+                            }
+
+                            anunciosLista = list_temp;
+
+                            notifyItemRemoved(getAdapterPosition());
+                            Toast.makeText(mCtx,  "La publicación se ha eliminado.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    ///***////
                     break;
 
             }

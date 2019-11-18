@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.icv.publicacion.publicar;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -107,7 +108,7 @@ public class Perfil extends AppCompatActivity {
         myRecyclerViewMP = findViewById(R.id.myRecycleViewViewMP);
 
         myRecyclerViewMP.setHasFixedSize(true);
-
+        myRecyclerViewMP.setItemAnimator(new DefaultItemAnimator());
         myRecyclerViewMP.setLayoutManager(new LinearLayoutManager(this));
 
 
@@ -118,6 +119,8 @@ public class Perfil extends AppCompatActivity {
         myRecyclerViewMF.setItemAnimator(new DefaultItemAnimator());
         myRecyclerViewMF.setLayoutManager(new LinearLayoutManager(this));
         //
+
+
 
         lblNuser = findViewById(R.id.lblNomUser);
         lblCorreoUser = findViewById(R.id.lblEmailUser);
@@ -165,6 +168,13 @@ public class Perfil extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+            cargar_MP();
+        //cargarMF();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
@@ -199,6 +209,7 @@ public class Perfil extends AppCompatActivity {
                 return true;
             case R.id.menu_salir:
                 FirebaseAuth.getInstance().signOut();
+                LoginManager.getInstance().logOut();
                // startActivity(new Intent(myContext, Login.class));
                // finish();
 

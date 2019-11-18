@@ -29,6 +29,7 @@ import com.example.icv.Login;
 import com.example.icv.Perfil;
 import com.example.icv.R;
 import com.example.icv.home;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -215,6 +216,7 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
                 return true;
             case R.id.menu_salir:
                 FirebaseAuth.getInstance().signOut();
+                LoginManager.getInstance().logOut();
                 startActivity(new Intent(getBaseContext(), Login.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK));
                 finish();
@@ -467,12 +469,17 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
             String telefono=txtCel.getText().toString();
             ///***///
             String motorS = "";
+            String ciudadS = "Sin Especificar";
             if(spinMotor.getSelectedItemPosition()>0){
                 motorS = spinMotor.getSelectedItem().toString();
             }
             else{
 
                 motorS = "Sin espesificar";
+            }
+
+            if(ciudad != null){
+                ciudadS = ciudad;
             }
 
             ///***///
@@ -505,7 +512,7 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
             user.put("list_img", listaimg);
             user.put("latitud",latitud);
             user.put("longitud",longitud);
-            user.put("ciudad",ciudad);
+            user.put("ciudad",ciudadS);
             user.put("PrecioTipo",rdSelect);
             user.put("Motor",motorS);
 

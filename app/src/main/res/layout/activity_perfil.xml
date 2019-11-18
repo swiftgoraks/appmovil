@@ -38,7 +38,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="Cambiar Foto"
+            android:text="@string/cambiar_foto"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:id="@+id/btnChangeFoto"
             android:onClick="cambiarFoto"
@@ -60,7 +60,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hola hola"
+            android:text="@string/pruea"
             android:id="@+id/lblNomUser"
             android:paddingBottom="5dp"
 
@@ -73,7 +73,7 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hola hola"
+        android:text="@string/pruea"
         android:id="@+id/lblEmailUser"
 
         />
@@ -86,7 +86,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
         android:layout_marginBottom="1dp"
         android:id="@+id/layoutTabs"
         >
@@ -123,7 +122,8 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            tools:ignore="UselessParent">
 
 
                             <androidx.recyclerview.widget.RecyclerView
@@ -147,7 +147,8 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            tools:ignore="UselessParent">
 
 
                             <androidx.recyclerview.widget.RecyclerView

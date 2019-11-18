@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".catalogo_detalle"
+    android:orientation="vertical"
+    android:padding="10dp"
+
+    >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:orientation="horizontal"
+                >
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="125dp"
+                        android:layout_height="125dp"
+                        android:id="@+id/logoMarca2"
+
+                        android:contentDescription="@string/imagen" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:padding="2dp"
+
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pruea"
+                        android:textSize="35sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/color_negro"
+                        android:paddingTop="35dp"
+                        android:id="@+id/nombreMarca2"
+                        />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                >
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/pruea"
+    android:textColor="@color/colorAccent"
+    android:textStyle="bold"
+    android:textSize="25sp"
+    android:id="@+id/txtmodeloS"
+    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:gravity="center"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pruea"
+                    android:textStyle="italic"
+                    android:id="@+id/txtDescripcionModelo2"
+                    android:textColor="@color/color_negro"
+                    />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/exterior"
+                    android:textColor="@color/color_negro"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:id="@+id/txtExterior2"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imgExterior2"
+                    android:contentDescription="@string/imagen" />
+
+            </LinearLayout>
+
+
+
+            <!--Segunda Foto -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/interior"
+                    android:id="@+id/txtInterior2"
+                    android:textStyle="bold"
+                    android:textColor="@color/color_negro"
+                    android:textSize="18sp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imgInterior2"
+                    android:contentDescription="@string/imagen" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

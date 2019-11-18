@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.icv.publicacion.publicar;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -83,6 +84,7 @@ public class Catalogo extends AppCompatActivity {
                 return true;
             case R.id.menu_salir:
                 FirebaseAuth.getInstance().signOut();
+                LoginManager.getInstance().logOut();
                 startActivity(new Intent(getBaseContext(), Login.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK));
                 finish();

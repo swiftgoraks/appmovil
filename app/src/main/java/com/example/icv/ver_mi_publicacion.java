@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.icv.publicacion.EditarPublicacion;
 import com.example.icv.publicacion.publicar;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,6 +39,8 @@ public class ver_mi_publicacion extends AppCompatActivity {
 
     TextView txtTitulo, txtDescripcion, txtVendedor, txtPrecio, txtTelefono, txtYear, txtMarca, txtModelo, txtLugar, txttypeP;
 
+    TextView txtMotorS;
+
     Button btnVer_info;
 
     RecyclerView myRecyclerViewSlider;
@@ -54,6 +57,8 @@ public class ver_mi_publicacion extends AppCompatActivity {
         txtMarca = findViewById(R.id.txtMarca);
         txtModelo = findViewById(R.id.txtModelo);
         txtYear = findViewById(R.id.txtYear);
+
+        txtMotorS = findViewById(R.id.txtMotor1);
 
         txttypeP = findViewById(R.id.txttypePrcio2);
 
@@ -84,6 +89,12 @@ public class ver_mi_publicacion extends AppCompatActivity {
 
            datos_publicacion();
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        datos_publicacion();
     }
 
     @Override
@@ -121,6 +132,7 @@ public class ver_mi_publicacion extends AppCompatActivity {
                 return true;
             case R.id.menu_salir:
                 FirebaseAuth.getInstance().signOut();
+                LoginManager.getInstance().logOut();
                 startActivity(new Intent(getBaseContext(), Login.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK));
                 finish();
@@ -164,7 +176,7 @@ public class ver_mi_publicacion extends AppCompatActivity {
                         txtYear.setText(document.get("año").toString());
                         txtLugar.setText(document.get("ciudad").toString());
                         txttypeP.setText(document.get("PrecioTipo").toString());
-
+                        txtMotorS.setText(document.get("Motor").toString());
 
                         String sliderItems[] = new String[imgs.size()];
                         for(int i = 0; i <=imgs.size() -1; i++)
@@ -194,6 +206,10 @@ public class ver_mi_publicacion extends AppCompatActivity {
 
 
     public void verInformacion(View view) {
+        Intent intent=new Intent(ver_mi_publicacion.this, catalogo_filtro.class);
+        intent.putExtra("marca",txtMarca.getText());
+        intent.putExtra("modelo",txtModelo.getText());
+        startActivity(intent);
     }
 
     public void editarPublicacion(View view) {

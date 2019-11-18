@@ -222,7 +222,7 @@ class AdaptadorMisFavoritos extends RecyclerView.Adapter<AdaptadorMisFavoritos.M
 
 
 
-                        Toast.makeText(mCtx,  String.valueOf(getAdapterPosition()), Toast.LENGTH_LONG).show();
+
 
                         db.collection("usuario_fav").document(String.valueOf(txt_id_favorito.getText())).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
@@ -241,6 +241,7 @@ class AdaptadorMisFavoritos extends RecyclerView.Adapter<AdaptadorMisFavoritos.M
                                 anunciosLista = list_temp;
 
                                 notifyItemRemoved(getAdapterPosition());
+                                Toast.makeText(mCtx,  "La publicación se ha eliminado de tus favoritos.", Toast.LENGTH_LONG).show();
                             }
                         });
 

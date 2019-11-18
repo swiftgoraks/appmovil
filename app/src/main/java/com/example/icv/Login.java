@@ -215,4 +215,9 @@ public class Login extends AppCompatActivity {
 
     }
 
+    public void registrarse(View view) {
+    }
+
+    public void goLogin(View view) {
+    }
 }

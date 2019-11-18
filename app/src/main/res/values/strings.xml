@@ -9,7 +9,6 @@
     <string name="pruea">Prueba</string>
     <string name="title_activity_maps">Map</string>
     <string name="imgDefectoUpload"><![CDATA[https://firebasestorage.googleapis.com/v0/b/icv-project.appspot.com/o/ingresar.png?alt=media&token=9847b2ed-ec9a-4d63-8c75-8fa406a2042f]]></string>
-    <string name="imagen">Imagen</string>
     <string name="titulo_de_anuncio">Titulo de anuncio: </string>
     <string name="culaquiera">culaquiera</string>
     <string name="vendedor">Vendedor: </string>
@@ -27,5 +26,29 @@
     <string name="anuncios">Anuncios</string>
     <string name="cancelar">cancelar</string>
     <string name="tipo_de_precio">Tipo de precio</string>
+    <string name="motor">Motor</string>
+    <string name="interior">Interior</string>
+    <string name="exterior">Exterior</string>
+    <string name="ver_mas">Ver Mas</string>
+    <string name="_10_04_1999">10/04/1999</string>
+    <string name="nombre">Nombre</string>
+    <string name="imagen">Imagen</string>
+    <string name="marca_">Marca:</string>
+    <string name="modelo_">Modelo:</string>
+    <string name="catalogo1">Catalogo</string>
+    <string name="correo_electronico1">Correo Electronico</string>
+    <string name="password1">Password</string>
+    <string name="crear_una_nueva_cuenta">Crear una nueva cuenta</string>
+    <string name="linea1">--------------------------</string>
+    <string name="no_tienes_una_cuenta">¿No tienes una cuenta?</string>
+    <string name="login1">Login</string>
+    <string name="iniciar_sesion">Iniciar Sesion</string>
+    <string name="cambiar_foto">Cambiar Foto</string>
+    <string name="ya_tines_una_cuenta">¿Ya tines una cuenta?</string>
+    <string name="registrase2">Registrase</string>
+    <string name="registrarse2">Registrarse</string>
+    <string name="buscar23">Buscar</string>
+    <string name="_500">500</string>
+
 
 </resources>

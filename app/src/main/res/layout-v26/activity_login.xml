@@ -66,8 +66,8 @@
         android:layout_alignLeft="@+id/correo"
         android:layout_alignStart="@+id/correo"
         android:textColor="@color/color_blanco"
-        tools:ignore="Autofill,RtlHardcoded"
-         />
+        tools:ignore="RtlHardcoded"
+        android:autofillHints="@string/password1" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"

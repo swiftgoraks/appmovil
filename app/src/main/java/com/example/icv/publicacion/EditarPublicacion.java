@@ -35,6 +35,7 @@ import com.example.icv.Login;
 import com.example.icv.Perfil;
 import com.example.icv.R;
 import com.example.icv.home;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -230,6 +231,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
                 return true;
             case R.id.menu_salir:
                 FirebaseAuth.getInstance().signOut();
+                LoginManager.getInstance().logOut();
                 startActivity(new Intent(getBaseContext(), Login.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK));
                 finish();
@@ -549,6 +551,8 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
         String telefono = txtTelefono.getText().toString();
         String km=txtKm.getText().toString();
         String preciotipo;
+        String ciudadS = "Sin Especificar";
+
         if(rdFijo.isChecked())
         {
             preciotipo="Fijo";
@@ -565,7 +569,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
         }
         else{
 
-            motorS = "Sin espesificar";
+            motorS = "Sin especificar";
         }
         // DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         // String date = df.format(Calendar.getInstance().getTime());
@@ -586,7 +590,12 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
         editarPublicacion.put("list_img", listaimg);
         editarPublicacion.put("latitud",latitude);
         editarPublicacion.put("longitud",longitude);
-        editarPublicacion.put("ciudad",ciudad);
+
+        if(ciudad != null){
+            ciudadS = ciudad;
+        }
+
+        editarPublicacion.put("ciudad",ciudadS);
         editarPublicacion.put("PrecioTipo",preciotipo);
         editarPublicacion.put("Motor",motorS);
 
@@ -601,6 +610,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
                         radiobt=null;
                         idselectMarca=0;
                         idSelectModel=0;
+                        idselectMotor = 0;
                         longitude=0.0;
                         latitude=0.0;
                         finish();

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.icv.Chat.MensajeriaActivity;
 import com.example.icv.Chat.listadoUsuarioActivity;
 import com.example.icv.publicacion.publicar;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,6 +42,7 @@ public class ver_publicacion extends AppCompatActivity {
 
     TextView txtTitulo, txtDescripcion, txtVendedor, txtPrecio, txtTelefono, txtYear, txtMarca, txtModelo, txtLugar, txttypePrcio,txtIdVendedor;
 
+    TextView txtMotorS;
     Button btnVer_info;
 
     RecyclerView myRecyclerViewSlider;
@@ -58,10 +60,9 @@ public class ver_publicacion extends AppCompatActivity {
         txtMarca = findViewById(R.id.txtMarca);
         txtModelo = findViewById(R.id.txtModelo);
         txtYear = findViewById(R.id.txtYear);
-txttypePrcio = findViewById(R.id.txttypePrcio);
-
+        txttypePrcio = findViewById(R.id.txttypePrcio);
+        txtMotorS = findViewById(R.id.txtMotor);
         txtLugar = findViewById(R.id.txtLugarP);
-
         btnVer_info = findViewById(R.id.btnInformacion);
 
        // easySlider = findViewById(R.id.slider);
@@ -122,6 +123,7 @@ txttypePrcio = findViewById(R.id.txttypePrcio);
                 return true;
             case R.id.menu_salir:
                 FirebaseAuth.getInstance().signOut();
+                LoginManager.getInstance().logOut();
                 startActivity(new Intent(getBaseContext(), Login.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK));
                 finish();
@@ -163,7 +165,7 @@ txttypePrcio = findViewById(R.id.txttypePrcio);
                         txtYear.setText(document.get("año").toString());
                         txtLugar.setText(document.get("ciudad").toString());
                         txttypePrcio.setText(document.get("PrecioTipo").toString());
-
+                        txtMotorS.setText(document.get("Motor").toString());
 
                         String sliderItems[] = new String[imgs.size()];
                         for(int i = 0; i <=imgs.size() -1; i++)
@@ -192,7 +194,10 @@ txttypePrcio = findViewById(R.id.txttypePrcio);
     }
 
     public void verInformacion(View view) {
-        Intent intent = new Intent(ver_publicacion.this, Catalogo.class);
+
+        Intent intent=new Intent(ver_publicacion.this, catalogo_filtro.class);
+        intent.putExtra("marca",txtMarca.getText());
+        intent.putExtra("modelo",txtModelo.getText());
         startActivity(intent);
     }
 

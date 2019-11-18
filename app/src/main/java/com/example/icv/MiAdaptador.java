@@ -83,6 +83,9 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.txtFecha.setText(anun.getFecha_publicacion());
         holder.txtId_pub.setText(anun.getId_anuncio());
 
+        holder.marca.setText(anun.getMarca());
+        holder.modelo.setText(anun.getModelo());
+
         NumberFormat nf = NumberFormat.getInstance();
         nf = NumberFormat.getInstance(Locale.ENGLISH);
 
@@ -196,6 +199,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             Button btnMas;
             Context contextoMy;
             Button btnPrecio;
+            TextView marca, modelo;
 
     CircularImageView ProfileImage;
 
@@ -216,6 +220,8 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 ProfileImage = itemView.findViewById(R.id.profile_image);
                 imgDefault = itemView.findViewById(R.id.imgPerfil);
                 btnPrecio = itemView.findViewById(R.id.btnPrecioP);
+                marca = itemView.findViewById(R.id.marcaH);
+                modelo = itemView.findViewById(R.id.modeloH);
             }
 
             void setOnClickListeners(){

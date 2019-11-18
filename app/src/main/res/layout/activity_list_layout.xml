@@ -20,7 +20,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="280dp"
+        android:layout_height="300dp"
         android:orientation="vertical"
         android:padding="2dp"
         >
@@ -47,18 +47,11 @@
                 android:id="@+id/imgPerfil"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:contentDescription="Imagen"
+                android:contentDescription="@string/imagen"
                 android:src="@drawable/usuario"
                 android:visibility="invisible" />
 
-         <!--   <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="1dp"
-                app:civ_border_color="#FF000000"
-                app:civ_border_width="2dp" /> -->
+
 
             <com.mikhaellopez.circularimageview.CircularImageView
                 android:layout_width="40dp"
@@ -80,7 +73,9 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="14dp"
                 android:layout_toEndOf="@+id/imgPerfil"
-                android:text="Nombre " />
+                android:text="@string/nombre"
+                android:textStyle="bold"
+                />
 
             <TextView
                 android:id="@+id/txtFecha"
@@ -92,13 +87,15 @@
                 android:layout_marginTop="3dp"
                 android:layout_marginEnd="14dp"
                 android:layout_marginBottom="14dp"
-                android:text="10/04/1999" />
+                android:text="@string/_10_04_1999"
+                android:textStyle="bold"
+                tools:ignore="RelativeOverlap" />
 
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="190dp"
+            android:layout_height="210dp"
             android:orientation="vertical"
             >
 
@@ -106,10 +103,62 @@
                 android:id="@+id/txtTitulo"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:layout_above="@+id/linerPortada"
                 android:textStyle="bold"
                 android:text="@string/pruea"
                 />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:orientation="horizontal"
+                >
+                <LinearLayout
+                    android:layout_width="175dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/marca_"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/color_negro"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/marca_"
+                        android:textSize="14sp"
+                        android:textColor="@color/color_negro"
+                        android:id="@+id/marcaH"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/modelo_"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/color_negro"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/marca_"
+                        android:textSize="14sp"
+                        android:textColor="@color/color_negro"
+                        android:id="@+id/modeloH"
+                        />
+                </LinearLayout>
+            </LinearLayout>
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="165dp"
@@ -119,7 +168,7 @@
         android:id="@+id/imgPortada"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-       />
+        android:contentDescription="@string/imagen" />
 </LinearLayout>
 
         </LinearLayout>
@@ -145,14 +194,14 @@
                 android:layout_height="35dp"
                 android:src="@drawable/corazon1"
                 android:tag="sinFav"
-                />
+                android:contentDescription="@string/imagen" />
 
             <Button
                 android:id="@+id/btnVerMas"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ver Mas" />
+                android:text="@string/ver_mas" />
         </LinearLayout>
     </LinearLayout>
 

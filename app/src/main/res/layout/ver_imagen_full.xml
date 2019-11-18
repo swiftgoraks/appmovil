@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageSliderFull"
         android:src="@drawable/usuario"
-        />
+        android:contentDescription="@string/imagen" />
 </LinearLayout>
 
     </androidx.cardview.widget.CardView>

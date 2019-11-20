@@ -97,6 +97,7 @@ public class MensajeriaActivity extends AppCompatActivity {
                     Mensaje.setContieneFoto(false);
                     Mensaje.setKeyEmisor(UsuarioDAO.getInstance().getKeyUsuario());
                     MensajeriaDAO.getInstance().nuevoMensaje(UsuarioDAO.getInstance().getKeyUsuario(),keyreceptor,Mensaje);
+                    txtMsj.setText("");
                 }
             }
         });

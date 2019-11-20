@@ -31,7 +31,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:hint="Ingrese el titulo"
+                    android:hint="@string/ingrese_el_titulo"
                     android:maxLength="20"
                     >
                 </EditText>
@@ -61,7 +61,7 @@
                     android:id="@+id/txtAnio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Ingrese el año"
+                    android:hint="@string/ingrese_el_a_o"
                     android:inputType="number"
                     android:textSize="20sp"
                     />
@@ -70,7 +70,7 @@
                     android:id="@+id/txtKm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Ingrese el kilometraje"
+                    android:hint="@string/ingrese_el_kilometraje"
                     android:inputType="numberDecimal"
                     android:textSize="20sp"
                     />
@@ -79,7 +79,7 @@
                     android:id="@+id/txtDescripcion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Ingrese la descripcion"
+                    android:hint="@string/ingrese_la_descripcion"
                     android:textSize="20sp"
                     android:lines="2"
                     />
@@ -88,7 +88,7 @@
                     android:id="@+id/txtPrecio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Ingrese el precio"
+                    android:hint="@string/ingrese_el_precio"
                     android:inputType="numberDecimal"
                     android:textSize="20sp"
                     />
@@ -96,7 +96,7 @@
                     android:id="@+id/txtTel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Ingrese número de contacto"
+                    android:hint="@string/ingrese_n_mero_de_contacto"
                     android:inputType="phone"
                     android:textSize="20sp"
                     />
@@ -110,30 +110,54 @@
                             android:id="@+id/rdFijo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:hint="Precio Fijo"
+                            android:hint="@string/precio_fijo"
                             android:checked="true"
                             android:textSize="20sp"
                             android:buttonTint="@color/colorPrimary"
                             />
                         <RadioButton
                             android:id="@+id/rdNego"
-                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:hint="Precio Negociable"
+                            android:hint="@string/precio_negociable"
                             android:textSize="20sp"
                             />
                     </RadioGroup>
-
-                <Button
-                    android:id="@+id/btUbicacion"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/ubicacion"
+                android:onClick="seleccionarLocale"
+                >
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Seleccionar Ubicacion"
-                    android:background="@drawable/ubicacion"
-                    android:textColor="@color/color_negro"
-                    android:textSize="20sp"
-                    />
+                    android:orientation="horizontal"
+                    android:onClick="seleccionarLocale"
+
+                    >
+                    <ImageView
+                        android:layout_marginStart="15dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:backgroundTint="@color/color_negro"
+                        android:background="@android:drawable/ic_dialog_map"
+                        android:contentDescription="@string/cambiar_ubicacion"
+                        />
+
+                    <Button
+                        android:id="@+id/btUbicacion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/seleccionar_ubicacion"
+                        android:textColor="@color/color_negro"
+                        android:textSize="20sp"
+                        android:backgroundTint="@color/verde"
+                        />
+                </LinearLayout>
+            </LinearLayout>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_imgpublic"
                     android:layout_width="match_parent"
@@ -142,27 +166,27 @@
 
             </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            >
-
-
             <ImageButton
                 android:id="@+id/btImg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/ic_menu_gallery"
                 android:layout_gravity="center"
+                android:contentDescription="@string/fotos"
                 />
+
+        <LinearLayout
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            >
+
             <Button
                 android:id="@+id/btPublicarAnuncio"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Publicar anuncio"
+                android:hint="@string/publicar_anuncio"
                 android:background="@drawable/ubicacion"
                 android:textColor="@color/color_negro"
                 />

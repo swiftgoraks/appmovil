@@ -4,7 +4,7 @@ public class usuario {
 
     private String Nombre;
     private String Correo;
-    private String fotoPerfil;
+    private String UrlImagen;
 
     public usuario() {
     }
@@ -26,13 +26,11 @@ public class usuario {
         this.Correo = Correo;
     }
 
-    public String getFotoPerfil() {
-        return fotoPerfil;
+    public String getUrlImagen() {
+        return UrlImagen;
     }
 
-    public void setFotoPerfil(String fotoPerfil) {
-        this.fotoPerfil = fotoPerfil;
+    public void setUrlImagen(String urlImagen) {
+        UrlImagen = urlImagen;
     }
-
-
 }

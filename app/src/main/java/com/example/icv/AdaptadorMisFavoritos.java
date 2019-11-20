@@ -2,36 +2,29 @@
 package com.example.icv;
 
         import android.content.Context;
-        import android.content.Intent;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.AdapterView;
-        import android.widget.Button;
-        import android.widget.ImageView;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.content.Intent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import androidx.annotation.NonNull;
-        import androidx.recyclerview.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
-        import com.bumptech.glide.Glide;
-        import com.google.android.gms.tasks.OnCompleteListener;
-        import com.google.android.gms.tasks.OnFailureListener;
-        import com.google.android.gms.tasks.OnSuccessListener;
-        import com.google.android.gms.tasks.Task;
-        import com.google.firebase.firestore.DocumentReference;
-        import com.google.firebase.firestore.DocumentSnapshot;
-        import com.google.firebase.firestore.FirebaseFirestore;
-        import com.google.firebase.firestore.QueryDocumentSnapshot;
-        import com.google.firebase.firestore.QuerySnapshot;
-        import com.mikhaellopez.circularimageview.CircularImageView;
-        import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
-        import java.text.NumberFormat;
-        import java.util.HashMap;
-        import java.util.Locale;
-        import java.util.Map;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 class AdaptadorMisFavoritos extends RecyclerView.Adapter<AdaptadorMisFavoritos.MyViewHolder> {
     // private String[] mDataset;
@@ -219,11 +212,6 @@ class AdaptadorMisFavoritos extends RecyclerView.Adapter<AdaptadorMisFavoritos.M
                     contextoMy.startActivities(new Intent[]{intent});
                     break;
                 case R.id.eliminarMF:
-
-
-
-
-
                         db.collection("usuario_fav").document(String.valueOf(txt_id_favorito.getText())).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {

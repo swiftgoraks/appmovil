@@ -1,36 +1,31 @@
 package com.example.icv.publicacion;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.icv.Catalogo;
+import com.example.icv.Chat.listadoUsuarioActivity;
 import com.example.icv.Login;
 import com.example.icv.Perfil;
 import com.example.icv.R;
@@ -41,7 +36,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -51,24 +45,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -140,7 +125,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
         LinearLayoutManager horizontalLayoutManager
                 = new LinearLayoutManager(EditarPublicacion.this, LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(horizontalLayoutManager);
-        Toast.makeText(EditarPublicacion.this,"long "+longitude,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(EditarPublicacion.this,"long "+longitude,Toast.LENGTH_SHORT).show();
 
         Bundle extras = getIntent().getExtras();
 
@@ -226,8 +211,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
                 //Toast.makeText(home.this, "perfil", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_mensajes:
-                //startActivity(new Intent(home.this, Chat.class));
-                Toast.makeText(myContext, "mensajes", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(EditarPublicacion.this, listadoUsuarioActivity.class));
                 return true;
             case R.id.menu_salir:
                 FirebaseAuth.getInstance().signOut();
@@ -265,7 +249,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
                         {
                             longitude=Double.parseDouble(document.get("longitud").toString());
                             latitude=Double.parseDouble(document.get("latitud").toString());
-                            Toast.makeText(EditarPublicacion.this, +latitude+"l: "+longitude, Toast.LENGTH_LONG).show();
+                            //Toast.makeText(EditarPublicacion.this, +latitude+"l: "+longitude, Toast.LENGTH_LONG).show();
                         }
 
                         if(radiobt==null)
@@ -819,8 +803,6 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,12));
                         mMap.getUiSettings().setZoomControlsEnabled(true);
                     }
-                } else {
-                    //Log.d(TAG, "get failed with ", task.getException());
                 }
             }
         });

@@ -4,24 +4,27 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/layoutprincipal"
+    android:background="@drawable/marco2"
     >
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         >
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/foto"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/usuario"
             />
         <TextView
+            android:paddingStart="3dp"
+            android:layout_gravity="center"
             android:id="@+id/txtnombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="hola"
             />
     </LinearLayout>
 

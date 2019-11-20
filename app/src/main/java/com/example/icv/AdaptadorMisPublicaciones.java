@@ -2,31 +2,24 @@
 package com.example.icv;
 
         import android.content.Context;
-        import android.content.Intent;
-        import android.util.Log;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.Button;
-        import android.widget.ImageView;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.content.Intent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import androidx.annotation.NonNull;
-        import androidx.recyclerview.widget.RecyclerView;
-        import com.bumptech.glide.Glide;
-        import com.example.icv.publicacion.EditarPublicacion;
-        import com.example.icv.publicacion.modelo;
-        import com.google.android.gms.tasks.OnCompleteListener;
-        import com.google.android.gms.tasks.OnSuccessListener;
-        import com.google.android.gms.tasks.Task;
-        import com.google.firebase.firestore.FirebaseFirestore;
-        import com.google.firebase.firestore.QueryDocumentSnapshot;
-        import com.google.firebase.firestore.QuerySnapshot;
+import androidx.recyclerview.widget.RecyclerView;
 
-        import java.text.NumberFormat;
-        import java.util.ArrayList;
-        import java.util.Locale;
+import com.bumptech.glide.Glide;
+import com.example.icv.publicacion.EditarPublicacion;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 
 class AdaptadorMisPublicaciones extends RecyclerView.Adapter<AdaptadorMisPublicaciones.MyViewHolder> {
     // private String[] mDataset;
@@ -159,7 +152,7 @@ class AdaptadorMisPublicaciones extends RecyclerView.Adapter<AdaptadorMisPublica
 
                     ///Eliminar Favoritos///
 
-                    db.collection("usuario_fav").whereEqualTo("id_anuncio",txtId_pub.getText()).get().addOnCompleteListener(new OnCompleteListener <QuerySnapshot>() {
+                    /*db.collection("usuario_fav").whereEqualTo("id_anuncio",txtId_pub.getText()).get().addOnCompleteListener(new OnCompleteListener <QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task <QuerySnapshot> task) {
                             if (task.isSuccessful()) {
@@ -181,8 +174,7 @@ class AdaptadorMisPublicaciones extends RecyclerView.Adapter<AdaptadorMisPublica
                             }
                         }
                     });
-
-
+                     */
 
                     //***///
 

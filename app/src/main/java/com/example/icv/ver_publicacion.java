@@ -3,6 +3,7 @@ package com.example.icv;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +20,12 @@ import com.example.icv.Chat.MensajeriaActivity;
 import com.example.icv.Chat.listadoUsuarioActivity;
 import com.example.icv.publicacion.publicar;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,7 +39,7 @@ import java.util.Locale;
 
 import ahmed.easyslider.EasySlider;
 
-public class ver_publicacion extends AppCompatActivity {
+public class ver_publicacion extends AppCompatActivity implements OnMapReadyCallback {
 
 
     EasySlider easySlider;
@@ -46,6 +53,12 @@ public class ver_publicacion extends AppCompatActivity {
     Button btnVer_info;
 
     RecyclerView myRecyclerViewSlider;
+
+    private MapView mMapView;
+    private GoogleMap mMap;
+    public  double longitude,latitude;
+    Location nueva;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +77,7 @@ public class ver_publicacion extends AppCompatActivity {
         txtMotorS = findViewById(R.id.txtMotor);
         txtLugar = findViewById(R.id.txtLugarP);
         btnVer_info = findViewById(R.id.btnInformacion);
-
+        mMapView = findViewById(R.id.mapa);
        // easySlider = findViewById(R.id.slider);
         db = FirebaseFirestore.getInstance();
 
@@ -83,6 +96,7 @@ public class ver_publicacion extends AppCompatActivity {
             codView = extras.getString("CodU");
             datos_publicacion();
         }
+        initGoogleMap(savedInstanceState);
     }
 
 
@@ -166,6 +180,8 @@ public class ver_publicacion extends AppCompatActivity {
                         txtLugar.setText(document.get("ciudad").toString());
                         txttypePrcio.setText(document.get("PrecioTipo").toString());
                         txtMotorS.setText(document.get("Motor").toString());
+                        longitude=Double.parseDouble(document.get("longitud").toString());
+                        latitude=Double.parseDouble(document.get("latitud").toString());
 
                         String sliderItems[] = new String[imgs.size()];
                         for(int i = 0; i <=imgs.size() -1; i++)
@@ -217,5 +233,92 @@ public class ver_publicacion extends AppCompatActivity {
         Intent intent  = new Intent(ver_publicacion.this, ver_imagenes.class);
         intent.putExtra("id_p", cod);
         startActivities(new Intent[]{intent});
+    }
+
+    private void initGoogleMap(Bundle savedInstanceState){
+        // *** IMPORTANT ***
+        // MapView requires that the Bundle you pass contain _ONLY_ MapView SDK
+        // objects or sub-Bundles.
+        Bundle mapViewBundle = null;
+        if (savedInstanceState != null) {
+            mapViewBundle = savedInstanceState.getBundle("mapViewBundleKey");
+        }
+        mMapView.onCreate(mapViewBundle);
+        mMapView.getMapAsync(this);
+    }
+
+    @Override
+    public void onResume() {
+        mMapView.onResume();
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mMapView.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mMapView.onDestroy();
+        Runtime.getRuntime().gc();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mMapView.onLowMemory();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        nueva=new Location("nueva");
+        // mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        //googleMap.setMyLocationEnabled(true);
+        if(longitude==0.0 )
+        {
+            ObtenerLocale(googleMap);
+
+        }
+        else
+        {
+            nueva.setLatitude(latitude);
+            nueva.setLongitude(longitude);
+            LatLng sydney = new LatLng(nueva.getLatitude(), nueva.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(sydney).title("Mi publicacion"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,12));
+            mMap.getUiSettings().setZoomControlsEnabled(true);
+        }
+    }
+
+    public void ObtenerLocale(final GoogleMap googleMap) {
+
+        DocumentReference docRef = db.collection("publicacion").document(cod);
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        mMap = googleMap;
+                        longitude=Double.parseDouble(document.get("longitud").toString());
+                        latitude=Double.parseDouble(document.get("latitud").toString());
+                        LatLng sydney = new LatLng(latitude, longitude);
+                        mMap.addMarker(new MarkerOptions().position(sydney).title("Mi publicacion"));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,12));
+                        mMap.getUiSettings().setZoomControlsEnabled(true);
+                    }
+                } else {
+                    //Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
     }
 }

@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.icv.Catalogo;
+import com.example.icv.Chat.listadoUsuarioActivity;
 import com.example.icv.Login;
 import com.example.icv.Perfil;
 import com.example.icv.R;
@@ -125,8 +126,7 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
         btUbicacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent ventana= new Intent(publicar.this, MapsActivity.class);
-                startActivityForResult(ventana,1234);
+               ubicacionSET();
             }
         });
 
@@ -211,8 +211,7 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
                 //Toast.makeText(home.this, "perfil", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_mensajes:
-                //startActivity(new Intent(home.this, Chat.class));
-                Toast.makeText(myContext, "mensajes", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(publicar.this, listadoUsuarioActivity.class));
                 return true;
             case R.id.menu_salir:
                 FirebaseAuth.getInstance().signOut();
@@ -668,5 +667,16 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
     public void onBackPressed() {
         super.onBackPressed();
         listaimg.removeAll(listaimg);
+    }
+
+
+    public void seleccionarLocale(View view) {
+        ubicacionSET();
+    }
+
+    public void ubicacionSET()
+    {
+        Intent ventana= new Intent(publicar.this, MapsActivity.class);
+        startActivityForResult(ventana,1234);
     }
 }

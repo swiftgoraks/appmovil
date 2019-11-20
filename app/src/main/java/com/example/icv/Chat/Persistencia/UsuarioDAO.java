@@ -84,7 +84,7 @@ public class UsuarioDAO {
                     usuario Usuario=new usuario();
                     Usuario.setCorreo(task.getResult().get("Correo").toString());
                     Usuario.setNombre(task.getResult().get("Nombre").toString());
-                    Usuario.setFotoPerfil(task.getResult().get("UrlImagen").toString());
+                    Usuario.setUrlImagen(task.getResult().get("UrlImagen").toString());
 
                     LUsuario lUsuario= new LUsuario(key,Usuario);
                     iDevolverUsu.devolverUsuario(lUsuario);

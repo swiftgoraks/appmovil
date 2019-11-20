@@ -1,13 +1,6 @@
 package com.example.icv;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,30 +9,27 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.icv.Chat.listadoUsuarioActivity;
-import com.example.icv.publicacion.MapsActivity;
 import com.example.icv.publicacion.publicar;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.common.collect.Maps;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.squareup.okhttp.internal.DiskLruCache;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
-import static com.example.icv.R.drawable.*;
-import static com.example.icv.R.drawable.ic_periodico;
+import static com.example.icv.R.drawable.busqueda;
+import static com.example.icv.R.drawable.exito;
 import static com.example.icv.R.mipmap.ic_launcher;
 
 public class home extends AppCompatActivity  implements filtroClass.FinalizoCuadroDialogo {
@@ -139,7 +129,7 @@ imgBusqueda = findViewById(R.id.imgBuscar);
                 return true;
             case R.id.menu_mensajes:
                 startActivity(new Intent(home.this, listadoUsuarioActivity.class));
-                Toast.makeText(home.this, "mensajes", Toast.LENGTH_LONG).show();
+                //Toast.makeText(home.this, "mensajes", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_salir:
                 FirebaseAuth.getInstance().signOut();

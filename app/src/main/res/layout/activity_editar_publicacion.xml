@@ -37,7 +37,7 @@
                 android:id="@+id/txtt"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:hint="Titulo del anuncio:"
+                android:hint="@string/titulo_del_anuncio"
                 android:padding="10dp"
                 android:textSize="20sp"
                 android:layout_gravity="center"
@@ -45,16 +45,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Marca:"
-                android:padding="10dp"
-                android:textSize="20sp"
-                android:layout_gravity="center"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Modelo:"
+                android:hint="@string/marca_"
                 android:padding="10dp"
                 android:textSize="20sp"
                 android:layout_gravity="center"
@@ -63,15 +54,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Motor:"
-                android:padding="10dp"
-                android:textSize="20sp"
-                android:layout_gravity="center"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Año:"
+                android:hint="@string/modelo_"
                 android:padding="10dp"
                 android:textSize="20sp"
                 android:layout_gravity="center"
@@ -80,7 +63,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Kilometraje:"
+                android:hint="@string/motor_"
+                android:padding="10dp"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/a_o_"
                 android:padding="10dp"
                 android:textSize="20sp"
                 android:layout_gravity="center"
@@ -89,7 +80,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Descripcion:"
+                android:hint="@string/kilometraje"
+                android:padding="10dp"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/descripcion"
                 android:padding="10dp"
                 android:textSize="20sp"
                 android:layout_gravity="center"
@@ -97,7 +97,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Número Contacto:"
+                android:hint="@string/n_mero_contacto"
                 android:padding="10dp"
                 android:textSize="20sp"
                 android:layout_gravity="center"
@@ -105,7 +105,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Precio:"
+                android:hint="@string/precio"
                 android:padding="10dp"
                 android:textSize="20sp"
                 android:layout_gravity="center"
@@ -123,7 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:hint="Ingrese el titulo"
+                android:hint="@string/ingrese_el_titulo"
                 android:maxLength="20"
                 >
             </EditText>
@@ -153,16 +153,16 @@
                 android:id="@+id/txtAnio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Ingrese el año"
+                android:hint="@string/ingrese_el_a_o"
                 android:inputType="number"
                 android:textSize="22sp"
-                />
+                 />
 
             <EditText
                 android:id="@+id/txtKm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Ingrese el kilometraje"
+                android:hint="@string/ingrese_el_kilometraje"
                 android:inputType="number"
                 android:textSize="20sp"
                 />
@@ -171,7 +171,7 @@
                 android:id="@+id/txtDescripcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Ingrese la descripcion"
+                android:hint="@string/ingrese_la_descripcion"
                 android:textSize="20sp"
                 android:lines="2"
                 />
@@ -179,7 +179,7 @@
                 android:id="@+id/txtTel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Ingrese número de contacto"
+                android:hint="@string/ingrese_n_mero_de_contacto"
                 android:inputType="phone"
                 android:textSize="20sp"
                 />
@@ -188,7 +188,7 @@
                 android:id="@+id/txtPrecio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Ingrese el precio"
+                android:hint="@string/ingrese_el_precio"
                 android:inputType="numberDecimal"
                 android:textSize="20sp"
                 />
@@ -213,51 +213,70 @@
                     android:id="@+id/rdFijo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Precio Fijo"
+                    android:hint="@string/precio_fijo"
                     android:checked="true"
                     android:textSize="20sp"
                     android:buttonTint="@color/colorPrimary"
                     />
                 <RadioButton
                     android:id="@+id/rdNego"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Precio Negociable"
+                    android:hint="@string/precio_negociable"
                     android:textSize="20sp"
                     />
             </RadioGroup>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="260dp"
+            android:layout_height="300dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            >
+            <com.google.android.gms.maps.MapView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/mapa"
+                />
+        </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="260dp"
-        android:layout_height="300dp"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-        >
-        <com.google.android.gms.maps.MapView
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/mapa"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="15dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        >
-        <Button
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Seleccionar Ubicacion"
-            android:onClick="NuevaUbicacion"
+            android:orientation="horizontal"
             android:background="@drawable/ubicacion"
-            android:textColor="@color/color_negro"
-            />
+            android:onClick="NuevaUbicacion"
+            android:backgroundTint="@color/blanco"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/ubicacion"
+                android:backgroundTint="@color/blanco"
+                >
+                <ImageView
+                    android:layout_marginStart="15dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:backgroundTint="@color/color_negro"
+                    android:background="@android:drawable/ic_dialog_map"
+                    />
 
+                <Button
+                    android:id="@+id/btUbicacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:hint="@string/cambiar_ubicacion"
+                    android:textColor="@color/color_negro"
+                    android:textSize="20sp"
+                    android:backgroundTint="@color/blanco"
+                    android:onClick="NuevaUbicacion"
+                    />
+            </LinearLayout>
+        </LinearLayout>
         <ImageButton
             android:id="@+id/btImg"
             android:layout_width="wrap_content"
@@ -265,10 +284,17 @@
             android:background="@android:drawable/ic_menu_gallery"
             android:layout_gravity="center"
             />
+
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        >
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Publicar anuncio"
+            android:hint="@string/publicar_anuncio"
             android:onClick="Guardar"
             android:background="@drawable/ubicacion"
             android:textColor="@color/color_negro"

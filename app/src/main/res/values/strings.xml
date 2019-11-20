@@ -49,6 +49,28 @@
     <string name="registrarse2">Registrarse</string>
     <string name="buscar23">Buscar</string>
     <string name="_500">500</string>
+    <string name="titulo_del_anuncio">Titulo del anuncio:</string>
+    <string name="motor_">Motor:</string>
+    <string name="a_o_">Año:</string>
+    <string name="kilometraje">Kilometraje:</string>
+    <string name="descripcion">Descripcion:</string>
+    <string name="n_mero_contacto">Número Contacto:</string>
+    <string name="ingrese_el_titulo">Ingrese el titulo</string>
+    <string name="ingrese_el_a_o">Ingrese el año</string>
+    <string name="ingrese_el_kilometraje">Ingrese el kilometraje</string>
+    <string name="ingrese_la_descripcion">Ingrese la descripcion</string>
+    <string name="ingrese_n_mero_de_contacto">Ingrese número de contacto</string>
+    <string name="ingrese_el_precio">Ingrese el precio</string>
+    <string name="precio_fijo">Precio Fijo</string>
+    <string name="precio_negociable">Precio Negociable</string>
+    <string name="cambiar_ubicacion">Cambiar Ubicacion</string>
+    <string name="publicar_anuncio">Publicar anuncio</string>
+    <string name="ingrese_el_mensaje">Ingrese el mensaje</string>
+    <string name="enviar">Enviar</string>
+    <string name="seleccionar_ubicacion">Seleccionar Ubicacion</string>
+    <string name="fotos">Fotos</string>
+    <string name="user">user</string>
+    <string name="_00_00">00:00</string>
 
 
 </resources>

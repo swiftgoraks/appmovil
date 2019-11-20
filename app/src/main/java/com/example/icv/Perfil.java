@@ -1,12 +1,5 @@
 package com.example.icv;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -23,10 +16,17 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
+import com.example.icv.Chat.listadoUsuarioActivity;
 import com.example.icv.publicacion.publicar;
 import com.facebook.login.LoginManager;
-import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -46,8 +46,6 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Perfil extends AppCompatActivity {
 
@@ -204,8 +202,7 @@ public class Perfil extends AppCompatActivity {
                 //Toast.makeText(home.this, "perfil", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_mensajes:
-                //startActivity(new Intent(home.this, Chat.class));
-                Toast.makeText(myContext, "mensajes", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(Perfil.this, listadoUsuarioActivity.class));
                 return true;
             case R.id.menu_salir:
                 FirebaseAuth.getInstance().signOut();

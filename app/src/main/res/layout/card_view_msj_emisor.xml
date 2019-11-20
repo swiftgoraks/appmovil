@@ -55,7 +55,7 @@
                                 android:id="@+id/txtUser"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="user"
+                                android:text="@string/user"
                                 android:textSize="15sp"
                                 android:layout_weight="1"
                                 android:textColor="@color/blanco"
@@ -65,7 +65,7 @@
                                 android:id="@+id/txtHora"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="00:00"
+                                android:text="@string/_00_00"
                                 android:textColor="@color/blanco"
                                 android:textStyle="bold"
                                 />
@@ -75,7 +75,6 @@
                             android:id="@+id/txtMsj"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Bienvenido"
                             android:textSize="15sp"
                             android:textColor="@color/blanco"
                             android:textStyle="bold"
@@ -87,6 +86,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:adjustViewBounds="true"
+                            android:contentDescription="@string/fotos"
                             />
 
                     </LinearLayout>

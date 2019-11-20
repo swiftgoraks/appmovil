@@ -1,8 +1,5 @@
 package com.example.icv;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +9,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Spinner;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.icv.Chat.listadoUsuarioActivity;
 import com.example.icv.publicacion.publicar;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,8 +22,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
 
 public class Catalogo extends AppCompatActivity {
 
@@ -79,8 +76,7 @@ public class Catalogo extends AppCompatActivity {
                 //Toast.makeText(home.this, "perfil", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_mensajes:
-                //startActivity(new Intent(home.this, Chat.class));
-                Toast.makeText(myContext, "mensajes", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(Catalogo.this, listadoUsuarioActivity.class));
                 return true;
             case R.id.menu_salir:
                 FirebaseAuth.getInstance().signOut();

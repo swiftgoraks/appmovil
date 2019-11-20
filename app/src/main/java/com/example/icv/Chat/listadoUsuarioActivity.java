@@ -6,18 +6,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.icv.Chat.Holder.usuarioViewHolder;
+import com.example.icv.Chat.Persistencia.UsuarioDAO;
 import com.example.icv.Chat.entidades.Base.usuario;
 import com.example.icv.Chat.entidades.Logica.LUsuario;
 import com.example.icv.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -43,16 +49,17 @@ public class listadoUsuarioActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         Query query = FirebaseFirestore.getInstance().collection("usuarios");
-              //  .whereLessThan("Correo",mAuth.getCurrentUser().getEmail());
+                //.where("Correo",mAuth.getCurrentUser().getEmail());
         //Query query= FirebaseDatabase.getInstance().getReference().child("usuario");
 
        // FirebaseRecyclerOptions<usuario> options= new FirebaseRecyclerOptions.Builder<usuario>().setQuery(query,usuario.class).build();
 
-        FirestoreRecyclerOptions<usuario> options = new FirestoreRecyclerOptions.Builder<usuario>()
+        final FirestoreRecyclerOptions<usuario> options = new FirestoreRecyclerOptions.Builder<usuario>()
                 .setQuery(query, usuario.class)
                 .build();
 
-       // Toast.makeText(listadoUsuarioActivity.this, mAuth.getCurrentUser().getEmail(),Toast.LENGTH_LONG).show();
+
+
 
          adapter = new FirestoreRecyclerAdapter<usuario, usuarioViewHolder>(options) {
             @Override
@@ -66,10 +73,46 @@ public class listadoUsuarioActivity extends AppCompatActivity {
             }
 
             @Override
-            protected void onBindViewHolder(final usuarioViewHolder holder, int position, final usuario model) {
-                Glide.with(listadoUsuarioActivity.this).load(model.getFotoPerfil()).into(holder.getImg());
+            protected void onBindViewHolder(final usuarioViewHolder holder, final int position, final usuario model) {
+
+                FirebaseDatabase.getInstance().getReference().child("mensajes").child(UsuarioDAO.getInstance().getKeyUsuario()).child(getSnapshots().getSnapshot(position).getId()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot data) {
+                        if(data.exists())
+                        {
+                            holder.getTxtnombre().setText(model.getNombre());
+                            if(!model.getUrlImagen().isEmpty())
+                            {
+                                Glide.with(getApplicationContext()).load(model.getUrlImagen()).into(holder.getImg());
+                            }
+
+                            //  }
+                            /*if (!(listadoUsuarioActivity.this.isDestroyed()))
+                            {
+                                holder.getTxtnombre().setText(model.getNombre());
+                                Glide.with(getApplicationContext()).load(model.getUrlImagen()).into(holder.getImg());
+                            }
+
+                             */
+                        }
+                        else
+                        {
+                            holder.getLinear().setVisibility(View.GONE);
+                            holder.getLinear().removeAllViews();
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
                 holder.getTxtnombre().setText(model.getNombre());
                 final LUsuario lUsuario= new LUsuario(getSnapshots().getSnapshot(position).getId(),model);
+
                 holder.getLinear().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

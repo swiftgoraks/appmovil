@@ -95,6 +95,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
     private GoogleMap mMap;
     private MapView mMapView;
     private RadioButton rdFijo,rdNego;
+    private static String taskComplete;
 
 
     @Override
@@ -526,86 +527,124 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
         // }
         // else
         // {
-        String titulo = txtTitulo.getText().toString();
-        String marca = spinMarca.getSelectedItem().toString();
-        String modelo = spinModelo.getSelectedItem().toString();
-        int anio = Integer.parseInt(txtYear.getText().toString());
-        double precio = Double.parseDouble(txtPrecio.getText().toString());
-        String descrip = txtDescripcion.getText().toString();
-        String telefono = txtTelefono.getText().toString();
-        String km=txtKm.getText().toString();
-        String preciotipo;
-        String ciudadS = "Sin Especificar";
 
-        if(rdFijo.isChecked())
+        if(txtTitulo.getText().length()>0 && txtYear.getText().length()>0 && txtDescripcion.getText().length()>0 && txtPrecio.getText().length()>0 &&spinMarca.getSelectedItemPosition()>0 &&spinModelo.getSelectedItemPosition()>0)
         {
-            preciotipo="Fijo";
+            if(listaimg.size()>0)
+            {
+                taskComplete="1";
+            }
+            if(taskComplete!=null)
+            {
+                if(taskComplete.equals("1"))
+                {
+                    String titulo = txtTitulo.getText().toString();
+                    String marca = spinMarca.getSelectedItem().toString();
+                    String modelo = spinModelo.getSelectedItem().toString();
+                    int anio = Integer.parseInt(txtYear.getText().toString());
+                    double precio = Double.parseDouble(txtPrecio.getText().toString());
+                    String descrip = txtDescripcion.getText().toString();
+                    String telefono="Sin especificar";
+                    String km="0.0";
+                    String preciotipo;
+                    String ciudadS = "Sin Especificar";
+
+                    if(!txtTelefono.getText().toString().isEmpty())
+                    {
+                        telefono=txtTelefono.getText().toString();
+                    }
+
+                    if(!txtKm.getText().toString().isEmpty())
+                    {
+                        km=txtKm.getText().toString();
+                    }
+
+                    if(rdFijo.isChecked())
+                    {
+                        preciotipo="Fijo";
+                    }
+                    else
+                    {
+                        preciotipo="Negociable";
+                    }
+
+
+                    String motorS = "";
+                    if(spinMotor.getSelectedItemPosition()>0){
+                        motorS = spinMotor.getSelectedItem().toString();
+                    }
+                    else{
+
+                        motorS = "Sin especificar";
+                    }
+                    // DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                    // String date = df.format(Calendar.getInstance().getTime());
+
+
+                    Map<String, Object> editarPublicacion = new HashMap<>();
+                    editarPublicacion.put("titulo", titulo);
+                    editarPublicacion.put("marca", marca);
+                    editarPublicacion.put("modelo", modelo);
+                    editarPublicacion.put("año", anio);
+                    editarPublicacion.put("kilometraje", km);
+                    editarPublicacion.put("precio", precio);
+                    editarPublicacion.put("descripcion", descrip);
+                    editarPublicacion.put("Telefono", telefono);
+                    editarPublicacion.put("estado", "activo");
+                    //editarPublicacion.put("fecha_publicacion", date);
+                    // editarPublicacion.put("id_usuario",  mAuth.getCurrentUser().getUid());
+                    editarPublicacion.put("list_img", listaimg);
+                    editarPublicacion.put("latitud",latitude);
+                    editarPublicacion.put("longitud",longitude);
+
+                    if(ciudad != null){
+                        ciudadS = ciudad;
+                    }
+
+                    editarPublicacion.put("ciudad",ciudadS);
+                    editarPublicacion.put("PrecioTipo",preciotipo);
+                    editarPublicacion.put("Motor",motorS);
+
+
+                    db.collection("publicacion").document(cod)
+                            .update(editarPublicacion)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    //startActivity(new Intent(EditarPublicacion.this, Perfil.class));
+                                    listaimg.removeAll(listaimg);
+                                    taskComplete=null;
+                                    radiobt=null;
+                                    idselectMarca=0;
+                                    idSelectModel=0;
+                                    idselectMotor = 0;
+                                    longitude=0.0;
+                                    latitude=0.0;
+                                    finish();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                }
+                            });
+                }
+                else
+                {
+                    Toast.makeText(EditarPublicacion.this, "Porfavor espere a que las imagenes se suban.", Toast.LENGTH_LONG).show();
+                }
+            }
+            else
+            {
+                Toast.makeText(EditarPublicacion.this, "Debe de ingresar al menos 1 imagen.", Toast.LENGTH_SHORT).show();
+            }
         }
         else
         {
-            preciotipo="Negociable";
+            Toast.makeText(EditarPublicacion.this, "Datos insuficientes.", Toast.LENGTH_SHORT).show();
         }
 
-
-        String motorS = "";
-        if(spinMotor.getSelectedItemPosition()>0){
-            motorS = spinMotor.getSelectedItem().toString();
-        }
-        else{
-
-            motorS = "Sin especificar";
-        }
-        // DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        // String date = df.format(Calendar.getInstance().getTime());
-
-
-        Map<String, Object> editarPublicacion = new HashMap<>();
-        editarPublicacion.put("titulo", titulo);
-        editarPublicacion.put("marca", marca);
-        editarPublicacion.put("modelo", modelo);
-        editarPublicacion.put("año", anio);
-        editarPublicacion.put("kilometraje", km);
-        editarPublicacion.put("precio", precio);
-        editarPublicacion.put("descripcion", descrip);
-        editarPublicacion.put("Telefono", telefono);
-        editarPublicacion.put("estado", "activo");
-        //editarPublicacion.put("fecha_publicacion", date);
-        // editarPublicacion.put("id_usuario",  mAuth.getCurrentUser().getUid());
-        editarPublicacion.put("list_img", listaimg);
-        editarPublicacion.put("latitud",latitude);
-        editarPublicacion.put("longitud",longitude);
-
-        if(ciudad != null){
-            ciudadS = ciudad;
-        }
-
-        editarPublicacion.put("ciudad",ciudadS);
-        editarPublicacion.put("PrecioTipo",preciotipo);
-        editarPublicacion.put("Motor",motorS);
-
-
-        db.collection("publicacion").document(cod)
-                .update(editarPublicacion)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        //startActivity(new Intent(EditarPublicacion.this, Perfil.class));
-                        listaimg.removeAll(listaimg);
-                        radiobt=null;
-                        idselectMarca=0;
-                        idSelectModel=0;
-                        idselectMotor = 0;
-                        longitude=0.0;
-                        latitude=0.0;
-                        finish();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
         // }
     }
 
@@ -618,13 +657,13 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
                 //listaimg = new ArrayList<String>();
                 for (int i = 0; i < cantidadselect; i++) {
                     u = data.getClipData().getItemAt(i).getUri();
-                     guardarImg(u);
+                     guardarImg(u,cantidadselect);
 
                 }
             } else if (data.getData() != null) {
                 // listaimg = new ArrayList<String>();
                 u = data.getData();
-                guardarImg(u);
+                guardarImg(u,1);
             }
         }
         else if (requestCode == 1234 && resultCode == RESULT_OK)
@@ -644,7 +683,8 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
         }
     }
 
-    public void guardarImg(Uri u) {
+    public void guardarImg(Uri u,final int cantidadImg ) {
+        taskComplete="0";
         StorageReference storageRef = storage.getReference();
         final StorageReference fotoReferencia = storageRef.child("img_publicacion/" + u.getLastPathSegment());
 
@@ -662,10 +702,18 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
+                    int imgactual=listaimg.size();
                     Uri downloadUrl = task.getResult();
-                    listaimg.add(downloadUrl.toString());
-                    Toast.makeText(EditarPublicacion.this,"Se han subido: "+listaimg.size()+" img.",Toast.LENGTH_LONG).show();
-                    mostrarImg(listaimg);
+                    task.isComplete();
+                    {
+                        listaimg.add(downloadUrl.toString());
+                        Toast.makeText(EditarPublicacion.this,"Se han subido: "+(listaimg.size()-imgactual)+" imgs de: "+cantidadImg,Toast.LENGTH_LONG).show();
+                        mostrarImg(listaimg);
+                        if(cantidadImg==listaimg.size())
+                        {
+                            taskComplete="1";
+                        }
+                    }
                 }
             }
         });
@@ -693,15 +741,29 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
     @Override
     public void onDeleteClick(int position) {
         listaimg.remove(position);
-        mostrarImg(listaimg);
-        // StorageReference storageRef = storage.getReference();
-        // final StorageReference fotoReferencia = storageRef.child("img_publicacion/" + u.getLastPathSegment());
-
+        if(listaimg!=null)
+        {
+            if(listaimg.size()>0)
+            {
+                listaimg.remove(position);
+                mostrarImg(listaimg);
+            }else
+            {
+                taskComplete=null;
+                imgDefecto();
+            }
+        }
     }
 
     @Override
     public void onAgregarClick(int position) {
-
+        Intent i= new Intent(Intent.ACTION_GET_CONTENT);
+        //String[] mimeTypes = {"image/jpeg", "image/png"};
+        i.setType("image/*");
+        i.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
+        i.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+        //i.putExtra(Intent.EXTRA_MIME_TYPES,mimeTypes);
+        startActivityForResult(Intent.createChooser(i,"Seleccionar imagen"),fotoenviada);
     }
 
     @Override
@@ -780,6 +842,7 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
         idSelectModel=0;
         longitude=0.0;
         latitude=0.0;
+        taskComplete=null;
         radiobt=null;
     }
 
@@ -807,5 +870,16 @@ public class EditarPublicacion extends AppCompatActivity implements imgAdapter.O
             }
         });
 
+    }
+
+    public void imgDefecto()
+    {
+        imgUpload Listaimgs[] = new imgUpload[1];
+        String img=getString(R.string.imgDefectoUpload);
+        imgUpload imgs=new imgUpload(img);
+        Listaimgs[0]=imgs;
+        mAdapter=new imgAdapter(EditarPublicacion.this,Listaimgs);
+        mAdapter.setOnClickListener(EditarPublicacion.this);
+        mRecyclerView.setAdapter(mAdapter);
     }
 }

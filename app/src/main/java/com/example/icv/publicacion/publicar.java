@@ -1,7 +1,9 @@
 package com.example.icv.publicacion;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +23,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -78,6 +82,7 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
     private RecyclerView mRecyclerView;
     private imgAdapter mAdapter;
     private RadioButton rdFijo,rdNego;
+    private static String taskComplete;
 
 
     @Override
@@ -119,7 +124,7 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
             public void onClick(View view) {
                 //Toast.makeText(publicar.this,""+listaimg, Toast.LENGTH_LONG).show();
                 publicarAnuncio();
-                finish();
+                //finish();
             }
         });
 
@@ -147,12 +152,11 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                idSelectModel=0;
+                //idSelectModel=0;
                 idMotorSelect = 0;
 
                 obtenermodelo();
                 obtenerMotor();
-               // Toast.makeText(publicar.this,""+i,Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -456,74 +460,106 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
 
     public void publicarAnuncio()
     {
-        if(txtTitulo.getText().length()>0 && txtAnio.getText().length()>0 && txtKm.getText().length()>0 && txtDescrip.getText().length()>0 && txtPrecio.getText().length()>0 &&spinMarcar.getSelectedItemPosition()>0 &&spinModelo.getSelectedItemPosition()>0)
+        if(txtTitulo.getText().length()>0 && txtAnio.getText().length()>0 && longitud!=null  && txtDescrip.getText().length()>0 && txtPrecio.getText().length()>0 &&spinMarcar.getSelectedItemPosition()>0 &&spinModelo.getSelectedItemPosition()>0)
         {
-            String titulo=txtTitulo.getText().toString();
-            String marca=spinMarcar.getSelectedItem().toString();
-            String modelo=spinModelo.getSelectedItem().toString();
-            int anio=Integer.parseInt(txtAnio.getText().toString());
-            double precio=Double.parseDouble(txtPrecio.getText().toString());
-            String descrip=txtDescrip.getText().toString();
-            double km=Double.parseDouble(txtKm.getText().toString());
-            String telefono=txtCel.getText().toString();
-            ///***///
-            String motorS = "";
-            String ciudadS = "Sin Especificar";
-            if(spinMotor.getSelectedItemPosition()>0){
-                motorS = spinMotor.getSelectedItem().toString();
-            }
-            else{
 
-                motorS = "Sin espesificar";
-            }
+           if(taskComplete!=null)
+           {
+               if(taskComplete.equals("1"))
+               {
+                   String telefono="Sin especificar";
+                   String titulo=txtTitulo.getText().toString();
+                   String marca=spinMarcar.getSelectedItem().toString();
+                   String modelo=spinModelo.getSelectedItem().toString();
+                   int anio=Integer.parseInt(txtAnio.getText().toString());
+                   double precio=Double.parseDouble(txtPrecio.getText().toString());
+                   String descrip=txtDescrip.getText().toString();
+                   double km=0.0;
 
-            if(ciudad != null){
-                ciudadS = ciudad;
-            }
 
-            ///***///
+                   if(!txtCel.getText().toString().isEmpty())
+                   {
+                       telefono=txtCel.getText().toString();
+                   }
 
-            String rdSelect;
-            if(rdFijo.isChecked())
-            {
-                rdSelect="Fijo";
-            }
-            else
-            {
-                rdSelect="Negociable";
-            }
+                   if(!txtKm.getText().toString().isEmpty())
+                   {
+                       km=Double.parseDouble(txtKm.getText().toString());
+                   }
 
-            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-            String date = df.format(Calendar.getInstance().getTime());
+                   String motorS = "";
+                   String ciudadS = "Sin Especificar";
+                   if(spinMotor.getSelectedItemPosition()>0){
+                       motorS = spinMotor.getSelectedItem().toString();
+                   }
+                   else{
 
-            Map<String, Object> user = new HashMap<>();
-            user.put("titulo", titulo);
-            user.put("marca", marca);
-            user.put("modelo", modelo);
-            user.put("año", anio);
-            user.put("kilometraje", km);
-            user.put("precio", precio);
-            user.put("descripcion", descrip);
-            user.put("Telefono", telefono);
-            user.put("estado", "activo");
-            user.put("fecha_publicacion", date);
-            user.put("id_usuario",  mAuth.getCurrentUser().getUid());
-            user.put("list_img", listaimg);
-            user.put("latitud",latitud);
-            user.put("longitud",longitud);
-            user.put("ciudad",ciudadS);
-            user.put("PrecioTipo",rdSelect);
-            user.put("Motor",motorS);
+                       motorS = "Sin especificar";
+                   }
 
-            db.collection("publicacion").document().set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    startActivity(new Intent(publicar.this, home.class));
-                    listaimg.removeAll(listaimg);
-                    finish();
-                }
-            });
+                   if(ciudad != null){
+                       ciudadS = ciudad;
+                   }
+
+                   String rdSelect;
+                   if(rdFijo.isChecked())
+                   {
+                       rdSelect="Fijo";
+                   }
+                   else
+                   {
+                       rdSelect="Negociable";
+                   }
+
+                   DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                   String date = df.format(Calendar.getInstance().getTime());
+
+                   Map<String, Object> user = new HashMap<>();
+                   user.put("titulo", titulo);
+                   user.put("marca", marca);
+                   user.put("modelo", modelo);
+                   user.put("año", anio);
+                   user.put("kilometraje", km);
+                   user.put("precio", precio);
+                   user.put("descripcion", descrip);
+                   user.put("Telefono", telefono);
+                   user.put("estado", "activo");
+                   user.put("fecha_publicacion", date);
+                   user.put("id_usuario",  mAuth.getCurrentUser().getUid());
+                   user.put("list_img", listaimg);
+                   user.put("latitud",latitud);
+                   user.put("longitud",longitud);
+                   user.put("ciudad",ciudadS);
+                   user.put("PrecioTipo",rdSelect);
+                   user.put("Motor",motorS);
+
+                   db.collection("publicacion").document().set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                       @Override
+                       public void onSuccess(Void aVoid) {
+                           startActivity(new Intent(publicar.this, home.class));
+                           listaimg.removeAll(listaimg);
+                           taskComplete=null;
+                           idSelectModel=0;
+                           idselectMarca=0;
+                           finish();
+                       }
+                   });
+               }
+               else
+               {
+                   Toast.makeText(publicar.this, "Porfavor espere a que las imagenes se suban.", Toast.LENGTH_LONG).show();
+               }
+           }
+           else
+           {
+               Toast.makeText(publicar.this, "Debe de ingresar al menos 1 imagen.", Toast.LENGTH_SHORT).show();
+           }
         }
+        else
+        {
+            Toast.makeText(publicar.this, "Datos insuficientes.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override
@@ -533,13 +569,14 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
         {
             if(data.getClipData()!=null)
             {
-                Toast.makeText(publicar.this,"varias fotos", Toast.LENGTH_LONG).show();
+
                 int cantidadselect=data.getClipData().getItemCount();
+                //Toast.makeText(publicar.this,"varias fotos ", Toast.LENGTH_LONG).show();
                 //listaimg=new ArrayList<String>();
                 for(int i=0; i<cantidadselect;i++)
                 {
                     Uri u=data.getClipData().getItemAt(i).getUri();
-                    guardarImg(u);
+                    guardarImg(u,cantidadselect);
                 }
 
             }
@@ -548,15 +585,15 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
                 //listaimg=new ArrayList<String>();
 
                 Uri u=data.getData();
-                Toast.makeText(publicar.this,"Una foto ", Toast.LENGTH_LONG).show();
+               // Toast.makeText(publicar.this,"Una foto ", Toast.LENGTH_LONG).show();
                 //prueba(u);
-                guardarImg(u);
+                guardarImg(u,1);
             }
         }else if (requestCode == 1234 && resultCode == RESULT_OK)
         {
             if(data.getExtras().getString("longitud")!=null )
             {
-                Toast.makeText(publicar.this,data.getExtras().getString("latitud")+data.getExtras().getString("longitud")+data.getExtras().getString("ciudad"),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(publicar.this,data.getExtras().getString("latitud")+data.getExtras().getString("longitud")+data.getExtras().getString("ciudad"),Toast.LENGTH_SHORT).show();
                 latitud=data.getExtras().getString("latitud");
                 longitud=data.getExtras().getString("longitud");
                 ciudad=data.getExtras().getString("ciudad");
@@ -570,8 +607,9 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
 
     }
 
-    public void guardarImg(Uri u)
+    public void guardarImg(Uri u, final int cantidadImg )
     {
+        taskComplete="0";
         StorageReference storageRef = storage.getReference();
         final  StorageReference fotoReferencia = storageRef.child("img_publicacion/"+u.getLastPathSegment());
 
@@ -593,11 +631,15 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
 
                     task.isComplete();
                     {
-                        Toast.makeText(publicar.this,"Se han subidoasadsa: "+listaimg.size()+" img.",Toast.LENGTH_LONG).show();
+
+                        listaimg.add(downloadUrl.toString());
+                        Toast.makeText(publicar.this,"Se han subido: "+listaimg.size()+" imgs de: "+cantidadImg,Toast.LENGTH_LONG).show();
+                        mostrarImg(listaimg);
+                        if(cantidadImg==listaimg.size())
+                        {
+                            taskComplete="1";
+                        }
                     }
-                    listaimg.add(downloadUrl.toString());
-                    Toast.makeText(publicar.this,"Se han subido: "+listaimg.size()+" img.",Toast.LENGTH_LONG).show();
-                    mostrarImg(listaimg);
                 }
             }
         });
@@ -635,7 +677,7 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
                 imgDefecto();
             }
 
-            Toast.makeText(publicar.this,"."+listaimg.size(),Toast.LENGTH_SHORT).show();
+           // Toast.makeText(publicar.this,"."+listaimg.size(),Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -666,6 +708,9 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        taskComplete=null;
+        idSelectModel=0;
+        idselectMarca=0;
         listaimg.removeAll(listaimg);
     }
 
@@ -675,6 +720,43 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
     }
 
     public void ubicacionSET()
+    {
+        if (ContextCompat.checkSelfPermission(publicar.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},0);
+
+        }
+        else
+        {
+            intentMapa();
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case 0: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    intentMapa();
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    // Toast.makeText(MapsActivity.this,"Sin permiso  ",Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request.
+        }
+    }
+
+    public void intentMapa()
     {
         Intent ventana= new Intent(publicar.this, MapsActivity.class);
         startActivityForResult(ventana,1234);

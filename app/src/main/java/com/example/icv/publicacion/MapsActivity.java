@@ -1,10 +1,5 @@
 package com.example.icv.publicacion;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
-
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,6 +9,10 @@ import android.location.Location;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+
 import com.example.icv.R;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,7 +23,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.common.collect.Maps;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,18 +37,19 @@ public class MapsActivity extends FragmentActivity implements  GoogleMap.OnMapLo
     Geocoder geocoder;
     List<Address> direccion;
     AlertDialog alert=null;
-
-
     static String click1,encendido;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
     }
 
 
@@ -81,7 +80,7 @@ public class MapsActivity extends FragmentActivity implements  GoogleMap.OnMapLo
                 extraerlocation(location);
                 if(location==null)
                 {
-                    Toast.makeText(MapsActivity.this,"Sin localizacion  "+encendido,Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MapsActivity.this,"Sin localizacion  "+encendido,Toast.LENGTH_SHORT).show();
                     if(encendido==null)
                     {
                         click1="no";
@@ -242,4 +241,6 @@ public class MapsActivity extends FragmentActivity implements  GoogleMap.OnMapLo
             alert.dismiss();
         }
     }
+
+
 }

@@ -187,7 +187,6 @@ class AdaptadorMisPublicaciones extends RecyclerView.Adapter<AdaptadorMisPublica
                             //startActivity(new Intent(Resgistrarse.this, home.class));
                             Anuncio list_temp[] = new Anuncio[anunciosLista.length - 1];
 
-
                             for(int i =0 ; i <=list_temp.length -1; i++)
                             {
                                 if(!anunciosLista[i].equals(String.valueOf(txtId_pub.getText()))){

@@ -74,7 +74,7 @@ public class listadoUsuarioActivity extends AppCompatActivity {
 
             @Override
             protected void onBindViewHolder(final usuarioViewHolder holder, final int position, final usuario model) {
-
+                holder.getLinear().setVisibility(View.GONE);
                 FirebaseDatabase.getInstance().getReference().child("mensajes").child(UsuarioDAO.getInstance().getKeyUsuario()).child(getSnapshots().getSnapshot(position).getId()).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot data) {
@@ -85,7 +85,7 @@ public class listadoUsuarioActivity extends AppCompatActivity {
                             {
                                 Glide.with(getApplicationContext()).load(model.getUrlImagen()).into(holder.getImg());
                             }
-
+                            holder.getLinear().setVisibility(View.VISIBLE);
                             //  }
                             /*if (!(listadoUsuarioActivity.this.isDestroyed()))
                             {
@@ -97,7 +97,6 @@ public class listadoUsuarioActivity extends AppCompatActivity {
                         }
                         else
                         {
-                            holder.getLinear().setVisibility(View.GONE);
                             holder.getLinear().removeAllViews();
                         }
 
@@ -108,9 +107,6 @@ public class listadoUsuarioActivity extends AppCompatActivity {
 
                     }
                 });
-
-
-                holder.getTxtnombre().setText(model.getNombre());
                 final LUsuario lUsuario= new LUsuario(getSnapshots().getSnapshot(position).getId(),model);
 
                 holder.getLinear().setOnClickListener(new View.OnClickListener() {
@@ -136,6 +132,6 @@ public class listadoUsuarioActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        adapter.stopListening();
+        //adapter.stopListening();
     }
 }

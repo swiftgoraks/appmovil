@@ -30,6 +30,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
    // private String[] mDataset;
    Anuncio anunciosLista[];
@@ -112,7 +114,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                         holder.imgDefault.setVisibility(View.INVISIBLE);
                         //Glide.with(mCtx).load(document.get("UrlImagen").toString()).into(holder.ProfileImage);
                         //Picasso.get().load(document.get("UrlImagen").toString()).resize(128,128).into(holder.ProfileImage);
-                        Glide.with(mCtx)
+                        Glide.with(getApplicationContext())
                                 .load(String.valueOf(document.get("UrlImagen")))
                                 .into(holder.ProfileImage);
                     }

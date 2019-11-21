@@ -30,6 +30,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -175,42 +176,55 @@ public class Login extends AppCompatActivity {
                 });
     }
 
-    public void crearUSerDB(String idU, String nombreU, String  emailU,String imageUrl){
+    public void crearUSerDB(final String idU, final String nombreU, final String  emailU, final String imageUrl){
 
-        DocumentReference usuarioPerfil = db.collection("usuarios").document(mAuth.getCurrentUser().getUid());
-        if(usuarioPerfil == null){
+        DocumentReference docRef = db.collection("usuarios").document(mAuth.getCurrentUser().getUid());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        //Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        Intent intent  = new Intent(Login.this, home.class);
+                        intent.putExtra("idU", mAuth.getCurrentUser().getUid());
+                        startActivities(new Intent[]{intent});
+                        finish();
+                    } else {
+                        //Log.d(TAG, "No such document");
+                        Map <String, Object> user = new HashMap <>();
 
-            Map <String, Object> user = new HashMap <>();
+                        user.put("Nombre", nombreU);
+                        user.put("Correo", emailU);
+                        if (!(imageUrl == null)){
+                            user.put("UrlImagen", imageUrl);
+                        }
+                        else {
+                            user.put("UrlImagen", "");
+                        }
 
-            user.put("Nombre", nombreU);
-            user.put("Correo", emailU);
-            if (!(imageUrl == null)){
-                user.put("UrlImagen", imageUrl);
-            }
-            else {
-                user.put("UrlImagen", "");
-            }
-
-            db.collection("usuarios").document(idU).set(user).addOnSuccessListener(new OnSuccessListener <Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
+                        db.collection("usuarios").document(idU).set(user).addOnSuccessListener(new OnSuccessListener <Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
 
 
-                    Intent intent  = new Intent(Login.this, home.class);
-                    intent.putExtra("idU", mAuth.getCurrentUser().getUid());
-                    startActivities(new Intent[]{intent});
-                    finish();
+                                Intent intent  = new Intent(Login.this, home.class);
+                                intent.putExtra("idU", mAuth.getCurrentUser().getUid());
+                                startActivities(new Intent[]{intent});
+                                finish();
+                            }
+                        });
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+
+                    Toast.makeText(Login.this,"get failed with " + task.getException().toString(), Toast.LENGTH_LONG ).show();
                 }
-            });
-        }
-        else {
-            Intent intent  = new Intent(Login.this, home.class);
-            intent.putExtra("idU", mAuth.getCurrentUser().getUid());
-            startActivities(new Intent[]{intent});
-            finish();
+            }
+        });
 
-        }
 
+    //**///
 
 
     }

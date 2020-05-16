@@ -1,19 +1,15 @@
 package com.example.icv;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -146,6 +142,8 @@ public class Resgistrarse extends AppCompatActivity {
         user.put("Nombre", nombreU);
         user.put("Correo", emailU);
         user.put("UrlImagen", "");
+        user.put("anuncios", "si");
+        user.put("cant_publicacion", 1);
 
         db.collection("usuarios").document(idU).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -190,6 +188,7 @@ public class Resgistrarse extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             // Log.w(TAG, "signInWithCredential:failure", task.getException());
+
                             Toast.makeText(Resgistrarse.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
 
@@ -213,6 +212,8 @@ public class Resgistrarse extends AppCompatActivity {
 
             user.put("Nombre", nombreU);
             user.put("Correo", emailU);
+            user.put("anuncios", "si");
+            user.put("cant_publicacion", 1);
             if (!(imageUrl == null)){
                 user.put("UrlImagen", imageUrl);
             }

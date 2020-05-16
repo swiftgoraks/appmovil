@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,9 +38,12 @@ import com.example.icv.home;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -70,7 +74,9 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
     public ArrayList<Motor> modeloMotor;
     public ArrayList<String> listaMotor;
     //****///
-
+    TextView txtCantidad;
+    int cantidad;
+    String codViewU;
     private Button btPublicar,btUbicacion;
     private FirebaseStorage storage;
     private EditText txtTitulo,txtAnio,txtKm,txtDescrip,txtPrecio,txtCel;
@@ -83,7 +89,7 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
     private imgAdapter mAdapter;
     private RadioButton rdFijo,rdNego;
     private static String taskComplete;
-
+    DocumentReference docRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +105,7 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
         ///spin motor//
         spinMotor = findViewById(R.id.spinMotor);
         //***//
+        txtCantidad=findViewById(R.id.txtCantidadBasePublicar);
         txtAnio=findViewById(R.id.txtAnio);
         txtDescrip=findViewById(R.id.txtDescripcion);
         txtKm=findViewById(R.id.txtKm);
@@ -467,6 +474,7 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
            {
                if(taskComplete.equals("1"))
                {
+                   codViewU = FirebaseAuth.getInstance().getUid();
                    String telefono="Sin especificar";
                    String titulo=txtTitulo.getText().toString();
                    String marca=spinMarcar.getSelectedItem().toString();
@@ -533,9 +541,34 @@ public class publicar extends AppCompatActivity  implements imgAdapter.OnClick{
                    user.put("PrecioTipo",rdSelect);
                    user.put("Motor",motorS);
 
+                   docRef = db.collection("usuarios").document(  mAuth.getCurrentUser().getUid());
+                   docRef.get().addOnCompleteListener(new OnCompleteListener <DocumentSnapshot>() {
+                       @Override
+                       public void onComplete(@NonNull Task <DocumentSnapshot> task) {
+                           if (task.isSuccessful()) {
+                               txtCantidad.setText(String.valueOf(task.getResult().get("cant_publicacion")));
+                               cantidad= Integer.parseInt(txtCantidad.getText().toString());
+                               cantidad=cantidad-1;
+                               docRef.update("cant_publicacion", cantidad)
+                                       .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                           @Override
+                                           public void onSuccess(Void aVoid) {
+                                           }
+                                       })
+                                       .addOnFailureListener(new OnFailureListener() {
+                                           @Override
+                                           public void onFailure(@NonNull Exception e) {
+                                               //Log.w(TAG, "Error updating document", e);
+                                           }
+                                       });
+                           }
+                       }
+                   });
                    db.collection("publicacion").document().set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                        @Override
                        public void onSuccess(Void aVoid) {
+
+
                            startActivity(new Intent(publicar.this, home.class));
                            listaimg.removeAll(listaimg);
                            taskComplete=null;

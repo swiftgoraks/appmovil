@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,11 +17,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.icv.Chat.listadoUsuarioActivity;
+import com.example.icv.pasarela.pago;
 import com.example.icv.publicacion.publicar;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -39,6 +48,9 @@ public class home extends AppCompatActivity  implements filtroClass.FinalizoCuad
     public TextView textBienvienido;
     private Button btPublicar;
 
+    int cantidad;
+    DocumentReference docRef;
+    TextView txtCantidad;
     Boolean filtro = false;
 
 
@@ -52,6 +64,8 @@ public class home extends AppCompatActivity  implements filtroClass.FinalizoCuad
     ImageView imgCancelar, imgBusqueda;
 
     Button btnFiltro;
+    private AdView mAdView;
+    String ads;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +74,44 @@ public class home extends AppCompatActivity  implements filtroClass.FinalizoCuad
       //  btPublicar=findViewById(R.id.btPublicar);
 
         Bundle extras  = getIntent().getExtras();
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        idU= mAuth.getCurrentUser().getUid();
 
+        //MobileAds.initialize(this, "ca-app-pub-6481675684933795~9363671043");
 
-imgCancelar = findViewById(R.id.imgCancelar);
-imgBusqueda = findViewById(R.id.imgBuscar);
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        docRef = db.collection("usuarios").document(  mAuth.getCurrentUser().getUid());
+        docRef.get().addOnCompleteListener(new OnCompleteListener <DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task <DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    ads=String.valueOf(task.getResult().get("anuncios"));
+                    mAdView = findViewById(R.id.adView);
+                    if(ads.equals("si"))
+                    {
+
+                        AdRequest adRequest = new AdRequest.Builder().build();
+                        mAdView.loadAd(adRequest);
+                    }
+                    else
+                    {
+                        mAdView.setVisibility(View.GONE);
+                    }
+
+                }
+            }
+        });
+        //mAdView.setAdSize(AdSize.SMART_BANNER);
+        txtCantidad=findViewById(R.id.txtCantidadHome);
+        imgCancelar = findViewById(R.id.imgCancelar);
+        imgBusqueda = findViewById(R.id.imgBuscar);
+
        //if (extras != null){
            //idU = extras.getString("idU");
        //}
@@ -71,9 +119,7 @@ imgBusqueda = findViewById(R.id.imgBuscar);
         btnFiltro = findViewById(R.id.btnFiltro);
 
         filtro = false;
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
-        idU= mAuth.getCurrentUser().getUid();
+
 
        // textBienvienido = findViewById(R.id.txtBienvenido);
 
@@ -119,7 +165,26 @@ imgBusqueda = findViewById(R.id.imgBuscar);
                // Toast.makeText(home.this, "Explorar", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_publicar:
-                startActivity(new Intent(home.this, publicar.class));
+
+                docRef = db.collection("usuarios").document(  mAuth.getCurrentUser().getUid());
+                docRef.get().addOnCompleteListener(new OnCompleteListener <DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task <DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            txtCantidad.setText(String.valueOf(task.getResult().get("cant_publicacion")));
+                            cantidad= Integer.parseInt(txtCantidad.getText().toString());
+                            if (cantidad>0)
+                            {
+                                startActivity(new Intent(home.this, publicar.class));
+                            }
+                            else
+                            {
+                                Toast.makeText(home.this, "Ya no dispone de publicaciones, debe comprar algún paquete.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+                });
+
                 //Toast.makeText(home.this, "publicar", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_perfil:
@@ -129,6 +194,10 @@ imgBusqueda = findViewById(R.id.imgBuscar);
                 return true;
             case R.id.menu_mensajes:
                 startActivity(new Intent(home.this, listadoUsuarioActivity.class));
+                //Toast.makeText(home.this, "mensajes", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.menu_compra:
+                startActivity(new Intent(home.this, pago.class));
                 //Toast.makeText(home.this, "mensajes", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_salir:

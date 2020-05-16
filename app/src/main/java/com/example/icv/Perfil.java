@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.icv.Chat.listadoUsuarioActivity;
+import com.example.icv.pasarela.pago;
 import com.example.icv.publicacion.publicar;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.Continuation;
@@ -86,6 +87,9 @@ public class Perfil extends AppCompatActivity {
     private FirebaseStorage storage;
 
     CircularImageView circularImageView;
+    public FirebaseAuth mAuth;
+    DocumentReference docRef;
+    int cantidad;
 
     ///
     @Override
@@ -97,7 +101,7 @@ public class Perfil extends AppCompatActivity {
 
         storage=FirebaseStorage.getInstance();
 
-
+        mAuth = FirebaseAuth.getInstance();
         mStorage = FirebaseStorage.getInstance().getReference();
         //imagenPerfil = findViewById(R.id.PhotoPerfil);
         btnCambiarImg = findViewById(R.id.btnChangeFoto);
@@ -181,7 +185,7 @@ public class Perfil extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        Context myContext = this;
+        final Context myContext = this;
         switch (item.getItemId())
         {
             case R.id.menu_catalogo:
@@ -194,8 +198,25 @@ public class Perfil extends AppCompatActivity {
                 // Toast.makeText(home.this, "Explorar", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_publicar:
-                startActivity(new Intent(myContext, publicar.class));
+
                 //Toast.makeText(home.this, "publicar", Toast.LENGTH_LONG).show();
+                docRef = db.collection("usuarios").document(  mAuth.getCurrentUser().getUid());
+                docRef.get().addOnCompleteListener(new OnCompleteListener <DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task <DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            cantidad= Integer.parseInt(String.valueOf(task.getResult().get("cant_publicacion")));
+                            if (cantidad>0)
+                            {
+                                startActivity(new Intent(myContext, publicar.class));
+                            }
+                            else
+                            {
+                                Toast.makeText(Perfil.this, "Ya no dispone de publicaciones, debe comprar algún paquete.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+                });
                 return true;
             case R.id.menu_perfil:
                 startActivity(new Intent(myContext, Perfil.class));
@@ -203,6 +224,10 @@ public class Perfil extends AppCompatActivity {
                 return true;
             case R.id.menu_mensajes:
                 startActivity(new Intent(Perfil.this, listadoUsuarioActivity.class));
+                return true;
+            case R.id.menu_compra:
+                startActivity(new Intent(Perfil.this, pago.class));
+                //Toast.makeText(home.this, "mensajes", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_salir:
                 FirebaseAuth.getInstance().signOut();

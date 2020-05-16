@@ -33,6 +33,10 @@
                 android:id="@+id/menu_mensajes"
                 android:icon="@drawable/ic_correo"
                 />
+            <item android:title="ComparAnuncio"
+                android:id="@+id/menu_compra"
+                android:icon="@drawable/cio_ic_paypal_monogram"
+                />
             <item android:title="Salir"
                 android:id="@+id/menu_salir"
                 android:icon="@drawable/ic_logout"

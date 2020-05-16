@@ -86,6 +86,11 @@ dependencies {
     //imagen circular
     implementation 'com.mikhaellopez:circularimageview:4.0.2'
 
+    //Paypal
+    implementation 'com.paypal.sdk:paypal-android-sdk:2.16.0'
+
+    //ADS
+    implementation 'com.google.firebase:firebase-ads:18.2.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

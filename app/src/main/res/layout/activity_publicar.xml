@@ -194,4 +194,12 @@
         </LinearLayout>
 </LinearLayout>
     </ScrollView>
+
+    <TextView
+        android:id="@+id/txtCantidadBasePublicar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="monto"
+        android:visibility="invisible"
+        />
 </LinearLayout>

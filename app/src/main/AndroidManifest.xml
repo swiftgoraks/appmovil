@@ -21,10 +21,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".catalogo_filtro" android:screenOrientation="portrait"  >
 
-        </activity>
-        <activity android:name=".Chat.listadoUsuarioActivity"></activity>
+        <activity android:name=".pasarela.detallePago"></activity>
+        <activity android:name=".pasarela.pago" />
+        <activity
+            android:name=".catalogo_filtro"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Chat.listadoUsuarioActivity" />
         <activity android:name=".Chat.MensajeriaActivity" />
         <activity
             android:name=".ver_mi_publicacion"
@@ -47,6 +50,10 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-6481675684933795~9363671043"/>
 
         <activity
             android:name=".Perfil"
